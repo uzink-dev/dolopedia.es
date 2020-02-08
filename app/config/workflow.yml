@@ -1,0 +1,84 @@
+lexik_workflow:
+    processes:
+        article_request:
+            start: created
+            end:   [ accepted, declined ]
+            steps:
+                created:
+                    label: "Request Created"
+                    roles: [ ROLE_USER, ROLE_EDITOR ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Request::STATUS_REQUEST_CREATED ]
+                    next_states:
+                        accept: { target: accepted }
+                        decline: { target: declined }
+
+                accepted:
+                    label: "Request Accepted"
+                    roles: [ ROLE_EDITOR, ROLE_SUPERVISOR ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Request::STATUS_REQUEST_ACCEPTED ]
+                    next_states: ~
+
+                declined:
+                    label: "Request Declined"
+                    roles: [ ROLE_EDITOR, ROLE_SUPERVISOR ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Request::STATUS_REQUEST_DECLINED ]
+                    next_states: ~
+
+        article_creation:
+            start: request
+            end:   [ created, modified ]
+            steps:
+                request:
+                    label: "Article Creation/Modification Request"
+                    roles: [ ROLE_LEADER ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Request::STATUS_EDITION_REQUESTED ]
+                    next_states:
+                        create: { target: created }
+                        modify: { target: modified }
+
+                modified:
+                    label: "Article Modified"
+                    roles: [ ROLE_EDITOR ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Request::STATUS_EDITION_MODIFIED ]
+                    next_states: ~
+
+                created:
+                    label: "Article Created"
+                    roles: [ ROLE_SUPERVISOR ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Request::STATUS_EDITION_CREATED ]
+                    next_states: ~
+
+        article_edition:
+            start: drafted
+            end:   ~
+            steps:
+                drafted:
+                    label: "Article Drafted"
+                    roles: [ ROLE_EDITOR ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Draft::STATUS_DRAFTED ]
+                    next_states:
+                        draft: { target: drafted }
+                        revise: { target: revision }
+
+                revision:
+                    label: "Article Revision"
+                    roles: [ ROLE_EDITOR ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Draft::STATUS_REVISION ]
+                    next_states:
+                        draft: { target: drafted }
+                        validate: { target: validated }
+
+                validated:
+                    label: "Article Validated"
+                    roles: [ ROLE_LEADER ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Draft::STATUS_VALIDATED ]
+                    next_states:
+                        draft: { target: drafted }
+                        publish: { target: published }
+
+                published:
+                    label: "Article Draft Published"
+                    roles: [ ROLE_EDITOR ]
+                    model_status: [ setStatus, Uzink\BackendBundle\Entity\Draft::STATUS_PUBLISHED ]
+                    next_states:
+                        draft: { target: drafted }

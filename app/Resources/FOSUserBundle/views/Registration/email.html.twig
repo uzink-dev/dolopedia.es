@@ -1,0 +1,33 @@
+{% block subject %}
+    {% autoescape false %}
+    Bienvenido {{ user.name }}
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Hola {{ user.name }}
+
+    Para completar la validación de tu cuenta - por favor visita {{ confirmationUrl }}
+
+    Atentamente,
+    Dolopedia.
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Bienvenido {{ user.name }}
+        {% endblock %}
+
+        {% block subtitle %}
+            El registro en Dolopedia casi ha terminado solo falta un último paso
+        {% endblock subtitle %}
+
+        {% block content %}
+            Para completar el registro es necesario verificar la dirección de email que nos has dado, para ello pulsa
+            sobre el siguiente <a href="{{ confirmationUrl }}">enlace de activación</a>.<br/>
+            Una vez hayas pulses el enlace este te llevará a una página donde confirmaremos tu registro.<br/><br/>
+            Si desconoces la procedencia de este email simplemente ignóralo y disculpa las molestias.
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

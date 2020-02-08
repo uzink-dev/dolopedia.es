@@ -1,0 +1,73 @@
+{# empty Twig template #}
+<div class="remote-response-container">
+    
+    {{ "{% include 'BraincraftedBootstrapBundle::partial.flash.html.twig' %}" }}
+    
+    <table class="records_list records_list_ajax table table-striped table-bordered" data-id="table_{{ route_name_prefix }}">
+
+        <tbody>
+            
+            <thead>
+                <tr>
+                    <th>
+                    </th>
+                    
+                {%- for field, metadata in fields %}
+                    
+                    <th>{{ field|capitalize }}</th>
+
+                {%- endfor %}
+
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+            {{ '{% for entity in pager %}' }}
+                <tr>
+
+                    <td><input type="checkbox" class="select_field" value="{{ "{{ entity.id }}" }}" ></td>
+                    
+            {%- for field, metadata in fields %}
+                {%- if loop.first and ('show' in actions) %}
+
+                    <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+                {%- elseif metadata.type in ['date', 'datetime'] %}
+
+                    <td>{{ '{% if entity.' ~ field|replace({'_': ''}) ~ ' %}{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+                {%- else %}
+
+                    <td>{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+                {%- endif %}
+
+                {%- if loop.last %}
+
+                    <td>
+                        {%- include "crud/views/others/actions_list.ajax.twig.twig" %}
+                    </td>
+
+                {%- endif %}
+            {%- endfor %}
+
+                </tr>
+            {{ '{% endfor %}' }}
+            </tbody>
+            
+        </tbody>
+    </table>
+
+    <div class="btn-group pull-right">
+
+        {%- include "crud/views/others/actions_list.ajax.twig.twig" %}  
+
+    </div>
+      
+    
+    <div class="centered">
+    {{ "{{  pagerfanta(pager, 'twitter_bootstrap') }}" }}
+    </div>
+
+</div>

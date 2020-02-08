@@ -1,0 +1,25 @@
+
+<a class="btn" href="{{ "{{ path('" ~ route_name_prefix ~ "') }}" }}">
+    <i class="icon-list"></i>
+    Volver al listado
+</a>
+
+{% if 'new' in actions %}
+<a class="btn" href="{{ "{{ path('" ~ route_name_prefix ~ "_new') }}" }}">
+    <i class="icon-plus"></i>
+    Crear nuevo
+</a>
+{% endif %}
+
+{% if ('edit' in actions) and (hide_edit != true) %}
+<a class="btn" href="{{ "{{ path('" ~ route_name_prefix ~ "_edit', { 'id': entity.id }) }}" }}">
+    <i class="icon-edit"></i>
+    Editar 
+</a>
+{% endif %}
+
+{% if ('delete' in actions) and (hide_delete != true) %}
+<a class="btn btn-danger" href="{{ "{{ path('" ~ route_name_prefix ~ "_delete', { 'id': entity.id }) }}" }}">
+    <i class="icon-remove"></i> Borrar
+</a>
+{% endif %}

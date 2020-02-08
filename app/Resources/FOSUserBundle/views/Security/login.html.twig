@@ -1,0 +1,28 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+{% if error %}
+    <div class="alert alert-danger" role="alert">Email o contraseña incorrectos</div>
+{% endif %}
+
+<form action="{{ path("fos_user_security_login_check") }}" method="post">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+    <div class="formWindow-control">
+        <label for="username">{{ 'security.login.username'|trans }}</label>
+        <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="tu@correo.com" required="required" />
+    </div>
+    <div class="formWindow-control">
+        <label for="password">{{ 'security.login.password'|trans }}</label>
+        <input class="form-control" type="password" id="password" name="_password" required="required" />
+    </div>
+    <input type="hidden" id="remember_me" name="_remember_me" value="on" />
+    <a class="formWindow-link" href="{{ path('public.password.reset.request') }}">He olvidado mi contraseña</a>    
+    <hr/>
+    <div class="formWindow-control last-with-any">
+        <button type="submit" class="btn btn-dark-grey" on><span class="icon-forward"></span> {{ 'security.login.submit'|trans }}</button>
+    </div>
+</form>
+{% endblock fos_user_content %}

@@ -1,0 +1,20 @@
+    /**
+{% block phpdoc_method_header %}
+     * Get {{ entity }} manager.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function getManager()
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $manager = $this->container->get('{{ entity_class | lower }}_bundle.manager.{{ entity_class | lower }}');
+{% endblock method_body %}
+
+{% block method_return %}
+        return $manager;
+{% endblock method_return %}
+    }

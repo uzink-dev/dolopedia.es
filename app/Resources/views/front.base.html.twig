@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block seo %}
+        <title>Dolopedia</title>
+        <meta name="description" content="Dolopedia">
+        <meta name="keywords" content="Dolopedia">
+        {% endblock %}
+        
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        
+        {% block stylesheets %}
+            {% stylesheets
+                'bundles/front/vendor/bootstrap/css/bootstrap.min.css'
+                'bundles/front/vendor/alertifyjs/css/alertify.css'
+                'bundles/front/vendor/alertifyjs/css/themes/dolopedia.css'
+                'bundles/front/css/main.less'
+                'bundles/front/css/jquery.selectBox.css'
+                'bundles/front/css/bootstrap-datetimepicker.min.css'
+                'bundles/front/vendor/fancybox/jquery.fancybox.css'
+                'bundles/front/vendor/fancybox/jquery.fancybox.css'
+                'bundles/front/vendor/jasny/css/jasny-bootstrap.min.css'
+                'bundles/front/vendor/select2/css/select2.min.css'
+                output='css/main.css'
+
+            %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+            {% endstylesheets %}
+               
+        {% endblock stylesheets %}
+        
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+
+    </head>
+
+    <body>
+        <div id="wrap" class="full-container {{ block('containerClass') }}">
+        <div class="header">
+            {% block header %}
+                <div class="row">
+                    <header>
+                        <div class="header-logo">
+                            <div class="header-logo-content">
+                                <a class="logo" href="{{ path('public.home') }}">
+                                    <img src="{{ asset('bundles/front/img/dolopedia-logo.png') }}" alt="Logotipo Dolopedia"/>
+                                </a>
+                            </div>
+                            <div class="header-logo-content"></div>
+                        </div>
+                        {{ block('search') }}
+                        {% set route = app.request.get('_route') %}
+                        <div class="header-buttons">
+                            <a href="{{ path('public.home') }}" alt="Dolopedia">
+                                <div class="header-button {{ ('public' in route) and  not ('registration' in route) ? 'active' }}">
+                                    <span class="icon-dolopedia"></span>
+                                    <span class="visible-lg visible-md">Dolopedia</span>
+                                </div>
+                            </a>
+                            <a href="{{ path('panel.user.profile.show') }}" alt="Perfil">
+                                <div class="header-button {{ ('panel' in route) or ('workflow' in route) or ('fos_user' in route) or ('public.user.registration' in route) ? 'active' }}">
+                                    <span class="icon-user"></span>
+                                    <span class="visible-lg visible-md">Mi Perfil</span>
+                                </div>
+                            </a>
+                        </div>
+                    </header>
+                </div>
+                {{ block('nav') }}
+                {{ block('userMenuResponsive') }}
+            {% endblock header %}
+        </div>
+
+        <main>
+            {% block body %}
+            {% endblock body %}
+        </main>
+
+        {% block footer %}
+            <div class="footer">
+                <div class="row">
+                    <footer>
+                        <div class="footer-col">
+                            <a class="logo"href="{{ path('public.home') }}">
+                                <img src="{{ asset('bundles/front/img/dolopedia-logo.png') }}" alt="Logotipo Dolopedia"/>
+                            </a>
+                        </div>
+
+                        <div class="footer-col">
+                            {{ 'Footer 1'|renderMenu }}
+                        </div>
+                        <div class="footer-col">
+                            {{ 'Footer 2'|renderMenu }}
+                        </div>
+
+                        <div class="footer-right">
+                            <p>Siguenos en</p>
+                            <p class="social-logos">
+                                <a href="#" alt="Facebook" class="icon-fb-color"><span class="icon-facebook colored"></span></a>
+                                <a href="#" alt="Linkedin" class="icon-lk-color"><span class="icon-linkedin colored"></span></a>
+                                <a href="#" alt="Twitter" class="icon-tw-color"><span class="icon-twitter colored"></span></a>
+                                <a href="#" alt="Youtube" class="icon-yt-color"><span class="icon-youtube colored"></span></a>
+                            </p>
+                            Desarrollo: <a href="http://www.uzink.es/" target="_blank">Uzink. Consultoría de marketing.</a>
+                        </div>
+                    </footer>
+                </div>
+            </div>                
+        {% endblock footer %}
+        </div>
+
+        {% block javascripts %}
+
+        {{ block('popup') }}
+
+        <div class="sanitary-popup">
+            <div class="popup">
+                <div class="popup-main">
+                    <div class="popup-title">
+                        Dolopedia es una plataforma de uso profesional
+                    </div>
+                    <div class="popup-content">
+                        Este sitio web está destinado únicamente a público profesional del sector sanitario. Confirma si perteneces al sector sanitario para poder acceder a la página.
+                    </div>
+                    <button href="#" data-toggle="sanitary-accept" class="btn btn-primary">SOY SANITARIO, CONTINUAR</button>
+                    <button href="#" data-toggle="sanitary-cancel" class="btn btn-default">ABANDONAR DOLOPEDIA</button>
+                </div>
+                <div class="popup-image"></div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var base_url = "{{ app.request.getBaseURL() | replace({'/app_dev.php':''}) | replace({'app.php':''}) }}/";
+        </script>
+        {% javascripts
+            '@FrontBundle/Resources/public/js/jquery-1.10.1.min.js'
+            '@FrontBundle/Resources/public/js/jquery.selectBox.js'
+            '@FrontBundle/Resources/public/js/jquery-scrolltofixed-min.js'
+            '@FrontBundle/Resources/public/js/jquery.dotdotdot.min.js'
+            '@FrontBundle/Resources/public/js/jquery-fileupload.min.js'
+            '@FrontBundle/Resources/public/js/jquery.raty.min.js'
+            '@FrontBundle/Resources/public/js/jquery.form.min.js'
+            '@FrontBundle/Resources/public/js/list.min.js'
+            '@FrontBundle/Resources/public/js/moment.js'
+            '@FrontBundle/Resources/public/vendor/clipboard/clipboard.min.js'
+            output='js/jquery.js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+            
+        {% javascripts
+            '@FrontBundle/Resources/public/vendor/bootstrap/js/bootstrap.min.js'
+            '@FrontBundle/Resources/public/vendor/fancybox/jquery.fancybox.pack.js'
+            '@FrontBundle/Resources/public/vendor/jasny/js/jasny-bootstrap.min.js'
+            '@FrontBundle/Resources/public/vendor/holder/js/holder.js'
+            '@FrontBundle/Resources/public/vendor/alertifyjs/alertify.min.js'
+            '@FrontBundle/Resources/public/vendor/select2/js/select2.full.js'
+            '@FrontBundle/Resources/public/vendor/select2/js/i18n/es.js'
+            '@FrontBundle/Resources/public/vendor/isotope/isotope.pkgd.min.js'
+            '@FrontBundle/Resources/public/vendor/isotope/isotope.pkgd.min.js'
+            '@FrontBundle/Resources/public/vendor/js-cookie/js.cookie.js'
+            '@FrontBundle/Resources/public/vendor/popper/dist/umd/popper.min.js'
+            '@FrontBundle/Resources/public/vendor/listjs/dist/list.min.js'
+            '@FrontBundle/Resources/public/vendor/jquery.nicescroll/dist/jquery.nicescroll.min.js'
+            '@FrontBundle/Resources/public/js/bootstrap-datetimepicker.min.js'
+            '@FrontBundle/Resources/public/js/bootstrap-datetimepicker.es-ES.js'
+            '@FrontBundle/Resources/public/js/jquery.mark.min.js'
+            '@FrontBundle/Resources/public/js/spin.min.js'
+            '@FrontBundle/Resources/public/js/main.js'
+            output='js/main.js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-9134528-5', 'auto');
+            ga('send', 'pageview');
+
+        </script>
+        {% endjavascripts %}
+        <script async src="//revive.dolopedia.com/delivery/asyncjs.php"></script>
+        {# Conditional JS #}
+        {% spaceless %}
+        <!--[if gte IE 9]>
+            <style type="text/css">
+                .gradient {
+                    filter: none;
+                }
+            </style>
+        <![endif]-->
+        {% endspaceless %}
+        {% endblock javascripts %}
+    </body>
+</html>

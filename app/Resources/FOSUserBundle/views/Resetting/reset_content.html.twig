@@ -1,0 +1,18 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset">
+    <div class="formWindow-control">    
+        {{ form_label(form.plainPassword.first)}}
+        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+    </div>    
+    <div class="formWindow-control">    
+        {{ form_label(form.plainPassword.second)}}
+        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+    </div>            
+    <hr/>   
+    <div class="formWindow-control last">
+        <button type="submit" class="btn btn-dark-grey" on><span class="icon-revert"></span> {{ 'resetting.reset.submit'|trans }}</button>
+        <a href="{{ path('fos_user_security_login') }}" class="formWindow-exit">Cancelar y volver</a>
+    </div>  
+    {{ form_rest(form) }}        
+</form>

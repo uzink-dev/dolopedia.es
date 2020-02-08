@@ -1,0 +1,132 @@
+{% block extends %}
+{{ "{% extends 'BraincraftedBootstrapBundle::layout.html.twig' %}" }}
+{% endblock extends %}
+
+{{ "{%  block title %}" }}{{ entity }} list{{ "{%  endblock %}" }}
+
+{% block body %}
+{{ "{% block body -%}" }}
+    
+    {% include 'crud/views/others/menu.html.twig.twig' %}
+
+<div id="crud-layout">
+
+    
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            
+            <div class="span12">
+                
+                <header class="jumbotron subhead" id="overview">
+
+                    <h1>{{ entity }} list</h1>
+
+                </header>
+                
+            </div>
+            
+        </div>
+        
+        <div class="row-fluid">
+        
+            <div class="breadcrumbs-wrapper"> 
+            
+                <div class="span7">
+
+                    <div class="breadcrumbs">
+
+                        {{ '{{ wo_render_breadcrumbs() }}' }}
+
+                    </div>
+
+                </div>
+
+
+                <div class="span5">
+
+                    <div class="btn-group pull-right">
+
+                    {% if 'new' in actions %}
+                        <a class="btn" href="{{ "{{ path('" ~ route_name_prefix ~ "_new') }}" }}">
+                            <i class="icon-plus"></i>
+                            Crear nuevo {{ entity }}
+                        </a>
+                    {% endif %}
+
+                    </div>
+
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        {{ "{% include 'BraincraftedBootstrapBundle::partial.flash.html.twig' %}" }}
+        
+        <div class="row-fluid">
+
+            <div class="span10">
+
+                <section id="records_list">
+                    
+                    <table class="records_list table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                            {%- for field, metadata in fields %}
+
+                                <th>{{ field|capitalize }}</th>
+
+                            {%- endfor %}
+
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {{ '{% for entity in pager %}' }}
+                            <tr>
+
+                        {%- for field, metadata in fields %}
+                            {%- if loop.first and ('show' in actions) %}
+
+                                <td><a href="{{ "{{ path('" ~ route_name_prefix ~ "_show', { 'id': entity.id }) }}" }}">{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</a></td>
+
+                            {%- elseif metadata.type in ['date', 'datetime'] %}
+
+                                <td>{{ '{% if entity.' ~ field|replace({'_': ''}) ~ ' %}{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+                            {%- else %}
+
+                                <td>{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+                            {%- endif %}
+
+                            {%- if loop.last %}
+
+                                <td>
+                                    {%- include "crud/views/others/actions.html.twig.twig" %}
+                                </td>
+
+                            {%- endif %}
+                        {%- endfor %}
+
+                            </tr>
+                        {{ '{% endfor %}' }}
+                        </tbody>
+                    </table>
+                    
+                    <div class="centered">
+                        {{ "{{  pagerfanta(pager, 'twitter_bootstrap') }}" }}
+                    </div>
+                    
+                </section>
+            </div>
+                    
+
+
+        </div>
+    </div>
+        
+</div>
+{{ "{% endblock %}" }}
+{% endblock body %}

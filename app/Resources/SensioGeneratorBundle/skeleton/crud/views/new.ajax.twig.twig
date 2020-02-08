@@ -1,0 +1,10 @@
+{{ "{% include 'BraincraftedBootstrapBundle::partial.flash.html.twig' %}" }}
+
+<div id="add-element" data-action="{{ "{{ path('" ~ route_name_prefix ~ "_create_ajax') }}" }}">
+{{ "{% set form_type = 'horizontal' %}" }}
+{% include 'crud/views/others/tabs.html.twig.twig' %}
+{{ "{{ form_widget(form) }}" }}
+    <p>
+        <button type="button" class="btn btn-primary" data-action-type="submit-ajax" data-src="{{ "{{ path('" ~ route_name_prefix ~ "_create_ajax') }}" }}">Editar</button>
+    </p>
+</div>

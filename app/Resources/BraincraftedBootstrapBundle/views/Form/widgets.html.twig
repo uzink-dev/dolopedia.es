@@ -1,0 +1,74 @@
+{% extends 'BraincraftedBootstrapBundle:Form:form_div_layout.html.twig' %}
+{% block form_row %}
+{% spaceless %}
+    <div 
+        {% for key,value in form.vars.attr %}
+            {% if key|slice(0, 10) == 'data-field' %}
+             {{ key }}="{{ value }}" 
+            {% endif %}
+        {% endfor %}
+        class="{% if form.parent.parent is empty %}tab-pane {{ form.vars.attr.class }} {% endif %}control-group{% if errors|length > 0 %} error{% endif %}" id="{{ form.vars.id }}_tab" >
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' control-label')|trim}) %}
+        {% if form.parent.parent is not empty %}
+            {{ form_label(form, label|default(null), { 'label_attr' : label_attr }) }}
+        {% endif %}
+        <div class="controls">
+            {{ form_widget(form) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block form_tabs %}
+{% spaceless %}
+<ul class="nav nav-tabs">
+    {% for child in form %}
+        {% if(child.vars.label != '')  %}
+            <li><a href="#{{ child.vars.id }}_tab" {% if child.vars.attr.tab_class is defined %}class="{{ child.vars.attr.tab_class }}"{% endif %} data-toggle="tab">{{ child.vars.label }}</a></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endspaceless %}
+{% endblock form_tabs %}
+
+{% block form_errors %}
+{% spaceless %}
+    {% if errors|length > 0 %}
+    <p class="help-block">
+        {% for error in errors %}
+            <span>{{
+                error.messagePluralization is null
+                    ? error.messageTemplate|trans(error.messageParameters, 'validators')
+                    : error.messageTemplate|transchoice(error.messagePluralization, error.messageParameters, 'validators')
+            }}</span>
+        {% endfor %}
+    </p>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_errors %}
+
+{% block choice_widget_expanded %}
+{% spaceless %}
+{#    <div {{ block('widget_container_attributes') }}>#}
+    {% for child in form %}
+        <label class="{{ multiple ? 'checkbox' : 'radio' }}">
+            {{ form_widget(child) }}
+            {{ child.vars.label|trans({}, translation_domain) }}
+        </label>
+    {% endfor %}
+{#    </div>#}
+{% endspaceless %}
+{% endblock choice_widget_expanded %}
+    
+{% block form_widget_compound %}
+{% spaceless %}
+    <div {{ block('widget_container_attributes') }} class="tab-content">
+        {% if form.parent is empty %}
+            {{ form_errors(form) }}
+        {% endif %}
+        {{ block('form_rows') }}
+        {{ form_rest(form) }}
+    </div>
+{% endspaceless %}
+{% endblock form_widget_compound %}

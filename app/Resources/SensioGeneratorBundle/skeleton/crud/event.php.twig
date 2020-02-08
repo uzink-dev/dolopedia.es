@@ -1,0 +1,27 @@
+<?php
+
+namespace {{ namespace }}\Event{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+
+use Symfony\Component\EventDispatcher\Event;
+
+
+{% block class_definition %}
+class {{ entity }}Event extends Event
+{
+{% endblock class_definition %}
+
+{% block class_body %}
+    protected ${{ entity_camelized }};
+
+    public function __construct(${{ entity_camelized }})
+    {
+        $this->{{ entity_camelized }} = ${{ entity_camelized }};
+    }
+
+    public function get{{ entity }}()
+    {
+        return $this->{{ entity_camelized }};
+    }
+{% endblock class_body %}
+
+}

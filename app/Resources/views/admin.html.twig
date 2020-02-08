@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <title>{% block title %}Admin Pase IVEA{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block stylesheets %}
+                {% stylesheets
+                    '@FrontBundle/Resources/public/css/bootstrap.min.css'
+                    '@FrontBundle/Resources/public/vendor/jasny/css/jasny-bootstrap.min.css'
+                    '@GeneratorBundle/Resources/public/css/generator.css'
+                    '@GeneratorBundle/Resources/public/css/generator.css'
+                    '@AdminBundle/Resources/public/css/datepicker.css'
+                %}
+                <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+            {% endstylesheets %}
+            {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
+        {% endblock stylesheets %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}
+            {% javascripts
+                'js/jquery.js'
+                'js/bootstrap.js'
+                '@FrontBundle/Resources/public/vendor/jasny/js/jasny-bootstrap.min.js'
+                '@FrontBundle/Resources/public/vendor/holder/js/holder.js'
+                '@GeneratorBundle/Resources/public/js/generator.js'
+                '@AdminBundle/Resources/public/js/moment.js'
+                '@AdminBundle/Resources/public/js/datepicker-bootstrap.js'
+                '@AdminBundle/Resources/public/js/back.js'
+            %}
+            <script type="text/javascript" src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock javascripts %}
+    </body>
+</html>

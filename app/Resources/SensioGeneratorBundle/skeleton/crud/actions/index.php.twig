@@ -1,0 +1,40 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Lists all {{ entity }} entities.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/", name="{{ route_name_prefix }}")
+     * @Method("GET")
+     * @Template()
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function indexAction($page)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");    
+        $breadcrumbs->addItem("{{ entity }}", $this->get("router")->generate("{{ route_name_prefix }}"));
+        
+        $pager = $this->getManager()->getPager($page, 10);
+        
+{% endblock method_body %}
+
+{% block method_return %}
+{% if 'annotation' == format %}
+        return array(
+            'pager' => $pager,
+        );
+{% else %}
+        
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:index.'.$this->get('template.selector')->getTemplate('html').'.twig', array(
+            'pager' => $pager,
+        ));
+{% endif %}
+{% endblock method_return %}
+    }

@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }}\EventListener;
+
+use {{ namespace }}\Event\{{ entity }}Event;
+
+{% block class_definition %}
+class {{ entity }}EventListener
+{
+{% endblock class_definition %}
+
+{% block class_body %}
+    public function onCreateEvent({{ entity }}Event $event)
+    {
+        
+    }
+    
+    public function onUpdateEvent({{ entity }}Event $event)
+    {
+        
+    }
+    
+    public function onDeleteEvent({{ entity }}Event $event)
+    {
+        
+    }
+{% endblock class_body %}
+}

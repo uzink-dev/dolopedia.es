@@ -1,0 +1,154 @@
+<?php
+
+namespace {{ namespace }}\Entity{{ entity_namespace ? '\\' ~ entity_namespace : '' }};
+
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use {{ namespace }}\Entity\{{ entity }};
+use {{ namespace }}\Event\{{ entity }}Event;
+use Pagerfanta\Pagerfanta,
+    Pagerfanta\Adapter\DoctrineORMAdapter,
+    Pagerfanta\Exception\NotValidCurrentPageException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+/**
+{% block phpdoc_class_header %}
+ * {{ entity }} manager.
+{% endblock phpdoc_class_header %}
+ *
+{% block phpdoc_class_annotations %}
+{% if 'annotation' == format %}
+ * @Route("/{{ route_prefix }}")
+{% endif %}
+{% endblock phpdoc_class_annotations %}
+ */
+{% block class_definition %}
+class {{ entity_class }}Manager
+{% endblock class_definition %}
+{
+{% block class_body %}
+
+    /**
+     * Holds the Symfony2 event dispatcher service
+     */
+    protected $dispatcher;
+    
+    /**
+     * Holds the Doctrine entity manager for database interaction
+     * @var EntityManager 
+     */
+    protected $em;
+
+    /**
+     * Entity-specific repo, useful for finding entities, for example
+     * @var EntityRepository
+     */
+    protected $repo;
+
+    /**
+     * The Fully-Qualified Class Name for our entity
+     * @var string
+     */
+    protected $class;
+
+    public function __construct(EventDispatcherInterface $dispatcher, EntityManager $em, $class, $request )
+    {
+        $this->dispatcher = $dispatcher;
+        $this->em = $em;
+        $this->class = $class;
+        $this->repo = $em->getRepository($class);
+        $this->request = $request;
+    }
+
+
+    /**
+     * Return pager for {{ entity }}
+     * 
+     * @param type $page
+     * @param type $maxPerPage
+     * @return \Pagerfanta
+     * @throws NotFoundHttpException
+     */
+    public function getPager($page, $maxPerPage)
+    {
+        $query = $this->repo->createQueryBuilder({{ "'" }}p{{ "'" }})->getQuery();
+        $pager = new Pagerfanta(new DoctrineORMAdapter($query));
+		$pager->setMaxPerPage($maxPerPage);
+        try {
+			$pager->setCurrentPage($page);
+		} catch(NotValidCurrentPageException $e) {
+			throw new NotFoundHttpException();
+		}
+        return $pager;
+    }
+
+    public function getRepository()
+    {
+        return $this->repo;
+    }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    public function getEntityManager()
+    {
+        return $this->em;
+    }   
+
+    /**
+     * Finds {{ entity }}
+     * @param type $id
+     * @return {{ entity }}
+     */
+    public function find{{ entity }}($id)
+    {
+        return $this->repo->find($id);
+    }
+    
+    /**
+     * @return {{ entity }}
+     */
+    public function create{{ entity }}()
+    {
+        $class = $this->class;
+        ${{ entity_camelized }} = new $class();
+        return ${{ entity_camelized }};
+    }
+    
+    /**
+     * 
+     * 
+     * @param {{ namespace }}\Entity\{{ entity }} ${{ entity_camelized }}
+     */
+    public function save{{ entity }}({{ entity }} ${{ entity_camelized }})
+    {
+        $this->em->persist(${{ entity_camelized }});
+        $this->em->flush();
+        $this->dispatcher->dispatch({{ "'" }}{{ entity|lower }}_bundle.admin.{{ entity | lower }}_added{{ "'" }}, new {{ entity }}Event(${{ entity_camelized }}));
+        return ${{ entity_camelized }};
+    }
+    
+    /**
+     * 
+     * @param \Uzink\{{ entity }}Bundle\Entity\{{ entity }} ${{ entity_camelized }}
+     */
+    public function update{{ entity }}({{ entity }} ${{ entity_camelized }})
+    {
+        $this->em->persist(${{ entity_camelized }});
+        $this->em->flush();
+        $this->dispatcher->dispatch({{ "'" }}{{ entity|lower }}_bundle.admin.{{ entity | lower }}_updated{{ "'" }}, new {{ entity }}Event(${{ entity_camelized }}));
+        return ${{ entity_camelized }};
+    }
+    
+    public function delete{{ entity }}({{ entity }} ${{ entity_camelized }})
+    {
+        $this->dispatcher->dispatch({{ "'" }}{{ entity|lower }}_bundle.admin.{{ entity | lower }}_deleted{{ "'" }}, new {{ entity }}Event(${{ entity_camelized }}));
+        $this->em->remove(${{ entity_camelized }});
+        $this->em->flush();
+    }
+
+{% endblock class_body %}
+}

@@ -1,0 +1,20 @@
+{% extends 'FrontBundle:Layout:front.static.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block containerClass %}light-background{% endblock %}
+
+{% block staticTitle %}{{ 'page.login'|trans }}{% endblock %}
+
+{% block body %}
+        <div class="content">
+            <div class="formWindowWrapper">
+                <div class="formWindow">
+                    <div class="formWindow-head"><h2 class="title">{{ block('fos_user_title') }}<span class="icon-revert icon-big"></span></h2></h2></div>
+                    <div class="formWindow-content">
+                        {{ block('fos_user_content') }}
+                    </div>
+                </div>    
+            </div>  
+        </div>  
+{% endblock body %}

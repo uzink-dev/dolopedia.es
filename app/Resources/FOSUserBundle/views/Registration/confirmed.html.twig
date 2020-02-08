@@ -1,0 +1,21 @@
+{% extends "FOSUserBundle::layout.simple.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_title %}
+    {{ 'registration.dolopedia'|trans({}, 'dolopedia') }}
+{% endblock fos_user_title %}
+
+{% block fos_user_content %}
+    <div class="formWindow-control">
+        <p>{{ 'registration.message.userActivated'|trans({'%email%': user.email}, 'dolopedia') }}</p>
+        {% if app.session is not empty %}
+            {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+            {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}
+        {% endif %}        
+    </div>
+    <hr/>
+    <div class="formWindow-control last">
+        <a href="{{ path('panel.user.profile.show') }}" class="btn btn-dark-grey"><span class="icon-user"></span> {{ 'form.button.showProfile'|trans({}, 'dolopedia') }}</a>
+    </div>        
+{% endblock fos_user_content %} 

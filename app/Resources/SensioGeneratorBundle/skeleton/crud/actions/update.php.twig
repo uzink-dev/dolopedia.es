@@ -1,0 +1,62 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Edits an existing {{ entity }} entity.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/{id}", name="{{ route_name_prefix }}_update")
+     * @Method("PUT")
+     * @Template("{{ bundle }}:{{ entity }}:edit.html.twig")
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function updateAction(Request $request, $id)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+        $entity = $this->getManager()->find{{ entity_class }}($id);
+        
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
+        }
+
+        $editForm = $this->createForm(new {{ entity_class }}Type(), $entity);
+        $editForm->bind($request);
+
+        
+        if ($editForm->isValid()) {
+            $entity = $this->getManager()->update{{ entity_class }}($entity);
+            $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Elemento actualizado correctamente'
+                );
+            return $this->redirect($this->generateUrl('{{ route_name_prefix }}_edit', array('id' => $id)));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add(
+                                'error',
+                                'Ha ocurrido un error modificando el elemento'
+                            );
+        }
+{% endblock method_body %}
+
+{% block method_return %}
+{% if 'annotation' == format %}
+        return array(
+            'entity'      => $entity,
+            'edit'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        );
+{% else %}
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:edit.'.$this->get('template.selector')->getTemplate('html').'.twig', array(
+            'entity'      => $entity,
+            'edit'   => $editForm->createView(),
+            'delete_form' => $deleteForm->createView(),
+        ));
+{% endif %}
+{% endblock method_return %}
+    }

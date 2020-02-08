@@ -1,0 +1,26 @@
+{{ "{% include 'BraincraftedBootstrapBundle::partial.flash.html.twig' %}" }}
+
+<table class="record_properties table table-striped table-bordered">
+
+    <tbody>
+    {%- for field, metadata in fields %}
+
+        <tr>
+            <th>{{ field|capitalize }}</th>
+
+        {%- if metadata.type in ['date', 'datetime'] %}
+
+            <td>{{ '{{ entity.' ~ field|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}' }}</td>
+
+        {%- else %}
+
+            <td>{{ '{{ entity.' ~ field|replace({'_': ''}) ~ ' }}' }}</td>
+
+        {%- endif %}
+
+        </tr>
+
+    {%- endfor %}
+
+    </tbody>
+</table>

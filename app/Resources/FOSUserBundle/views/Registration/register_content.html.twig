@@ -1,0 +1,24 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="content">
+    <div class="row container-row">
+        <form action="{{ path('public.user.registration.default') }}" method="POST" role="form">
+            {% include('FrontBundle:User:panel.partial.account.edit.data.html.twig') %}
+            <div class="col-md-12">
+                <div class="checkbox with-margin">
+                    <label for="{{ form.conditions.vars.id }}">
+                        &nbsp;&nbsp;{{ form_widget(form.conditions) }}He leído y acepto las <a href="#" class="underline-link">Condiciones de Uso</a> y la <a href="#" class="underline-link">Política de Privacidad</a>
+                    </label>
+                </div>
+                <hr/>                                
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary separate-right">
+                    <span class="icon-user icon-big"></span> {{ 'form.button.createAccount'|trans }}
+                </button>
+                <button type="reset" href="#" class="btn btn-grey"><span class="icon-revert icon-big"></span> {{ 'form.button.clearForm'|trans }}</button> 
+            </div>
+            {{ form_rest(form) }}
+        </form>  
+    </div>
+</div>  

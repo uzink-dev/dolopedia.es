@@ -1,0 +1,9 @@
+{% extends 'FrontBundle:Layout:front.static.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block staticTitle %}{{ 'page.registration'|trans }}{% endblock %}
+
+{% block body %}
+{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+{% endblock body %}

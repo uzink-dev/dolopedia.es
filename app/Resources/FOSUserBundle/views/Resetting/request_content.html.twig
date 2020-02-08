@@ -1,0 +1,21 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<form action="{{ path('public.user.resetting.sendEmail') }}" method="POST" class="fos_user_resetting_request">
+    <div class="formWindow-control">
+        <p>
+            Para recuperar tu contraseña, introduce tu dirección de correo registrada. A continuación recibirás un email con un enlace al que deberás ir desde donde puedes modificar tu contraseña.
+        </p>
+    </div>    
+    <div class="formWindow-control">    
+        {% if invalid_username is defined %}
+            <p>{{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}</p>
+        {% endif %}
+        <label for="username">{{ 'registration.email'|trans({},'dolopedia') }}:</label>
+        <input type="text" class="form-control" id="username" name="username" required="required" placeholder="email@dolopedia.com" />
+    </div>
+    <hr/>        
+    <div class="formWindow-control last">
+        <button type="submit" class="btn btn-dark-grey" on><span class="icon-revert"></span> {{ 'resetting.reset.submit'|trans }}</button>
+        <a href="{{ path('fos_user_security_login') }}" class="formWindow-exit">Cancelar y volver</a>
+    </div>        
+</form>

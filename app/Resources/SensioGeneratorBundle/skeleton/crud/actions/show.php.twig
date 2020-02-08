@@ -1,0 +1,55 @@
+
+    /**
+{% block phpdoc_method_header %}
+     * Finds and displays a {{ entity }} entity.
+{% endblock phpdoc_method_header %}
+     *
+{% block phpdoc_method_annotations %}
+{% if 'annotation' == format %}
+     * @Route("/{id}", name="{{ route_name_prefix }}_show")
+     * @Method("GET")
+     * @Template()
+{% endif %}
+{% endblock phpdoc_method_annotations %}
+     */
+{% block method_definition %}
+    public function showAction($id)
+{% endblock method_definition %}
+    {
+{% block method_body %}
+    
+        $entity = $this->getManager()->find{{ entity_class }}($id);
+    
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find {{ entity }} entity.');
+        }
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");    
+        $breadcrumbs->addItem("{{ entity }}", $this->get("router")->generate("{{ route_name_prefix }}"));
+        $breadcrumbs->addItem($entity->getId(), $this->get("router")->generate("{{ route_name_prefix }}_edit", array('id' => $entity->getId())));
+        
+
+{% if 'delete' in actions %}
+
+        $deleteForm = $this->createDeleteForm($id);
+{% endif %}
+{% endblock method_body %}
+
+{% block method_return %}
+{% if 'annotation' == format %}
+        return array(
+            'entity'      => $entity,
+{% if 'delete' in actions %}
+            'delete_form' => $deleteForm->createView(),
+{% endif %}
+        );
+{% else %}
+        return $this->render('{{ bundle }}:{{ entity|replace({'\\': '/'}) }}:show.'.$this->get('template.selector')->getTemplate('html').'.twig', array(
+            'entity'      => $entity,
+{% if 'delete' in actions %}
+            'delete_form' => $deleteForm->createView(),
+{%- endif %}
+        ));
+{% endif %}
+{% endblock method_return %}
+    }

@@ -1,0 +1,127 @@
+#Quitamos el slash
+
+remove_trailing_slash:
+    path: /{url}
+    defaults: { _controller: UtilsBundle:Redirecting:removeTrailingSlash }
+    requirements:
+        url: .*/$
+        _method: GET
+<<<<<<< HEAD
+
+front:
+    resource: "@FrontBundle/Resources/config/routing.yml"
+    prefix:   /
+        
+terminal:
+    resource: "@TerminalBundle/Resources/config/routing.yml"
+    prefix:   /
+
+aeropuerto:
+    resource: "@AeropuertoBundle/Resources/config/routing.yml"
+    prefix:   /
+=======
+       
+#Rutas para funcionamiento interno de sf (imagine, security, sitemap, etc)
+>>>>>>> 7e34b17b0665c0abf4dbee3ad6c6cd3b59940bd0
+
+_imagine:
+    resource: .
+    type:     imagine    
+    
+admin_login:
+    pattern:   /admin/login
+    defaults:  { _controller: SeguridadBundle:Default:login }
+    
+admin_login_check:
+    pattern:  /admin/login_check
+    
+admin_logout:
+    pattern:  /admin/logout
+    
+shtumi_useful:
+    resource: '@ShtumiUsefulBundle/Resources/config/routing.xml'
+    
+sitemap:
+    resource: "@UtilsBundle/Controller/SitemapController.php"
+    type: annotation
+
+#Rutas para el admin
+
+routing_admin_aeropuerto:
+    resource: "@AeropuertoBundle/Resources/config/routing/aeropuerto.yml"
+    prefix:   /admin/aeropuertos
+
+routing_admin_banner:
+    resource: "@BannerBundle/Resources/config/routing/banner.yml"
+    prefix:   /admin/banners
+    
+routing_admin_cabecera:
+    resource: "@CabeceraBundle/Resources/config/routing/cabecera.yml"
+    prefix:   /admin/contenido/cabeceras
+    
+routing_admin_cms:
+    resource: "@CmsBundle/Resources/config/routing/cms.yml"
+    prefix:   /admin/contenido/cms
+    
+routing_admin_configuracion:
+    resource: "@ConfiguracionBundle/Resources/config/routing/parametroconfiguracion.yml"
+    prefix:   /admin/configuracion/parametros
+
+routing_admin_generator:
+    resource: "@GeneratorBundle/Resources/config/routing.yml"
+    
+routing_admin_home_elementodestacado:
+    resource: "@HomeBundle/Resources/config/routing/elementodestacado.yml"
+    prefix:   /admin/portada/elementos-destacados
+    
+routing_admin_i18n:
+    resource: "@I18nBundle/Resources/config/routing/i18nstring.yml"
+    prefix:   /admin/traducciones
+    
+routing_admin_idioma:
+    resource: "@IdiomaBundle/Resources/config/routing/idioma.yml"
+    prefix:   /admin/idiomas
+
+routing_admin_media:
+    resource: "@MediaBundle/Resources/config/routing/media.yml"
+    prefix:   /admin/medias
+    
+routing_admin_seguridad:
+    resource: "@SeguridadBundle/Resources/config/routing/usuario.yml"
+    prefix:   /admin/usuarios
+
+routing_admin_terminal:
+    resource: "@TerminalBundle/Resources/config/routing/terminal.yml"
+    prefix:   /admin/terminales
+
+routing_admin_tipo_plaza:
+    resource: "@TipoPlazaBundle/Resources/config/routing/tipoplaza.yml"
+    prefix:   /admin/tipos-plaza
+
+#Rutas para el front
+
+front:
+    resource: "@FrontBundle/Resources/config/routing.yml"
+    prefix:   /
+
+front_banner:
+    resource: "@BannerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+#Páginas estáticas
+front_cms_page:
+    pattern:  /{_locale}/{slug}
+    defaults: { _controller: "CmsBundle:Front:page" }
+    requirements:
+        slug: ".+"
+        
+#Y aeropuertos
+front_aeropuertos:
+    pattern:  /{_locale}/{slug_aeropuerto}
+    defaults: { _controller: "AeropuertoBundle:Front:show" }
+    requirements:
+        slug_aeropuerto: ".+"
+
+error:
+    pattern: /{_locale}/error/{error}
+    defaults: { _controller: "CmsBundle:Front:error" }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>{% block title %}Administración{% endblock %}</title>
+    <!-- Bootstrap -->
+    {% block stylesheets %}	
+    <link rel="stylesheet" href="{{ asset('bundles/generator/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/generator/css/generator.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/generator/css/pnotify.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/generator/css/datepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/generator/css/a2lix_translation.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/generator/css/fileupload.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/generator/css/medias.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/whiteoctoberpagerfanta/css/pagerfantaDefault.css') }}" type="text/css" media="all" />
+    {% endblock %}
+
+    {% block javascripts_head %}
+    <script src="{{ asset('bundles/generator/js/jquery.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/generator/js/jquery-ui.min.js') }}" type="text/javascript"></script>
+    {% endblock %}
+    
+  </head>
+  <body class="sonata-bc">
+    {% block body %}
+    {% endblock %}
+          
+    {% block javascripts %}
+        <!-- Use Assetic -->
+        
+        <script type="text/javascript">
+            var base_url = "{{ app.request.getBaseURL() | replace({'/app_dev.php':''}) | replace({'/app.php':''}) }}";
+        </script>
+        <script src="{{ asset('bundles/generator/js/bootstrap.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/generator/js/a2lix_translation_default.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/generator/js/fileupload.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/generator/js/datepicker-bootstrap.js') }}" type="text/javascript"></script>  
+        <script src="{{ asset('bundles/media/js/ajaxfanta.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/media/js/media.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/media/js/link_media.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/generator/js/single_collection.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/generator/js/entity_select.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/media/js/modal_upload.js') }}" type="text/javascript"></script>     
+        <script src="{{ asset('bundles/generator/js/typehead.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/generator/js/hogan.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/generator/js/generator.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('bundles/generator/js/pnotify.min.js') }}" type="text/javascript"></script>
+    {% endblock %} 
+  </body>
+</html>
+

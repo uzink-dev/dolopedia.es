@@ -1,0 +1,467 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: workflow.yml }
+    - { resource: ../../vendor/knplabs/doctrine-behaviors/config/orm-services.yml }
+    - { resource: ../../src/Uzink/GeneratorBundle/Resources/config/services.yml }
+    - { resource: ../../src/Uzink/AdminBundle/Resources/config/services.yml }
+
+parameters:
+    security.acl.permission.map.class: Uzink\BackendBundle\Security\Permission\PermissionMap
+
+services:
+    pagerfanta.view.proun:
+        class: Pagerfanta\View\ProunView
+        public: false
+        tags: [{ name: pagerfanta.view, alias: proun }]
+
+framework:
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+    translator: { fallback: "%locale%" }
+    profiler: { only_exceptions: false }
+
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form:
+        resources:
+            - 'BraincraftedBootstrapBundle:Form:form_div_layout.html.twig'
+            - 'ShtumiUsefulBundle::fields.html.twig'
+            - 'FrontBundle:Form:fields.html.twig'
+    globals:
+        revive_id: %revive_id%
+
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [FMElfinderBundle]
+    filters:
+        less:
+            # Windows Configuration
+            node:       "C:\\Program Files\\nodejs\\node.exe"
+            node_paths: ["C:\\Users\\Jose\\AppData\\Roaming\\npm\\node_modules;C:\\Users\\dcdis\\AppData\\Roaming\\npm\\node_modules;"]
+            # Linux Configuration
+            #node_paths: ["/usr/lib/node_modules"]
+            apply_to:   "\.less$"
+        uglifyjs2:
+            # the path to the uglifyjs executable
+            bin: "D:\\PRODUCCION_WEB\\UZINK_DOLOPEDIA_WEB\\node_modules\\.bin\\uglifyjs"
+        uglifycss:
+            # the path to the uglifyjs executable
+            bin: "D:\\PRODUCCION_WEB\\UZINK_DOLOPEDIA_WEB\\node_modules\\.bin"
+        cssrewrite:
+            apply_to: "\.css$|\.less$"
+
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        entity_managers:
+            default:
+                #metadata_cache_driver: apc
+                #result_cache_driver: apc
+                #query_cache_driver: apc
+                connection: default
+                auto_mapping: true
+                mappings:
+                    ConfiguracionBundle: ~
+                    UtilsBundle: ~
+                    BackendBundle: ~
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+
+stof_doctrine_extensions:
+    default_locale: es_ES
+    orm:
+        default:
+            blameable:  true
+            tree:       true
+            timestampable: true
+            sluggable:  true
+
+braincrafted_bootstrap:
+    #assets_dir:  %kernel.root_dir%/../vendor/twitter/bootstrap
+    jquery_path: %kernel.root_dir%/../vendor/jquery/jquery/jquery-1.9.1.js
+    
+knp_menu:
+    twig:  # use "twig: false" to disable the Twig extension and the TwigRenderer
+        template: knp_menu.html.twig
+    templating: false # if true, enables the helper for PHP templates
+    default_renderer: twig # The renderer to use, list is also available by default
+    
+white_october_breadcrumbs:
+    separator: ' / '
+
+swiftmailer:
+    default_mailer: default
+    mailers:
+      default:
+        transport:  '%mailer_transport%'
+        encryption: '%mailer_encryption%'
+        host:       '%mailer_host%'
+        username:   '%mailer_user%'
+        password:   '%mailer_password%'
+        port:       '%mailer_port%'
+      spooledMailer:
+        spool:
+            type: file
+            path: '%kernel.root_dir%/spool'
+        transport:  '%mailer_transport%'
+        encryption: '%mailer_encryption%'
+        host:       '%mailer_host%'
+        username:   '%mailer_user%'
+        password:   '%mailer_password%'
+        port:       '%mailer_port%'
+        antiflood:
+            threshold:  10
+            sleep:      2           
+
+ivory_ck_editor:
+    base_path: "bundles/front/vendor/ckeditor/"
+    js_path:   "bundles/front/vendor/ckeditor/ckeditor.js"
+    default_config: dolopedia_config
+    configs:
+        dolopedia_config:
+            toolbar: dolopedia_toolbar
+            filebrowserBrowseRoute: elfinder
+            filebrowserBrowseRouteParameters:
+                instance: default
+    toolbars:
+        configs:
+            dolopedia_toolbar: [ "@clipboard", "@styles" , "@basicstyles" , "@paragraph", "@custom" ]
+        items:
+            clipboard:   [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ]
+            styles:      [ 'Styles','Format' ]
+            basicstyles: [ 'Bold','Italic' ]   
+            paragraph:   [ 'NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Outdent','Indent' ]
+            custom:      [ 'Image','Bibliography','Internallinks','Externallink','Multimedia','Link','Unlink','Table']
+            links:       [ 'Link','Unlink','Anchor' ]
+    plugins:
+        internallinks:
+            path: "/bundles/front/vendor/ckeditor/plugins/internallinks/"
+            filename: "plugin.js"
+        bibliography:
+            path: "/bundles/front/vendor/ckeditor/plugins/bibliography/"
+            filename: "plugin.js"            
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Uzink\BackendBundle\Entity\User
+    registration:
+        form:
+            type: uzink_backendbundle_usertype
+        confirmation:
+            enabled: true
+            template:   FOSUserBundle:Registration:email.html.twig
+    resetting:
+        email:
+            template: FOSUserBundle:Resetting:email.html.twig
+    service:
+        mailer: fos_user.mailer.twig_swift
+    from_email:
+        address: noreply@dolopedia.com
+        sender_name: Dolopedia
+    
+sensio_framework_extra:
+    view:
+        annotations: false
+    
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
+    routing_loader:
+        default_format: json    
+    view:
+        view_response_listener: 'force'
+        formats:
+          json: true
+    access_denied_listener:
+          json: true
+
+#jms_serializer:
+#    metadata:
+#        auto_detection: true
+#        directories:
+#            FOSUserBundle:
+#                namespace_prefix: "FOS\\UserBundle"
+#                path: "@RestBundle/Resources/config/serializer/fos"
+                
+nelmio_api_doc: ~
+
+hwi_oauth:
+    firewall_name: main
+    resource_owners:
+        facebook:
+            type:               facebook
+            client_id:          "%facebook_id%"
+            client_secret:      "%facebook_secret%"
+            scope:              "email public_profile"
+            infos_url:          "https://graph.facebook.com/me?fields=id,name,email,last_name,first_name,picture.type(square),link"
+            options:
+                display: page
+        twitter:
+            type:                twitter
+            client_id:           "%twitter_id%"
+            client_secret:       "%twitter_secret%"
+
+# File Handling
+knp_gaufrette:
+    stream_wrapper: ~
+
+    adapters:
+        category_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/media/categories
+        attachments_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/media/attachments
+        institution_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/media/institution
+        user_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/media/user
+    filesystems:
+        category_fs:
+            adapter: category_adapter
+        attachments_fs:
+            adapter: attachments_adapter
+        institution_fs:
+            adapter: institution_adapter
+        user_fs:
+            adapter: user_adapter
+
+liip_imagine:
+    data_loader: stream.category_images
+    loaders:
+        stream.category_images:
+            stream:
+                wrapper: gaufrette://category_fs/
+        stream.institution_images:
+            stream:
+                wrapper: gaufrette://institution_fs/
+        stream.user_images:
+            stream:
+                wrapper: gaufrette://user_fs/
+    filter_sets:
+        cache: ~
+        category:
+              quality: 100
+              data_loader: stream.category_images
+        user:
+              quality: 100
+              data_loader: stream.user_images
+        institution:
+              quality: 100
+              data_loader: stream.institution_images
+        category_large:
+              quality: 75
+              data_loader: stream.category_images
+              filters:
+                  thumbnail: { size: [140, 140], mode: outbound }
+        center_thumb:
+              quality: 75
+              data_loader: stream.institution_images
+              filters:
+                  thumbnail: { size: [160, 98], mode: outbound }
+        center_large:
+              quality: 75
+              data_loader: stream.institution_images
+              filters:
+                  thumbnail: { size: [380, 240], mode: outbound }
+        promoter_thumb_home:
+              quality: 100
+              data_loader: stream.institution_images
+              filters:
+                  relative_resize: { heighten: 85 }
+        promoter_thumb:
+              quality: 100
+              data_loader: stream.institution_images
+              filters:
+                  thumbnail: { size: [160, 98], mode: inset }
+        promoter_large:
+              quality: 75
+              data_loader: stream.institution_images
+              filters:
+                  thumbnail: { size: [380, 240], mode: inset }
+        user_thumb_pico:
+              quality: 75
+              data_loader: stream.user_images
+              filters:
+                  thumbnail: { size: [64, 64], mode: outbound }
+        user_thumb_mini:
+              quality: 75
+              data_loader: stream.user_images
+              filters:
+                  thumbnail: { size: [70, 70], mode: outbound }
+        user_thumb_large:
+              quality: 75
+              data_loader: stream.user_images
+              filters:
+                  thumbnail: { size: [146, 146], mode: outbound }
+        thumb_profile_show:
+            quality: 75
+            data_loader: stream.user_images
+            filters:
+                thumbnail: { size: [70, 70], mode: outbound }
+        blockItem:
+            quality: 75
+            filters:
+                thumbnail: { size: [140, 140], mode: outbound }
+
+vich_uploader:
+    db_driver: orm
+    storage:   gaufrette
+    mappings:
+        category_image:
+            uri_prefix:         /media/categories
+            upload_destination: category_fs
+            namer:              vich_uploader.namer_uniqid
+            delete_on_remove: true
+            delete_on_update: true
+        institution_image:
+            uri_prefix:         /media/institution
+            upload_destination: institution_fs
+            namer:              vich_uploader.namer_uniqid
+            delete_on_remove: true
+            delete_on_update: true
+        user_image:
+            uri_prefix:         /media/user
+            upload_destination: user_fs
+            namer:              vich_uploader.namer_uniqid
+            delete_on_remove: true
+            delete_on_update: true
+        attachments_file:
+            uri_prefix:         /media/attachments
+            upload_destination: attachments_fs
+            namer:              vich_uploader.namer_origname
+            delete_on_remove: true
+            delete_on_update: true
+
+oneup_uploader:
+    mappings:
+        multimedia:
+            frontend: custom
+            custom_frontend:
+                class: Uzink\FrontBundle\Controller\CustomController
+                name: CustomUploader
+
+fm_elfinder:
+    configuration_provider: uzink.elfinder.configurator
+    instances:
+        default:
+            locale: %locale%
+            editor: ckeditor
+            fullscreen: true
+            include_assets: true
+            compression: false
+            connector:
+                debug: false
+                roots:
+                    uploads:
+                        showhidden: false
+                        driver: LocalFileSystem
+                        path: uploads/media
+                        upload_allow: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif']
+                        upload_deny: ['all']
+                        upload_max_size: 2M
+        admin:
+            locale: %locale%
+            editor: ckeditor
+            fullscreen: true
+            include_assets: true
+            compression: false
+            connector:
+                debug: false
+                roots:
+                    uploads:
+                        showhidden: false
+                        driver: LocalFileSystem
+                        path: uploads/media
+                        upload_allow: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif']
+                        upload_deny: ['all']
+                        upload_max_size: 2M
+
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            types:
+                article:
+                    mappings:
+                        title: ~
+                        introduction: ~
+                        content:
+                          property_path: getRawContent
+                        attached:
+                          property_path: getAttached
+                        category:
+                          type: 'nested'
+                          properties:
+                            id: ~
+                            title: ~
+                        owner:
+                          type: 'nested'
+                          properties:
+                            name: ~
+                            surname1: ~
+                            surname2: ~
+                        supervisor:
+                          type: 'nested'
+                          properties:
+                            name: ~
+                            surname1: ~
+                            surname2: ~
+                        editor:
+                          type: 'nested'
+                          properties:
+                            name: ~
+                            surname1: ~
+                            surname2: ~
+                    persistence:
+                        driver: orm
+                        model: Uzink\BackendBundle\Entity\Article
+                        provider: ~
+                        finder: ~
+                    indexable_callback: 'getPublished'
+                category:
+                    mappings:
+                        title: ~
+                        introduction:
+                          property_path: getIntroduction
+                        description:
+                          property_path: getDescription
+                    persistence:
+                        driver: orm
+                        model: Uzink\BackendBundle\Entity\Category
+                        provider: ~
+                        finder: ~                    

@@ -1,0 +1,82 @@
+security:
+    acl:
+        connection: default
+
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        Uzink\BackendBundle\Entity\User: { algorithm: sha512, iterations: 10}
+
+    role_hierarchy:
+        ROLE_EDITOR:       ROLE_USER
+        ROLE_SUPERVISOR:   ROLE_EDITOR
+        ROLE_LEADER:       ROLE_SUPERVISOR
+        ROLE_ADMIN:        ROLE_LEADER
+        ROLE_SUPER_ADMIN:  ROLE_ADMIN
+
+    providers:
+        administracion:
+          chain:
+            providers: [in_memory]
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+        in_memory:
+            memory:
+                users:
+                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                    admin: { password: adminpass, roles: [ 'ROLE_SUPERADMIN' ] }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin_area:
+            pattern:    ^/admin
+            anonymous:  true
+            context: dolopedia
+            form_login:
+                default_target_path: /admin
+                login_path:  /admin/login
+                check_path:  /admin/login_check
+                provider: fos_userbundle
+            logout:
+                path:   /admin/logout
+                target: /admin/login
+                invalidate_session: false
+
+        main:
+            pattern: ^/
+            context: dolopedia
+            form_login:
+                default_target_path: /areaprivada/cuenta
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                login_path: /login
+                check_path: /login_check
+            oauth:
+                default_target_path: /areaprivada/cuenta
+                resource_owners:
+                  facebook:       "/login/check-facebook"
+                  twitter:        "/login/check-twitter"
+                login_path:       /login
+                failure_path:     /login
+
+                oauth_user_provider:
+                    service: uzink.fosuser.oauth.provider
+            logout:       true
+            anonymous:    true     
+            switch_user:
+                provider:   fos_userbundle
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/registro, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/*, roles: ROLE_ADMIN }
+        - { path: ^/areaprivada/*, roles: ROLE_USER }
+        - { path: ^/workflow/*, roles: ROLE_USER }
+        - { path: ^/efconnect, role: ROLE_USER }
+        - { path: ^/elfinder, role: ROLE_USER }
+        

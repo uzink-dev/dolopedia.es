@@ -1,0 +1,97 @@
+{% block extends %}
+{{ "{% extends 'BraincraftedBootstrapBundle::layout.html.twig' %}" }}
+{% endblock extends %}
+
+{{ "{% form_theme form 'BraincraftedBootstrapBundle:Form:widgets.html.twig' %}" }}
+
+{{ "{%  block title %}" }}Edición de {{ entity }}{{ "{%  endblock %}" }}
+
+{% block body %}
+{{ "{% block body -%}" }}
+
+{% include 'crud/views/others/menu.html.twig.twig' %}
+
+<div id="crud-layout">
+    
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            
+            <div class="span12">
+                
+                <header class="jumbotron subhead" id="overview">
+
+                    <h1>Edición de {{ entity }}</h1>
+
+                </header>
+                
+            </div>
+            
+        </div>
+        
+        <div class="row-fluid">
+        
+            <div class="breadcrumbs-wrapper"> 
+            
+                <div class="span7">
+
+                    <div class="breadcrumbs">
+
+                        {{ '{{ wo_render_breadcrumbs() }}' }}
+
+                    </div>
+
+                </div>
+
+                <div class="span5">
+
+                    <div class="btn-group pull-right">
+
+                    {% set hide_edit, hide_delete = true, false %}
+                    {% include 'crud/views/others/record_actions.html.twig.twig' %}
+
+                    </div>
+
+                </div>
+             
+            </div>
+            
+        </div>
+        
+        {{ "{% include 'BraincraftedBootstrapBundle::partial.flash.html.twig' %}" }}
+
+        <div class="row-fluid">
+
+            <section id="edition-form">
+
+                <div class="span12">
+                
+                    <form  class="form-horizontal" action="{{ "{{ path('" ~ route_name_prefix ~ "_update', { 'id': entity.id }) }}" }}" method="post" {{ "{{ form_enctype(form) }}" }} novalidate>
+                        <input type="hidden" name="_method" value="PUT" />
+                        {{ "{% set form_type = 'horizontal' %}" }}
+                        
+                        {% include 'crud/views/others/tabs.html.twig.twig' %}
+                        
+                        {{ "{{ form_widget(form) }}" }}
+                        
+                        <div class="well form-actions">
+                            <div class="span1 btn-group">
+                                <button type="submit" class="btn btn-primary"><i class="icon-edit"></i> Guardar</button>
+                            </div>
+                            {% set hide_edit, hide_delete = true, false %}
+                            {% include 'crud/views/others/record_actions.html.twig.twig' %}
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+            
+        </div>
+
+    </div>
+        
+</div>                 
+{{ "{% endblock %}" }}
+{% endblock body %}

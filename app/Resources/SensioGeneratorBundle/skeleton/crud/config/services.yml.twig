@@ -1,0 +1,29 @@
+parameters:
+{% block parameters %}
+
+{% endblock parameters %}
+
+services:
+{% block services %}
+
+
+    {{ entity | lower }}_bundle.manager.{{ entity | lower }}:
+        class: {{ namespace }}\Entity\{{ entity }}Manager
+        arguments:
+            dispatcher: "@event_dispatcher"
+            em: "@doctrine.orm.entity_manager"
+            class: {{ namespace }}\Entity\{{ entity }}
+            request: "@request"
+        scope: request
+        
+            
+    {{ entity | lower }}_bundle.listener.{{ entity | lower }}:
+        class: {{ namespace }}\EventListener\{{ entity }}EventListener
+        arguments: 
+        tags:
+            - { name: kernel.event_listener, event: {{ entity | lower }}_bundle.admin.{{ entity | lower }}_added,   method: onCreateEvent }
+            - { name: kernel.event_listener, event: {{ entity | lower }}_bundle.admin.{{ entity | lower }}_updated, method: onUpdateEvent }
+            - { name: kernel.event_listener, event: {{ entity | lower }}_bundle.admin.{{ entity | lower }}_deleted, method: onDeletedEvent }
+
+
+{% endblock services %}

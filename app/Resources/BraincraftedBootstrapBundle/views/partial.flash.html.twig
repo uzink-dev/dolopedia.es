@@ -1,0 +1,24 @@
+<div class="row-fluid">
+    <div class="span12 warnings">
+        {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-error">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('info') %}
+        <div class="alert alert-info">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-notice">
+            {{ flashMessage }}
+        </div>
+        {% endfor %}
+    </div>
+</div>

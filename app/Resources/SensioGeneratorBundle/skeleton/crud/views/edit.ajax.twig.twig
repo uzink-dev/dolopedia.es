@@ -1,0 +1,11 @@
+{{ "{% include 'BraincraftedBootstrapBundle::partial.flash.html.twig' %}" }}
+
+<div id="add-element" data-action="{{ "{{ path('" ~ route_name_prefix ~ "_update_ajax', { 'id': entity.id }) }}" }}">
+{{ "{% set form_type = 'horizontal' %}" }}
+{% include 'crud/views/others/tabs.html.twig.twig' %}
+{{ "{{ form_widget(form) }}" }}
+    <p>
+        <button type="button" class="btn btn-primary" data-action-type="edit-ajax" data-src="{{ "{{ path('" ~ route_name_prefix ~ "_update_ajax', { 'id': entity.id }) }}" }}">Editar</button>
+        <button type="button" class="btn btn-danger" data-id="{{ "{{ entity.id }}" }}" data-action="{{ "{{ path('" ~ route_name_prefix ~ "_delete_ajax', { 'id': entity.id }) }}" }}">Borrar</button>
+    </p>
+</div>

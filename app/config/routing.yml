@@ -1,0 +1,63 @@
+# Internal Symfony Routes
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+oneup_uploader:
+    resource: .
+    type: uploader
+
+# Administration Routes
+admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+elfinder:
+     resource: "@FMElfinderBundle/Resources/config/routing.yml"
+
+#sitemap:
+#    resource: "@UtilsBundle/Controller/SitemapController.php"
+#    type: annotation
+#
+
+# Frontend Routes
+fos_user_security:
+    resource: "@FrontBundle/Resources/config/routing/security.xml"
+
+fos_user_register:
+    resource: "@FrontBundle/Resources/config/routing/registration.xml"
+    prefix: /registro
+
+fos_user_resetting:
+    resource: "@FrontBundle/Resources/config/routing/resetting.xml"
+    prefix: /recuperacion
+
+fos_user_change_password:
+    resource: "@FrontBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login
+
+facebook_login:
+    pattern: /login/check-facebook
+
+twitter_login:
+    pattern: /login/check-twitter
+
+
+backend:
+    resource: "@BackendBundle/Resources/config/routing.yml"
+    prefix:   /
+
+front:
+    resource: "@FrontBundle/Resources/config/routing.yml"
+    prefix:   /
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc

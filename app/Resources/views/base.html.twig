@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html class="{% block htmlClass %}{% endblock %}">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Dolopedia{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets
+            '@FrontBundle/Resources/public/css/main.css'
+            '@FrontBundle/Resources/public/css/jquery.selectBox.css'
+            '@FrontBundle/Resources/public/vendor/bootstrap/css/bootstrap.min.css'
+            '@FrontBundle/Resources/public/vendor/fancybox/jquery.fancybox.css'
+            '@FrontBundle/Resources/public/vendor/fancybox/jquery.fancybox.css'
+            '@FrontBundle/Resources/public/vendor/jasny/css/jasny-bootstrap.min.css'
+            '@FrontBundle/Resources/public/vendor/clipboard/clipboard.min.js'
+            %}
+            <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}" />
+            {% endstylesheets %}
+
+        {% endblock stylesheets %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body class="{{ block('htmlClass') }}">
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

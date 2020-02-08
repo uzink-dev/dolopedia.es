@@ -1,0 +1,26 @@
+{% extends 'FrontBundle:Layout:front.static.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block containerClass %}light-background{% endblock %}
+
+{% block staticTitle %}{{ 'page.login'|trans }}{% endblock %}
+
+{% block body %}
+        <div class="content">
+            <div class="formWindowWrapper">
+                <div class="formWindow">
+                    <div class="formWindow-head"><h2 class="title">{{ 'registration.userData'|trans }}<span class="icon-user icon-big"></span></h2></div>
+                    <div class="formWindow-content">
+                        {% block fos_user_content %}{% endblock %}
+                    </div>
+                    <div class="formWindow-footer black">
+                        <div class="centered">
+                            <span class="text">{{ 'registration.notRegisteredYet'|trans }}</span>                                
+                            <a href="{{ path('public.user.registration.options') }}" class="btn btn-primary formWindow-btn"><span class="icon-create-user"></span> {{ 'registration.registerMe'|trans }}</a>
+                        </div>
+                    </div>
+                </div>    
+            </div>  
+        </div>  
+{% endblock body %}

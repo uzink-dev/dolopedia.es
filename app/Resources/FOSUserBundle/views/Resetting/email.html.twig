@@ -1,0 +1,38 @@
+{% trans_default_domain 'motiva' %}
+{% block subject %}
+    {% autoescape false %}
+    Recuperación de contraseña
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Hola {{ user.name }}
+
+    Para cambiar tu contraseña por favor visita {{ confirmationUrl }}
+
+    Atentamente,
+    Dolopedia.
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Restablecer contraseña
+        {% endblock %}
+
+        {% block subtitle %}
+            Te enviamos un enlace para que modifiques tu contraseña
+        {% endblock subtitle %}
+
+        {% block content %}
+            Para realizar el cambio de contraseña has de pulsar sobre el siguiente <a href="{{ confirmationUrl }}">enlace
+            de modificación de contraseña</a>.<br/>
+            Si no has solitado la recuperación de contraseña o ha sido un error, simplemente omite este correo,
+            la contraseña no cambiará.
+        {% endblock content %}
+
+        {% block cta %}
+            Desde aquí puedes hacer <a href="{{ url('public.user.login') }}">login</a> si lo deseas.
+        {% endblock cta %}
+    {% endembed %}
+{% endblock %}

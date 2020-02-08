@@ -1,0 +1,8 @@
+
+<ul class="nav nav-tabs">
+    {{ "{% for child in form %}" }}
+        {{ "{% if(child.vars.label != '')   %}" }}
+            <li {{ "{% if child.vars.attr.tab_class is defined %}class=\"{{ child.vars.attr.tab_class }}\"{% endif %}" }}><a href="#{{ "{{ child.vars.id }}" }}_tab" data-toggle="tab">{{ "{{ child.vars.label }}" }}</a></li>
+        {{ "{% endif  %}" }}
+    {{ "{% endfor  %}" }}
+</ul>
