@@ -16,3 +16,4 @@
 /node_modules
 /web/assetic
 /.idea
+/php_errors.log
