@@ -1,0 +1,11 @@
+parameters:
+
+services:
+
+#    seo.listener.doctrine:
+#        class: Uzink\UtilsBundle\EventListener\SeoEventListener
+#        arguments:
+#            encoder: "@security.encoder_factory"
+#            dispatcher: "@event_dispatcher"
+#        tags:
+#            - { name: doctrine.event_subscriber, connection: default }

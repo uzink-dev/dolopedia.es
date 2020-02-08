@@ -1,0 +1,105 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% if request.status == success %}
+    {% set statusTable = 'table-well-success' %}
+    {% set statusIcon = 'icon-check' %}
+    {% set statusDate = request.updatedAt | date('d/m/Y') %}
+{% elseif request.status == declined %}
+    {% set statusTable = 'table-well-declined' %}
+    {% set statusIcon = 'icon-cancel' %}
+    {% set statusDate = request.updatedAt | date('d/m/Y') %}
+{% else %}
+    {% set statusTable = 'table-well-pending' %}
+    {% set statusIcon = 'icon-pending' %}
+    {% set statusDate = 'request.fields.resolutionPending' | trans %}
+{% endif %}
+
+<div class="col-md-12 {{ itemClass }} {{ statusTable }}">
+    <div class="table-well headed {{ statusTable }}">
+        <div class="head">
+            <div class="row">
+                <div class="col-md-8 col-sm-7">
+                    <a href="{{ path('workflow.request.response', {'id': request.id} ) }}" ><h3 class="head-title">{{ title }}</h3></a>
+                </div>
+                <div class="col-md-4 col-sm-5">
+                    <div class="right-align">
+                        <p class="table-well-main-color">{{ action | upper }} {% if statusIcon is defined %}<span class="icon-lg-inline {{ statusIcon }}"></span>{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-well-content">
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+                    <p>{{ 'request.fields.article' | trans }}: {{ article }}</p>
+                    {% if category is not empty %}
+                    <p>{{ 'request.fields.category' | trans }}: <a href="{{ path('public.category.show', {'slug': category.seoSlug} ) }}">{{ category }}</a></p>
+                    {% endif %}
+                    {# TODO :: Añadir link a perfil de usuario #}
+                    <p >{{ 'request.fields.creationDate' | trans }}: <span class="table-well-secondary-color">{{ request.createdAt | date('d/m/Y') }} por <a href="#">{{ request.userFrom }}</a></span></p>
+                </div>
+                {% if statusDate is defined %}
+                <div class="col-md-4 col-sm-4">
+                    <div class="right-align">
+                        <p>{{ 'request.fields.resolutionDate' | trans }}</p>
+                        <p class="table-well-secondary-color">{{ statusDate }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% if request.status != success and request.status != declined %}
+        <div class="table-footer">
+            <div class="row container-row" id="request-action-options">
+                <div class="col-md-12">
+                    {% if response == 'request' %}
+                        {% if request.status is constant('STATUS_REQUEST_ACCEPTED', request) %}
+                            <div class="well well-sm">
+                                {# TODO::Insertar enlace a perfil de usuario #}
+                                <p>{{ 'request.accepted' | trans( {'%requestType%': actionDes} ) | raw }} <a href="#">{{ request.assignedUser }}</a></p>
+                            </div>
+                            <hr/>
+                        {% endif %}
+                        {% if request.status is not constant('STATUS_REQUEST_ACCEPTED', request) and request.status is not constant('STATUS_REQUEST_DECLINED', request) %}
+                            <a class="btn btn-blue separate-right"
+                               data-popup="#acceptRequest{{ request.id }}Popup">
+                                <span class="icon-check icon-big"></span> {{ 'request.buttons.accept' | trans }}
+                            </a>
+                            <a class="btn btn-primary separate-right"
+                               data-popup="#declineRequest{{ request.id }}Popup">
+                                <span class="icon-cancel icon-big"></span> {{ 'request.buttons.decline' | trans }}
+                            </a>
+                        {% endif %}
+                        {# Article Creation #}
+                    {% elseif response == 'creation' and not request.finished %}
+                        <form class="display-inline" method="POST" action="{{ path('workflow.request.createArticle', {'id': request.id}) }}">
+                            <button type="submit" class="btn btn-blue separate-right">
+                                <span class="icon-article icon-big"></span> {{ 'request.buttons.createArticle' | trans }}
+                            </button>
+                        </form>
+                        {# Article Modification #}
+                    {% elseif response == 'modification' %}
+                        <form class="display-inline" method="POST" action="{{ path('workflow.request.modifyArticle', {'id': request.id}) }}">
+                            <button type="submit" class="btn btn-blue separate-right">
+                                <span class="icon-article icon-big"></span> {{ 'request.buttons.modifyArticle' | trans }}
+                            </button>
+                        </form>
+                    {% elseif response == 'validation' or response == 'publication' %}
+                        <a href="{{ path('workflow.article.edit', {'id': request.draft.article.id}) }}" class="btn btn-blue separate-right"><span class="icon-article icon-big"></span> {{ 'request.buttons.viewArticle' | trans }}</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% if response == 'request' and
+            request.status is not constant('STATUS_REQUEST_ACCEPTED', request) and
+            request.status is not constant('STATUS_REQUEST_DECLINED', request) %}
+                <div id="acceptRequest{{ request.id }}Popup" style="display: none;">
+                    {{ render(controller('BackendBundle:Request:AcceptRequest', {'id': request.id, 'popup': true})) }}
+                </div>
+                <div id="declineRequest{{ request.id }}Popup" style="display: none;">
+                    {{ render(controller('BackendBundle:Request:DeclineRequest', {'id': request.id, 'popup': true})) }}
+                </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,98 @@
+# Activity factory try to fill the fiels (%field%) with any value from entity or activity
+activity:
+  createdAt: El %date% a las %hour%
+  entityDeleted: (Eliminado)
+  article:
+    add_to_favourite:
+      me: Has marcado el artículo %title% como favorito
+    remove_to_favourite:
+      me: Has eliminado el artículo %title% de tus favoritos
+    published:
+      me: Se ha publicado una nueva versión del artículo %title%
+    new_editor:
+      me: Te has asignado el artículo %title% como editor
+      other: %sender% te ha asignado el artículo %title% como editor
+    new_supervisor:
+      me: Te has asignado el artículo %title% como supervisor
+      other: %user% te ha asignado el artículo %title% como supervisor
+    remove:
+      me: Has elminado el artículo %title%
+    validation:
+      revision:
+        me: Has solicitado la revisión de %article% a %userTo%
+        other: %userFrom% ha solicitado la revisión de %article%
+      validated:
+        me: Has validado el borrador de %article%
+        other: %sender% ha validado el borrador de %article%
+      not_validated:
+        me: Has rechazado la validación del borrador de %title%
+        other: %sender% no ha validado el borrador de %title%
+      publication:
+        me: Has solicitado la publicación de %article% a %userTo%
+        other: %userFrom% ha solicitado la publicación de %article%
+      published:
+        me: Has publicado el borrador de %title%
+        other: %user% ha publicado el borrador de %title%
+      not_published:
+        me: Has rechazado la publicación el borrador de %title%
+        other: %sender% no ha publicado el borrador de %title%
+
+  request:
+    accept:
+      me: %sender% ha aceptado tu solicitud (%title%)
+      other: Has aceptado la solicitud de %receiver% (%title%)
+    decline:
+      me: %sender% ha rechazado tu solicitud (%title%)
+      other: Has rechazado la solicitud de %receiver% (%title%)
+    new:
+      me: Solicitaste la creación de un artículo con título %title%
+      other: %sender% solicitó la creación del artículo %title%
+    modify:
+      me: Solicitaste la modificación de %article%
+      other: %sender% solicito la modificación de %article%
+    edition.creation:
+      me: Solicitaste la creación del artículo %article% a %receiver%
+      other: %sender% solicitó la creación del artículo %article%
+    edition.modification:
+      me: Solicitaste la modificación del artículo %article% a %receiver%
+      other: %sender% solicitó la modificación del artículo %article%
+    article.edition.modification:
+      me: Solicitaste la modificación del artículo %article% a %receiver%
+      other: %sender% solicitó la modificación del artículo %article%
+
+  user:
+    follow:
+      me: Has añadido como contacto a %fullName%
+      other: %sender% te ha añadido a su lista de contactos
+    unfollow:
+      me: Has eliminado a %fullName% de tu lista de contactos
+    new_message:
+      me: Has enviado un nuevo mensaje a %receiver%
+      other: %sender% te ha enviado un nuevo mensaje (%subject%)
+    new_team_user:
+      me: Has creado un nuevo usuario en tu equipo %fullName%
+      other: Bienvenido a Dolopedia, esperamos que disfrutes la experiencia
+    new_admin:
+      me: Has creado un nuevo administrador %fullName%
+      other: %fullName% has sido nombrado administrador por %sender%
+    new_leader:
+      me: Has creado un nuevo lider %fullName%
+      other: %fullName% has sido nombrado lider por %sender%
+    new_supervisor:
+      me: Has creado un nuevo supervisor %fullName%
+      other: %fullName% has sido nombrado supervisor por %sender%
+    new_editor:
+      me: Has creado un nuevo editor %fullName%
+      other: %fullName% has sido nombrado editor por %sender%
+    delete_user:
+      me: Has eliminado al usuario %fullName%
+
+  category:
+    new:
+      me: Has creado una nueva categoría %title%
+    delete:
+      me: Has eliminado la categoría %title%
+    new_owner:
+      me: Has asignado la categoría %title% a %owner%
+      other: %sender% te ha asignado la categoría %title%
+

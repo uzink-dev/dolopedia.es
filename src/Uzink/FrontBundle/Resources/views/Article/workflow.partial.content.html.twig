@@ -1,0 +1,134 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Entity\\' %}
+
+<div class="row container-row">
+    <div class="col-md-12 relative">
+        <ul class="nav nav-tabs icon-tabs">
+            <li class="active">
+                <a href="#article-edit" data-toggle="tooltip" data-placement="top" title="Contenido del artículo"><span class="icon-data-edit"></span></a>
+            </li>
+            {% if article.id != null %}
+            <li>
+                <a href="#article-comments" data-toggle="tooltip" data-placement="top" title="Discusión acerca del artículo" ><span class="icon-discuss"></span></a>
+            </li>
+            {% endif %}
+            <li>
+                <a href="#article-history" data-toggle="tooltip" data-placement="top" title="Historial de revisiones"><span class="icon-clock"></span></a>
+            </li>
+            <li><a href="#article-credits" data-toggle="tooltip" data-placement="top" title="Créditos"><span class="icon-credits"></span></a></li>
+        </ul>
+        <a href="#" class="btn btn-light top-right separate-right hidden-xs hidde-left-bar"><span class="icon-full-view"></span> Vista a pantalla completa</a>
+    </div>
+</div>
+
+<div class="tab-content">
+    <div class="content">
+        <div id="article-edit" class="tab-pane active">
+            {{ include('FrontBundle:Component:flash.partial.html.twig') }}
+            {% set currentDraft = form.vars.data %}
+            {% if (currentDraft.status is constant(namespace ~ 'Draft::STATUS_REVISION') or
+                  currentDraft.status is constant(namespace ~ 'Draft::STATUS_VALIDATED')) and
+                  not is_granted('EDIT', article) %}
+            <div class="row container-row ">
+                <div class="col-md-12">
+                    <div class="alert alert-info alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <strong>Artículo en proceso de revisión.</strong> Debido a que es artículo está siendo revisado los cambios realizados no podrán ser guardados.
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <form id="editArticleForm" role="form" method="POST" novalidate="novalidate">
+                {% if is_granted('EDIT', article) %}
+                {{ form_row(form.block_article) }}
+
+                {{ form_row(form.block_category) }}
+
+                {{ form_row(form.block_introduction) }}
+                {% endif %}
+
+                <div class="articleContent">
+                {%- spaceless -%}
+                {% if form.content is defined %}
+                    {{ form_widget(form.content) }}
+                {% endif %}
+                {%- endspaceless -%}
+                </div>
+
+                {{ form_row(form.block_aditionalContent) }}
+
+                {% if is_granted('OWNER', article) %}
+                {{ form_row(form.block_assigment) }}
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    {% if form.block_seo is defined %}
+                    {{ form_row(form.block_seo) }}
+                    {% endif %}
+                {% endif %}
+
+                <div class="row container-row ">
+                    <div class="col-md-12">
+                        <hr>
+                        <div class="btn-group separate-right separate-top-md">
+                            {{ form_widget(form.save, {'disabled': 'disabled' }) }}
+                            {{ form_widget(form.save_and_exit) }}
+                        </div>
+                        {% if currentDraft.status is constant(namespace ~ 'Draft::STATUS_DRAFTED') %}
+                        {{ form_widget(form.revise) }}
+                        {% endif %}
+                        {% if currentDraft.status is constant(namespace ~ 'Draft::STATUS_REVISION') and is_granted('EDIT', article) %}
+                        <div class="btn-group separate-right separate-top-md">
+                            {{ form_widget(form.validate) }}
+                            {{ form_widget(form.no_validate) }}
+                        </div>
+                        {% endif %}
+                        {% if currentDraft.status is constant(namespace ~ 'Draft::STATUS_VALIDATED') and is_granted('OWNER', article) %}
+                        <div class="btn-group separate-right separate-top-md">
+                            {{ form_widget(form.publish) }}
+                            {{ form_widget(form.no_publish) }}
+                        </div>
+                        {% endif %}
+                        {% if is_granted('OWNER', article) and article.id != null %}
+                        <a href="#removeConfirmation" class="btn btn-dark-grey separate-top-md confirmation-popup"  data-confirmation-popup-url="{{ path('workflow.article.delete', {'id': article.id}) }}"><span class="icon-article-delete"></span> {{ 'article.actions.remove' | trans }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {{ form_widget(form._token) }}
+                {{ form_widget(form._target) }}
+            </form>
+        </div>
+
+        {% if article.id != null %}
+        <div id="article-comments" class="tab-pane">
+            {% render(controller('BackendBundle:Comment:Add', {'id': article.id, 'scope': constant(namespace ~ 'Comment::SCOPE_DISCUSSION')})) %}
+        </div>
+        {% endif %}
+
+        {{ include('FrontBundle:Article:workflow.partial.history.html.twig') }}
+
+        <div id="article-credits" class="tab-pane ">
+            <div class="row container-row">
+                <div class="col-md-12">
+                    <h2 class="base-color no-top-separation">Créditos</h2>
+                </div>
+                <div class="inline-wrapper">
+                    {% for user in article.collaborators %}
+                        {{ include('FrontBundle:Component:partial.user.box.html.twig') }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="row container-row">
+    <div class="col-md-12">
+        <hr/>
+        <p><a href="{{ path('workflow.article.list') }}"  class="dark-grey-color"><span class="icon-cancel"></span> {{ 'article.actions.cancelAndBack' | trans }}</a></p>
+    </div>
+
+</div>

@@ -1,0 +1,51 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'contact.title' | trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+    {% set params = app.request.query.all  %}
+    {% set filter = params['role'] is defined ? params['role'] : '' %}
+    <select class="form-control" data-filter-field="role">
+        <option value="all" {{ filter == 'all'?'selected="selected"' }}>Ver todos los perfiles</option>
+        <option value="ROLE_USER" {{ filter == 'ROLE_USER'?'selected="selected"' }}>{{ 'ROLE_USER'|trans }}</option>
+        <option value="ROLE_EDITOR" {{ filter == 'ROLE_EDITOR'?'selected="selected"' }}>{{ 'ROLE_EDITOR'|trans }}</option>
+        <option value="ROLE_SUPERVISOR" {{ filter == 'ROLE_SUPERVISOR'?'selected="selected"' }}>{{ 'ROLE_SUPERVISOR'|trans }}</option>
+        <option value="ROLE_LEADER" {{ filter == 'ROLE_LEADER'?'selected="selected"' }}>{{ 'ROLE_LEADER'|trans }}</option>
+        <option value="ROLE_ADMIN" {{ filter == 'ROLE_ADMIN'?'selected="selected"' }}>{{ 'ROLE_ADMIN'|trans }}</option>
+    </select>
+{% endblock privateAreaButton %}
+
+{% block privateAreaContent %}
+
+    <div class="row container-row section">
+        <div class="col-md-12">
+            {% include('FrontBundle:Component:partial.filter.alphabet.html.twig') %}
+            <hr/>
+        </div>
+
+        <div class="inline-wrapper">
+        {% for user in pager.getCurrentPageResults %}
+            {% embed 'FrontBundle:Component:partial.user.box.html.twig' %}
+                {% block path %}
+                    {{ path('panel.user.contact.show', {'id': user.id}) }}
+                {% endblock %}
+            {% endembed %}
+        {% endfor %}
+        </div>
+
+    {% if pager.getCurrentPageResults|length == 0 %}
+        <div class="col-md-12">
+            <p>{{ 'general.notResults'|trans }}</p>
+        </div>
+    {% endif %}
+    </div>
+
+    <div class="row container-row section">
+        {% if pager is not null and pager.haveToPaginate %}
+            {{ pagerfanta(pager, 'dolopedia') }}
+        {% endif %}
+    </div>
+
+{% endblock privateAreaContent %}

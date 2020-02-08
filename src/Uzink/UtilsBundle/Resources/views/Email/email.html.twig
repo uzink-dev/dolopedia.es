@@ -1,0 +1,57 @@
+{# src/Proun/UsuarioBundle/Resources/views/Default/email.html.twig #}
+
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style type=""></style>
+    </head>
+    <body>
+        <div style="
+            width: 675px;
+            height: 92;
+            border-bottom: 2px solid #F68533;
+            margin-bottom: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            ">
+            <img src="#" alt="" style="padding: 15px 15px 0px 15px ;">
+        </div>
+        <div style="
+            width: 665px;
+            border-bottom: 1px solid #F68533;
+            margin: auto;
+            font-family: Arial;
+            font-size: 13px;
+            color: #666;
+            padding: 5px;">
+            <h1 style="
+                font-size: 16px;
+                color: #666;">
+                {{ title }}
+            </h1>
+            {% for paragraph in paragraphs %}
+            <p>
+                {{ paragraph|raw }}
+            </p>
+            {% endfor %}
+            {% for f_paragraph in featured_paragraphs %}
+            <p>
+                <strong style="color: #F68533;">{{f_paragraph.text}}</strong>: {{f_paragraph.featured|raw}}
+            </p>
+            {% endfor %}
+                {% for link in links %}
+                <a href="{{ link.href }}" style="
+                    color: #F68533;
+                    text-decoration: underline">
+                    {{ link.text }}
+                </a>
+                {% endfor %}
+            </p>
+            <p style="
+                font-size: 11px;
+                color: #999">
+                {{ footer }}
+            </p>
+        </div>
+    </body>
+</html>

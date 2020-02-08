@@ -1,0 +1,210 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Search\\' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'article.assigned'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+    <div class="row">
+        <div class="col-md-6">
+            {% set params = app.request.query.all  %}
+            {% set filter = params['order'] is defined ? params['order'] : '' %}
+            <select class="form-control" data-filter-field="order">
+                <option value="newerFirst" {{ filter == 'newerFirst'?'selected="selected"' }}>{{ 'article.filter.newerFirst'|trans }}</option>
+                <option value="olderFirst" {{ filter == 'olderFirst'?'selected="selected"' }}>{{ 'article.filter.olderFirst'|trans }}</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <div id="category-selector">
+                {% spaceless %}
+                    <div class="input-group">
+                        <input type="text"
+                               id="category-selector-title"
+                               class="form-control"
+                               placeholder="Seleccione un categoría"
+                               {% if category %}value="{{ category.title }}"{% endif %}>
+                        <input type="hidden"
+                               id="category-selector-id"
+                               data-filter-field="category"
+                               {% if category %}value="{{ category.id }}"{% endif %}>
+                <span class="input-group-btn">
+                    <button class="btn btn-grey selector-popup-launcher" type="button">
+                        <span class="icon-categories"></span>
+                    </button>
+                </span>
+                    </div>
+                {% endspaceless %}
+
+                <div id="category-selector-popup" class="formWindow popup" data-internal-link-uri-category="{{ path('public.category.show', {'slug': '_slug_'}) }}" data-internal-link-uri-article="{{ path('public.article.show', {'slug': '_slug_'}) }}" style="display: none;">
+                    <div class="formWindow-head"><h2 class="title">Seleccionar categoría</h2></div>
+                    <div class="formWindow-content">
+                        {{ render(controller('BackendBundle:Category:TreeCategory', {'popup': true, 'showArticles': false})) }}
+                    </div>
+                    <div class="formWindow-footer">
+                        <div class="formWindow-control alone last">
+                            <a class="btn btn-dark-grey" data-popup-action="accept"><span class="icon-check"></span> {{ 'popup.button.accept'|trans() }}</a>
+                            <a href="javascript:$.fancybox.close();" class="formWindow-exit"> {{ 'popup.button.cancelAndExit'|trans() }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock privateAreaButton %}
+
+{% macro article(article) %}
+    <div class="col-md-12">
+        <div class="table-well headed {{ not article.editor ? 'table-well-declined' }}">
+            <div class="head">
+                <div class="row">
+                    <div class="col-md-8 col-sm-7">
+                        <h3 class="head-title">{{ article.title }}</h3>
+                    </div>
+                    <div class="col-md-4 col-sm-5">
+                        <div class="right-align">
+                            <ul class="action-options">
+                                {% if article.published %}
+                                    <li><a href="{{ path('public.article.show', {'slug': article.seoSlug}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'article.actions.preview'|trans }}"><span class="icon-preview"></span></a></li>
+                                {% endif %}
+                                {% if is_granted('CONTENT', article) %}
+                                    <li><a href="{{ path('workflow.article.edit', {'id': article.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'article.actions.edit'|trans }}"><span class="icon-data-edit"></span></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-well-content">
+                <div class="row">
+                    <div class="col-md-8 col-sm-7">
+                        {# TODO::Show modified date #}
+                        {% if article.lastDraft %}
+                            <p>{{ 'article.modified' | trans }}: <span class="table-well-secondary-color">{{ article.lastDraft.createdAt|date('d/m/Y - H:i') }} por <a href="{{ path('public.user.show', {'id': article.lastDraft.createdBy.id }) }}">{{ article.lastDraft.createdBy }}</a></span></p>
+                        {% else %}
+                            <p>{{ 'article.modified' | trans }}: <span class="table-well-secondary-color">-</span></p>
+                        {% endif %}
+                        <p>{{ 'article.published' | trans }}: {{ article.published?article.publishedAt | date('d/m/Y') : '-' }}</p>
+                    </div>
+                    <div class="col-md-4 col-sm-5">
+                        <div class="right-align">
+                        {% if app.user.type == 'editor' %}
+                            <div class="user-badge inverted">
+                                <img class="user-badge-thumb thumb" src="{{ article.supervisor.image | userHandler('user_thumb_large') }}"/>
+                                <div class="user-badge-details">
+                                    <p>{{ 'article.supervisedBy'|trans() }}</p>
+                                    <p><a href="{{ path('public.user.show', {'id': article.supervisor.id }) }}">{{ article.supervisor }}</a></p>
+                                </div>
+                            </div>
+                        {% else %}
+                            {% if article.editor %}
+                                <div class="user-badge inverted">
+                                    <img class="user-badge-thumb thumb" src="{{ article.editor.image | userHandler('user_thumb_large') }}"/>
+                                    <div class="user-badge-details">
+                                        <p>{{ 'article.assignedTo' | trans }}</p>
+                                        <p><a href="{{ path('public.user.show', {'id': article.editor.id }) }}">{{ article.editor }}</a></p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p class="table-well-main-color">{{ 'article.notAssigned' | trans }}</p>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as render %}
+
+{% block privateAreaContent %}
+    <div class="row container-row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#assigned-articles">Artículos Asignados</a>
+                </li>
+                <li>
+                    <a href="#in-revision-articles">Pendientes de revisión</a>
+                </li>
+                <li>
+                    <a href="#in-publication-articles">Pendientes de publicación</a>
+                </li>
+                <li>
+                    <a href="#collaborations">Artículos en los que he participado</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div class="content">
+            {{ include('FrontBundle:Component:flash.partial.html.twig') }}
+            <div id="assigned-articles" class="tab-pane active">
+                <div class="row container-row">
+                    {% for article in assignedArticlesPager.currentPageResults %}
+                        {{ render.article(article) }}
+                    {% endfor %}
+                </div>
+
+                <div class="row container-row section">
+                    {% if assignedArticlesPager is not empty and assignedArticlesPager.haveToPaginate %}
+                        {% set urlParameter = constant(namespace ~ 'ArticleSearch::PARAM_ASSIGNED_ARTICLES') %}
+                        {{ pagerfanta(assignedArticlesPager, 'dolopedia', {'pageParameter' : '[' ~ urlParameter ~ ']'}) }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="in-revision-articles" class="tab-pane">
+                <div class="row container-row">
+                    {% for article in assignedArticlesInRevisionPager.currentPageResults %}
+                        {{ render.article(article) }}
+                    {% else %}
+                        <div class="col-xs-12"><p>No hay artículos pendientes de revisión</p></div>
+                    {% endfor %}
+                </div>
+
+                <div class="row container-row section">
+                    {% if assignedArticlesInRevisionPager is not empty and assignedArticlesInRevisionPager.haveToPaginate %}
+                        {% set urlParameter = constant(namespace ~ 'ArticleSearch::PARAM_ASSIGNED_ARTICLES_IN_REVISION') %}
+                        {{ pagerfanta(assignedArticlesInRevisionPager, 'dolopedia', {'pageParameter' : '[' ~ urlParameter ~ ']'}) }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="in-publication-articles" class="tab-pane">
+                <div class="row container-row">
+                    {% for article in assignedArticlesInPublicationPager.currentPageResults %}
+                        {{ render.article(article) }}
+                    {% else %}
+                        <div class="col-xs-12"><p>No hay artículos pendientes de publicar</p></div>
+                    {% endfor %}
+                </div>
+
+                <div class="row container-row section">
+                    {% if assignedArticlesInPublicationPager is not empty and assignedArticlesInPublicationPager.haveToPaginate %}
+                        {% set urlParameter = constant(namespace ~ 'ArticleSearch::PARAM_ASSIGNED_ARTICLES_IN_PUBLICATION') %}
+                        {{ pagerfanta(assignedArticlesInPublicationPager, 'dolopedia', {'pageParameter' : '[' ~ urlParameter ~ ']'}) }}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="collaborations" class="tab-pane">
+                {% for article in collaborationsPager.currentPageResults %}
+                    {{ render.article(article) }}
+                {% endfor %}
+
+                <div class="row container-row section">
+                    {% if collaborationsPager is not empty and collaborationsPager.haveToPaginate %}
+                        {% set urlParameter = constant(namespace ~ 'ArticleSearch::PARAM_COLLABORATIONS') %}
+                        {{ pagerfanta(collaborationsPager, 'dolopedia', {'pageParameter' : '[' ~ urlParameter ~ ']'}) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock privateAreaContent %}

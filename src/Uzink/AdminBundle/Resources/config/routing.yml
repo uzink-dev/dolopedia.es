@@ -1,0 +1,61 @@
+admin.homepage:
+    path:     /
+    defaults: { _controller: AdminBundle:Default:homepage }
+    methods:  [GET]
+
+admin.article:
+    resource: "@AdminBundle/Resources/config/routing/article.yml"
+    prefix:   /articulo
+
+admin.category:
+    resource: "@AdminBundle/Resources/config/routing/category.yml"
+    prefix:   /categoria
+
+admin_login:
+    pattern:  /login
+    defaults: { _controller: FOSUserBundle:Security:login }
+
+admin_login_check:
+    pattern:  /login_check
+    defaults: { _controller: FOSUserBundle:Security:check }
+
+admin_logout:
+    pattern:  /logout
+    defaults: { _controller: FOSUserBundle:Security:logout }
+
+admin.center:
+    resource: "@AdminBundle/Resources/config/routing/center.yml"
+    prefix:   /red/centro
+
+admin.engine:
+    resource: "@AdminBundle/Resources/config/routing/engine.yml"
+    prefix:   /motor
+
+admin.menu:
+    resource: "@AdminBundle/Resources/config/routing/menu.yml"
+    prefix:   /menu
+
+admin.page:
+    resource: "@AdminBundle/Resources/config/routing/page.yml"
+    prefix:   /pagina
+
+admin.helpPage:
+    resource: "@AdminBundle/Resources/config/routing/help_page.yml"
+    prefix:   /pagina-de-ayuda
+
+admin.links:
+    resource: "@AdminBundle/Resources/config/routing/links.yml"
+    prefix:   /links
+
+admin.promoter:
+    resource: "@AdminBundle/Resources/config/routing/promoter.yml"
+    prefix:   /red/patrocinador
+
+admin.user:
+    resource: "@AdminBundle/Resources/config/routing/user.yml"
+    prefix:   /usuario
+
+admin.contact:
+    resource: "@AdminBundle/Resources/config/routing/contact.yml"
+    prefix:   /contacto
+

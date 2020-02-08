@@ -1,0 +1,40 @@
+{% extends '::base.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block htmlClass %}light-background{% endblock %}
+
+{% block title %}Administración{% endblock %}
+
+{% block body %}
+    <div class="content light-background">
+        <div class="formWindow">
+            <div class="formWindow-head"><h2 class="title">Acceso a la administración<span class="icon-save icon-big"></span></h2></div>
+            <div class="formWindow-content">
+                {{ block('fos_user_content')}}
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block fos_user_content %}
+    {% if error %}
+        <div class="alert alert-danger" role="alert">Email o contraseña incorrectos</div>
+    {% endif %}
+
+    <form action="{{ path("admin_login_check") }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+        <div class="formWindow-control">
+            <label for="username">Correo electrónico:</label>
+            <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="tu@correo.com" required="required" />
+        </div>
+        <div class="formWindow-control">
+            <label for="password">{{ 'security.login.password'|trans }}</label>
+            <input class="form-control" type="password" id="password" name="_password" required="required" />
+        </div>
+        <div class="formWindow-control last-with-any">
+            <button type="submit" class="btn btn-dark-grey" on><span class="icon-forward"></span> {{ 'security.login.submit'|trans }}</button>
+        </div>
+    </form>
+{% endblock fos_user_content %}

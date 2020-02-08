@@ -1,0 +1,46 @@
+admin.article.index:
+    pattern:  /list/{page}
+    defaults: { _controller: AdminBundle:Article:index, page: 1 }
+    methods:  [GET]
+    requirements:
+        page: \d+
+
+admin.article.new:
+    pattern:  /new
+    defaults: { _controller: AdminBundle:Article:new }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.article.create:
+    pattern:  /create
+    defaults: { _controller: AdminBundle:Article:create }
+    methods:  [POST]
+
+admin.article.edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: AdminBundle:Article:edit }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.article.update:
+    pattern:  /{id}/update
+    defaults: { _controller: AdminBundle:Article:update }
+    methods:  [POST, PUT]
+    requirements:
+        id: \d+
+
+admin.article.delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: AdminBundle:Article:delete }
+    methods:  [GET, POST]
+    requirements:
+        id: \d+
+
+admin.article.confirm.delete:
+    pattern:  /{id}/confirm-delete
+    defaults: { _controller: AdminBundle:Article:confirmDelete }
+    methods:  [POST]
+    requirements:
+        id: \d+

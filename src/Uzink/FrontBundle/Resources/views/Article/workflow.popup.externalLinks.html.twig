@@ -1,0 +1,26 @@
+<div id="addExternalLinksPopup" class="formWindow popup" style="display: none;">
+    <div class="formWindow-head"><h2 class="title">Link Externo<span class="icon-data-edit icon-big"></span></h2></div>
+    <div class="formWindow-content">
+        <div class="formWindow-control">
+            <label for="externalLinksUrl">URL</label>
+            <input type="text" id="externalLinksUrl" class="form-control" />
+        </div>
+        <div class="formWindow-control">
+            <label for="externalLinksContent">Texto</label>
+            <input type="text" id="externalLinksContent" class="form-control" />
+        </div>
+        <div class="formWindow-control">
+            <label for="externalLinksTarget">Destino</label>
+            <select id="externalLinksTarget" class="form-control">
+                <option value="_self">Esta ventana</option>
+                <option value="_blank">Nueva ventana</option>
+            </select>
+        </div>
+    </div>
+    <div class="formWindow-footer">
+        <div class="formWindow-control alone last">
+            <a class="btn btn-dark-grey" data-popup-action="accept"><span class="icon-forward"></span> Añadir</a>
+            <a href="javascript:$.fancybox.close();" class="formWindow-exit"> Cancelar y volver</a>                        
+        </div>
+    </div>
+</div>

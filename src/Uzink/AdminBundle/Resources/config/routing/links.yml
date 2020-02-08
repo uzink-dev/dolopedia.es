@@ -1,0 +1,6 @@
+admin.links.index:
+    pattern:  /
+    defaults: { _controller: AdminBundle:Link:index }
+    methods:  [GET, POST]
+    requirements:
+        role: "usuario|editor|supervisor|lider"

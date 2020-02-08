@@ -1,0 +1,125 @@
+{% extends 'BraincraftedBootstrapBundle::layout.html.twig' %}
+
+{% form_theme form 'BraincraftedBootstrapBundle:Form:widgets.html.twig' %}
+
+{%  block title %}Creación de parámetro de configuración{%  endblock %}
+
+{% block body -%}
+    
+<div class="container-fluid">
+    <div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+            {{  knp_menu_render('main', {'currentClass': 'active', 'template': 'GeneratorBundle:Menu:knp_menu.html.twig'}) }}
+		</div>
+	</div>
+</div>
+
+
+<div id="crud-layout">
+    
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            
+            <div class="span12">
+                
+                <header class="jumbotron subhead" id="overview">
+
+                    <h1>Creación de parámetro de configuración</h1>
+
+                </header>
+                
+            </div>
+            
+        </div>
+        
+        <div class="row-fluid">
+        
+            <div class="breadcrumbs-wrapper">   
+            
+                <div class="span7">
+
+                    <div class="breadcrumbs">
+
+                        {{ wo_render_breadcrumbs() }}
+
+                    </div>
+
+                </div>
+
+                <div class="span5">
+
+                    <div class="btn-group pull-right">
+
+
+                        <a class="btn" href="{{ path('admin_configuracion_parametros') }}">
+                            <i class="icon-list"></i>
+                            Volver al listado
+                        </a>
+
+                        <a class="btn" href="{{ path('admin_configuracion_parametros_new') }}">
+                            <i class="icon-plus"></i>
+                            Crear nuevo
+                        </a>
+
+
+
+                    </div>
+
+                </div>
+                
+            </div>
+            
+        </div>
+
+        {% include 'BraincraftedBootstrapBundle::partial.flash.html.twig' %}
+    
+        <div class="row-fluid">
+
+            <section id="creation-form">
+
+                <div class="span12">
+
+                    <form class="form-horizontal" action="{{ path('admin_configuracion_parametros_create') }}" method="post" {{ form_enctype(form) }} novalidate>
+                        {% set form_type = 'horizontal' %}
+
+
+                        <ul class="nav nav-tabs">
+                            {% for child in form %}
+                                {% if(child.vars.label != '')   %}
+                                    <li class="tab {% if child.vars.attr.tab_class is defined %} {{ child.vars.attr.tab_class }}{% endif %}{% if not child.vars.valid %} has_errors{% endif %}{% if 'active' in child.vars.attr.class %} active{% endif %}"><a href="#{{ child.vars.id }}_tab" data-toggle="tab">{{ child.vars.label }}</a></li>
+                                {% endif  %}
+                            {% endfor  %}
+                        </ul>                        
+
+                        {{ form_widget(form) }}
+
+                        <div class="well form-actions">
+
+                            <button type="submit" class="btn btn-primary"><i class="icon-plus"></i>Crear</button>
+                                                        
+                            <a class="btn" href="{{ path('admin_configuracion_parametros') }}">
+                                <i class="icon-list"></i>
+                                Volver al listado
+                            </a>
+
+                            <a class="btn" href="{{ path('admin_configuracion_parametros_new') }}">
+                                <i class="icon-plus"></i>
+                                Crear nuevo
+                            </a>
+
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

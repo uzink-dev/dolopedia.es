@@ -1,0 +1,42 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block body %}
+    <div class="content">
+
+        <div class="row container-row content-header">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+            <div class="col-md-12">
+                <h1>{{ center.title }}</h1>
+            </div>
+        </div>
+
+        <div class="row container-row section">
+            <div class="col-md-12">
+                {% if center.image %}
+                <img src="{{ center.image|centerHandler('center_large') }}" class="pull-right"/>
+                {% endif %}
+                {{ center.description|raw }}
+                {% if center.link is not null %}<p><a href="{{ center.link }}">Ir al sitio web</a></p>{% endif %}
+            </div>
+        </div>
+
+        <div class="row container-row section light-background">
+            <div class="col-md-12">
+                <h2 class="section-title">{{ 'net.center.usersThere' | trans }}<span class="icon-center-users base-color pull-right icon-big"></span></h2>
+            </div>
+        </div>
+
+        <div class="row container-row section">
+            <div class="inline-wrapper">
+
+            {% for user in center.users if user.hasRole('ROLE_EDITOR') %}
+                {% embed 'FrontBundle:Component:partial.user.box.html.twig' %}{% endembed %}
+            {% endfor %}
+            </div>
+        </div>
+
+
+    </div>
+{% endblock body %}

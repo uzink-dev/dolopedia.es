@@ -1,0 +1,11 @@
+services:
+    parametroconfiguracion_bundle.manager.parametroconfiguracion:
+        class: Uzink\ConfiguracionBundle\Entity\ParametroConfiguracionManager
+        arguments:
+            dispatcher: "@event_dispatcher"
+            em: "@doctrine.orm.entity_manager"
+            class: Uzink\ConfiguracionBundle\Entity\ParametroConfiguracion
+            request: "@request"
+        scope: request
+
+

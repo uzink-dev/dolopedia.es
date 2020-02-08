@@ -1,0 +1,66 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="row container-row">
+    <div class="col-md-8">
+        <div class="user-badge user-badge-lg section">
+            {{ include('FrontBundle:Component:partial.user.imageBox.html.twig') }}
+            <div class="user-badge-details">
+                <p class="title"><a>{{ user }}</a></p>
+                <p class="subtitle">{{ user.job }}</p>
+                {% if user.address is not null %}<p>{{ 'user.address' | trans }}: {{ user.address }}</p>{% endif %}
+                {#<p><a href="mailto:{{ user.email }}" class="text-color underline">{{ user.email }}</a></p>#}
+                {% if app.user.workplace is not null %}
+                    <p><a href="{{ path('public.net.center.show', {'slug': app.user.workplace.seoSlug}) }}"><span class="icon-center icon-md-inline"></span> {{ app.user.workplace.title }}</a></p>
+                {% elseif app.user.otherWorkplace is not null %}
+                    <p><span class="icon-center icon-md-inline"></span> {{ app.user.otherWorkplace }}</a></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 relative">
+        {% if user.socialProfiles is not null %}
+        <div class="add-this-folow without-margin">
+            <!-- AddThis Follow BEGIN -->
+            <div class="addthis_toolbox addthis_32x32_style addthis_default_style">
+                {% for key, profile in app.user.socialProfiles %}
+                    {% if profile is not null %}
+                        <a class="addthis_button_{{ key }}_follow" addthis:userid="{{ profile }}">
+                            <span class="icon-{{ key }} icon-big"></span>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52b3fd390bb0f56c"></script>
+            <!-- AddThis Follow END -->
+            <div class="clearfix"></div>
+        </div>
+        {% endif %}
+        <div class="buttonWrapper-lg visible-lg visible-md pull-right">
+            {% if app.user.isWorkgroupUser(user) %}
+                <a href="{{ path('panel.message.new', {'receiver': user.id}) }}" class="btn btn-blue btn-big full-width separate-bottom"><span class="icon-mail icon-big"></span> Enviar Mensaje</a>
+            {% endif %}
+            {% if user not in app.user.contacts %}
+                <a href="{{ path('panel.user.contact.follow.toogle', {'id': user.id}) }}" class="btn btn-grey btn-big col-md-4 full-width"><span class="icon-add icon-big"></span> {{ 'user.actions.followUser' | trans }}</a>
+            {% else %}
+                <a data-delete-confirmation-message="{{ 'contact.removeAlert'|trans({'%user%': user}) }}" data-delete-confirmation-callback="{{ path('panel.user.contact.follow.toogle', {'id': user.id}) }}" class="btn btn-grey btn-big full-width"><span class="icon-cancel icon-big"></span> {{ 'user.actions.unfollowUser' | trans }}</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row container-row">
+    <div class="col-md-12 section">
+        {% if app.user.interests|length > 0 %}
+            <p class="title-section">{{'user.interests'|trans}}:</p>
+            <p class="text-secion">
+                {% for interest in app.user.interests %}
+                    {{ interest }}{{ loop.last?'.':', ' }}
+                {% endfor %}
+            </p>
+        {% endif %}
+        {% if app.user.cv is not null %}
+            <p class="title-section">{{ 'user.cv'|trans }}:</p>
+            <p class="text-section">{{ app.user.cv }}<a href="#">ver más</a></p>
+        {% endif %}
+    </div>
+</div>

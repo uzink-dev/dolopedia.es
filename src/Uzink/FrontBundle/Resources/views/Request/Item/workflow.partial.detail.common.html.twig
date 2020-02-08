@@ -1,0 +1,101 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% if request.status == success %}
+    {% set statusTable = 'success' %}
+    {% set statusIcon = 'icon-check' %}
+    {% set statusDate = request.updatedAt | date('d/m/Y') %}
+{% elseif request.status == declined %}
+    {% set statusTable = 'declined' %}
+    {% set statusIcon = 'icon-cancel' %}
+    {% set statusDate = request.updatedAt | date('d/m/Y') %}
+{% else %}
+    {% set statusTable = 'pending' %}
+    {% set statusIcon = 'icon-pending' %}
+    {% set statusDate = 'request.fields.resolutionPending' | trans %}
+{% endif %}
+
+<div class="row container-row">
+    <div class="col-md-4 col-lg-3 section">
+        <div class="user-badge user-badge-md">
+            <img src="{{ request.userFrom.image | userHandler('user_thumb_large') }}" class="user-badge-thumb thumb img-md">
+            <div class="user-badge-details">
+                <div class="line-wrap">
+                    <p class="dark-grey-color">{{ 'request.fields.petitioner' | trans }}</p>
+                    {# TODO::Añadir link a perfil de usuario  #}
+                    <p><a href="#">{{ request.userFrom }}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-lg-3 section">
+        <div class="line-wrap">
+            <p class="title dark-grey-color">{{ 'request.fields.creationDate' | trans }}</p>
+            <p>{{ request.createdAt | date('d/m/Y') }}</p>
+        </div>
+    </div>
+    <div class="col-md-5 col-lg-4 section">
+        <div class="status-badge {{ statusTable }}">
+            <div class="line-wrap">
+                <p class="title dark-grey-color">{{ 'request.fields.resolutionDate' | trans }}</p>
+                <p>{{ statusDate }}</p>
+            </div>
+            <span class="{{ statusIcon }} status-badge-icon"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row container-row">
+    <div class="col-md-12">
+        <hr>
+        <h2 class="no-border">{{ action | upper }}</h2>
+        <p>{{ 'request.fields.article' | trans }}: {{ article }}</p>
+        <p>{{ 'request.fields.category' | trans }}: <a href="{{ path('public.category.show', {'slug': category.seoSlug} ) }}">{{ category }}</a></p>
+        <p>{{ request.content }}</p>
+        {% if request.attachmentName %}
+            <a href="{{ vich_uploader_asset(request, 'attachments_file') }}" target="_blank">{{ 'request.attachmentDownload'|trans({}, 'dolopedia') }}</a>
+        {% endif %}
+        <hr>
+    </div>
+</div>
+
+<div class="row container-row" id="request-action-options">
+    <div class="col-md-12">
+        {% if response == 'request' %}
+            {% if request.status is constant('STATUS_REQUEST_ACCEPTED', request) %}
+                <div class="well well-sm">
+                    {# TODO::Insertar enlace a perfil de usuario #}
+                    <p>{{ 'request.accepted' | trans( {'%requestType%': actionDes} ) | raw }} <a href="#">{{ request.assignedUser }}</a></p>
+                </div>
+                <hr/>
+            {% endif %}
+            {% if request.status is not constant('STATUS_REQUEST_ACCEPTED', request) and request.status is not constant('STATUS_REQUEST_DECLINED', request) %}
+                <a href="#acept-request-form" class="btn btn-blue separate-right show-and-hide" data-hide="#request-action-options"><span class="icon-check icon-big"></span> {{ 'request.buttons.accept' | trans }}</a>&nbsp;
+                <a href="#decline-request-form" class="btn btn-primary separate-right show-and-hide" data-hide="#request-action-options"><span class="icon-cancel icon-big"></span> {{ 'request.buttons.decline' | trans }}</a>&nbsp;
+            {% endif %}
+            {# Article Creation #}
+        {% elseif response == 'creation' and not request.finished %}
+            <form class="display-inline" method="POST" action="{{ path('workflow.request.createArticle', {'id': request.id}) }}">
+                <button type="submit" class="btn btn-blue separate-right">
+                    <span class="icon-article icon-big"></span> {{ 'request.buttons.createArticle' | trans }}
+                </button>
+            </form>
+            {# Article Modification #}
+        {% elseif response == 'modification' %}
+            <form class="display-inline" method="POST" action="{{ path('workflow.request.modifyArticle', {'id': request.id}) }}">
+                <button type="submit" class="btn btn-blue separate-right">
+                    <span class="icon-article icon-big"></span> {{ 'request.buttons.modifyArticle' | trans }}
+                </button>
+            </form>
+        {% elseif response == 'validation' or response == 'publication' %}
+            <a href="{{ path('workflow.article.edit', {'id': request.draft.article.id}) }}" class="btn btn-blue separate-right"><span class="icon-article icon-big"></span> {{ 'request.buttons.viewArticle' | trans }}</a>
+        {% endif %}
+        <a href="{{ path('workflow.request.list') }}" class="dark-grey-color underline">{{ 'request.buttons.back' | trans }}</a>
+    </div>
+</div>
+{% if response == 'request' and
+request.status is not constant('STATUS_REQUEST_ACCEPTED', request) and
+request.status is not constant('STATUS_REQUEST_DECLINED', request) %}
+    {{ render(controller('BackendBundle:Request:AcceptRequest', {'id': request.id})) }}
+    {{ render(controller('BackendBundle:Request:DeclineRequest', {'id': request.id})) }}
+{% endif %}
+

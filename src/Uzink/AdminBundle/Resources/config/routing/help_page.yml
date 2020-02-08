@@ -1,0 +1,42 @@
+admin.helpPage.index:
+    pattern:  /list/{role}/{page}
+    defaults: { _controller: AdminBundle:HelpPage:list, page: 1 }
+    methods:  [GET]
+    requirements:
+        role: "usuario|editor|supervisor|lider"
+        page: \d+
+
+admin.helpPage.new:
+    pattern:  /new/{role}
+    defaults: { _controller: AdminBundle:HelpPage:new }
+    methods:  [GET]
+    requirements:
+        role: "usuario|editor|supervisor|lider"
+
+admin.helpPage.create:
+    pattern:  /create/{role}
+    defaults: { _controller: AdminBundle:HelpPage:create }
+    methods:  [POST]
+    requirements:
+        role: "usuario|editor|supervisor|lider"
+
+admin.helpPage.edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: AdminBundle:HelpPage:edit }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.helpPage.update:
+    pattern:  /{id}/update
+    defaults: { _controller: AdminBundle:HelpPage:update }
+    methods:  [POST, PUT]
+    requirements:
+        id: \d+
+
+admin.helpPage.delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: AdminBundle:HelpPage:delete }
+    methods:  [POST]
+    requirements:
+        id: \d+

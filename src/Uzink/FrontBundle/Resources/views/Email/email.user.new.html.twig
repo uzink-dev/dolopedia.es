@@ -1,0 +1,41 @@
+{% block subject %}
+    {% autoescape false %}
+    Nuevo usuario ({{ user.name }}) en la plataforma
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Un nuevo usuario se ha registrado en la plataforma sus datos son los siguentes:
+
+    Nombre: {{ user.name }} {{ user.surname1 }} {{ user.surname2 }}
+    Email: {{ user.email }}
+    Fecha de alta: {{ user.createdAt|date('d/m/Y') }}
+
+    Atentamente,
+    Dolopedia.
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Nuevo registro en Dolopedia
+        {% endblock %}
+
+        {% block subtitle %}
+            Un nuevo usuario se ha registrado en la plataforma
+        {% endblock subtitle %}
+
+        {% block content %}
+            Los datos del nuevo usuario son los siguentes:
+
+            <ul>
+                <li>Nombre: {{ user.name }} {{ user.surname1 }} {{ user.surname2 }}</li>
+                <li>Email: {{ user.email }}</li>
+                <li>Fecha de alta: {{ user.createdAt|date('d/m/Y') }}</li>
+            </ul>
+
+            Atentamente,
+            Dolopedia.
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

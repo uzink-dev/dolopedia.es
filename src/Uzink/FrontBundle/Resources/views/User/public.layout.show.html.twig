@@ -1,0 +1,40 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Entity\\' %}
+
+{% block body %}
+    <div class="content">
+
+        <div class="row container-row content-header">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+            <div class="col-md-12">
+                <h1>{{ user }}</h1>
+            </div>
+        </div>
+        {{ include('FrontBundle:Component:partial.user.info.html.twig') }}
+
+        {% if user.collaborations|length > 0 %}
+        <div class="row container-row section light-background">
+            <div class="col-md-12">
+                <h2 class="section-title">ARTICULOS EN LOS QUE HA PARTICIPADO <span class="icon-user-articles base-color pull-right icon-big"></span></h2>
+            </div>
+        </div>
+        <div class="row container-row">
+            <div class="col-md-12">
+                <ul class="link-list">
+                    {% for article in user.collaborations %}
+                    {% if article.published %}
+                    <li>
+                        <p class="title"><a href="{{ path('public.article.show', {'slug': article.seoSlug}) }}">{{ article }}</a></p>
+                        <p class="subtitle">{{ 'article.publishedAt' | trans({'%date%': article.publishedAt | date('d/m/Y'), '%user%': article.publishedBy, '%path%': '#'})|raw }}</p>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock body %}

@@ -1,0 +1,80 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'team.new'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaContent %}
+
+{{ form_start(form) }}
+
+    <div class="form-well headed">
+        <div class="head">
+            <span class="head-icon icon-big icon-user"></span>
+            <h3 class="head-title">{{ 'account.legend.userData'|trans }}</h3>
+        </div>
+        <div class="container section">
+            <div class="row container-row">
+                <div class="form-group col-md-12">
+                    <div class="row container-row">
+                        <div class="form-group col-md-12">
+                            {{ form_label(form.user) }}
+                            {{ form_widget(form.user, { 'attr': {'class': 'form-control select2-control'} }) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row container-row">
+                <div class="form-group col-md-12">
+                    {{ form_row(form.type) }}
+                </div>
+            </div>
+            <div class="row container-row">
+                <div class="form-group col-md-12">
+                    <div id="extendedTipoUsuario" class="extended-info" {{ form.type.vars.value is empty ? 'style="display: none;"' }}>
+                        <div class="row container-row">
+                        {% for item in form.roleSelect %}
+                            <div id="{{ item.vars.name }}" class="form-group col-md-6 extended-value" style="display: {{ item.vars.name == form.type.vars.value ? 'block' : 'none' }};">
+                                {{ form_row(item) }}
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-well headed">
+        <div class="head">
+            <span class="head-icon icon-big icon-article"></span>
+            <h3 class="head-title">{{ 'article.assigned'|trans }}</h3>
+        </div>
+        <div class="container section">
+            <div class="row container-row">
+                <div class="form-group col-md-12">
+                    <div class="row container-row">
+                        <div class="form-group col-md-12">
+                            {{ form_row(form.articles) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row container-row">
+        <div class="col-md-12">
+            <hr/>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary separate-right">
+                <span class="icon-user icon-big"></span> {{ 'form.button.assignAccount'|trans }}
+            </button>
+            <a href="{{ path('workflow.team.show') }}" class="btn btn-grey"><span class="icon-revert icon-big"></span> {{ 'form.button.cancelEdit'  | trans }}</a> 
+        </div>
+    </div>
+
+{{ form_end(form) }}
+
+{% endblock privateAreaContent %}

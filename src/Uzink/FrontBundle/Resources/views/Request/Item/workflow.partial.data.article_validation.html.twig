@@ -1,0 +1,18 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% set title = request.draft.title %}
+{% set article = request.draft.article %}
+{% set category = request.draft.category %}
+{% set action = 'request.type.validation' | trans %}
+{% set actionDes = 'request.type.validationDescription' | trans %}
+
+{% set success = constant('STATUS_REQUEST_ACCEPTED', request) %}
+{% set declined = constant('STATUS_REQUEST_DECLINED', request) %}
+
+{% set response = 'validation' %}
+
+{% if format == 'list' %}
+    {{ include('FrontBundle:Request/Item:workflow.partial.list.common.html.twig') }}
+{% elseif format == 'detail' %}
+    {{ include('FrontBundle:Request/Item:workflow.partial.detail.common.html.twig') }}
+{% endif %}

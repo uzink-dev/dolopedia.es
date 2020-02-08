@@ -1,0 +1,20 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block body %}
+    <div class="content">
+        <div class="row container-row content-header">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+            <div class="col-md-9">
+                <h1>{{ 'article.articles' | trans }}</h1>
+            </div>
+            <div class="col-md-3">
+                <!--<a href="#nuevoArticulo" class="popupLauncher btn btn-big btn-primary pull-right visible-lg visible-md"><span class="icon-create-article icon-shadow "></span> Solicitar nuevo artículo</a>-->
+            </div>
+        </div>
+
+        {{ include('FrontBundle:Category:public.partial.grid.html.twig') }}
+    </div>
+
+{% endblock body %}

@@ -1,0 +1,63 @@
+{% extends '::front.base.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block search %}
+    {{ render(controller('BackendBundle:Article:renderSearchBox')) }}
+{% endblock search %}
+
+{% block nav %}
+    <div class="row">
+        <nav>
+            <div class="col-md-8 visible-xs">
+                {{ render(controller('BackendBundle:Article:renderResponsiveSearchBox')) }}
+            </div>
+            <div class="collapse navbar-collapse" id="main-menu">
+                {{ block('leftNav') }}
+                {{ block('userMenu') }}
+            </div>
+            <button type="button" class="navbar-toggle visible-xs" data-toggle="collapse" data-target="#main-menu"></button>
+        </nav>                
+    </div>
+{% endblock nav %}
+
+{% block userMenu %}
+    <div class="col-md-5 col-sm-5 hidden-xs">
+        {% if app.user %}
+        {% spaceless %}
+        <div class="pull-right">
+            {{ app.user.name ~ ' ' ~ app.user.surname1}}
+            {{ render(controller('BackendBundle:Cms:LinkHelpPage')) }}
+            <a href="{{ path('fos_user_security_logout') }}" class="separate-left-bordered grey-color"><span class="icon-log-out icon-md-inline"></span><span class="link-description"> SALIR</span></a>
+        </div>
+        {% endspaceless %}
+        {% endif %}
+    </div>
+{% endblock userMenu %}
+
+{% block userMenuResponsive %}
+    {% if app.user %}
+    <div class="row">
+        <div class="bar dark-background visible-xs">
+            <div class="col-xs-8">
+                <p>{{ app.user.name ~ ' ' ~ app.user.surname1}}</p>
+            </div>
+            <div class="col-xs-4">
+                <a href="{{ path('fos_user_security_logout') }}"class="pull-right separate-left"><span class="icon-log-out icon-md-inline"></span></a>&nbsp;
+                <a href="#" class="pull-right"><span class="icon-info icon-md-inline"></span></a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock userMenuResponsive %}
+
+{% block leftNav %}
+    <div class="col-md-7 col-sm-7">
+        {{ 'Navigation'|renderMenu }}
+    </div>
+{% endblock leftNav %}
+
+{% block popup %}
+    {{ include('FrontBundle:Component:popup.remove.html.twig') }}
+{% endblock %}
+

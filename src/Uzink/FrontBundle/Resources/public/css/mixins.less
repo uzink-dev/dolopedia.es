@@ -1,0 +1,54 @@
+.em-size( @value: @base_size, @context: @base_size ) {
+ 	font-size: (@value / @context) + 0em;
+}
+
+.em-line-height( @value: @base_size, @context: @base_size ) {
+ 	line-height: (@value / @context) + 0em;
+}
+
+.border-box {
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box; 
+}
+
+.inline-block{
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: top;
+  zoom: 1;
+  *display: inline;
+}
+
+.ellipsis{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.add-shadow{
+	.drop-shadow(1px, 1px, 2px, 0.12);
+	border: 1px solid #E3E3E3;
+}
+
+.add-text-shadow {
+    text-shadow: 0.06em 0.06em 0em rgba(0, 0, 0, 0.15);    
+}
+
+// Use with colour name: .rgba(black, 0.5) or hex value: .rgba(#FF2400, 0.5)
+.rgba(@colour, @alpha)
+{
+  @alphaColour: hsla(hue(@colour), saturation(@colour), lightness(@colour), @alpha);
+  @ieAlphaColour: argb(@alphaColour);
+
+  background-color: @colour; // Fallback for older browsers
+  background-color: @alphaColour;
+
+  // IE hacks
+  zoom: 1; // hasLayout
+  background-color: transparent\9;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 8+
+  filter:  ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})";  // IE 6 & 7
+
+}

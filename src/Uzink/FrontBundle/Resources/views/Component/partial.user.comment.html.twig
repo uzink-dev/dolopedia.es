@@ -1,0 +1,22 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="comment">
+    <img src="{{ comment.owner.image  | userHandler('user_thumb_large') }}" class="thumb img-md comment-img" />
+    <div class="comment-info">
+        {% spaceless %}
+        <ul class="action-options action-options-small">
+            {% if is_granted('EDIT', comment) %}
+            <li><a href="{{ path('panel.comment.edit', {'id': comment.id}) }}"><span class="icon-data-edit"></span></a></li>
+            {% endif %}
+            {% if is_granted('DELETE', comment) %}
+            <li><a href="#removeConfirmation" class="base-color confirmation-popup" data-confirmation-popup-url="{{ path('panel.comment.remove', {'id': comment.id}) }}"><span class="icon-cancel"></span></a></li>
+            {% endif %}
+        </ul>
+        {% endspaceless %}
+        <a href="{{ path('public.user.show', {'id': comment.owner.id}) }}" class="title">{{ comment.owner }}</a>
+        <p class="comment-date">{{ 'article.publishedDatetime' | trans({'%date%': comment.createdAt | date('d/m/Y'), '%hour%': comment.createdAt | date('H:i')}) }}</p>
+        <div class="comment-text">
+            <p>{{ comment.content }}</p>
+        </div>
+    </div>
+</div>

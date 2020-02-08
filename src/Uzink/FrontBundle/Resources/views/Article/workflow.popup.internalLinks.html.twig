@@ -1,0 +1,14 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div id="addInnerLinksPopup" class="formWindow popup" data-internal-link-uri-category="{{ path('public.category.show', {'slug': '_slug_'}) }}" data-internal-link-uri-article="{{ path('public.article.show', {'slug': '_slug_'}) }}" style="display: none;">
+    <div class="formWindow-head"><h2 class="title">Enlace Interno<span class="icon-data-edit icon-big"></span></h2></div>
+    <div class="formWindow-content">
+        {{ render(controller('BackendBundle:Category:TreeCategory', {'popup': true})) }}
+    </div>
+    <div class="formWindow-footer">
+        <div class="formWindow-control alone last">
+            <a class="btn btn-dark-grey" data-popup-action="accept"><span class="icon-forward"></span> {{ 'popup.button.add'|trans() }}</a>
+            <a href="javascript:$.fancybox.close();" class="formWindow-exit"> {{ 'popup.button.cancelAndExit'|trans() }}</a>                        
+        </div>
+    </div>
+</div> 

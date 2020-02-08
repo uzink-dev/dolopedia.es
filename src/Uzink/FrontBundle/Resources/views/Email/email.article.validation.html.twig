@@ -1,0 +1,30 @@
+{% block subject %}
+    {% autoescape false %}
+    Validación del artículo
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Hola {{ user.name }}
+
+    El artículo {{ article }} se encuentra en proceso de validación y requiere de una acción por tu parte, puedes acceder a el a través de este link: {{ url }}
+
+    Atentamente,
+    El equipo de Dolopedia
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Validación del artículo
+        {% endblock %}
+
+        {% block subtitle %}
+            Acción de validación requerida
+        {% endblock subtitle %}
+
+        {% block content %}
+            El artículo {{ article }} se encuentra en proceso de validación y requiere de una acción por tu parte,  puedes acceder a el a través desde <a href="{{ url }}">aquí</a>.
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

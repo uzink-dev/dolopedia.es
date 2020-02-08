@@ -1,0 +1,6 @@
+sitemap:
+  path:     /sitemap/{lang}.{_format}
+  defaults: { _controller: UtilsBundle:Sitemap:sitemap }
+  requirements:
+      _format:  xml
+      year:     \d+

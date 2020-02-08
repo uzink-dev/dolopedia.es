@@ -1,0 +1,51 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'team.title'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+    <a href="{{ path('workflow.team.assign') }}" class="btn btn-big btn-primary pull-right visible-lg visible-md"><span class="icon-create-user icon-shadow"></span> {{ 'team.new' | trans }}</a>
+{% endblock privateAreaButton %}
+
+{% block privateAreaButtonResponsive %}
+    <div class="col-md-12">
+        <a href="{{ path('workflow.team.assign') }}" ><span class="icon-create-user icon-md-inline"></span> {{ 'team.new'|trans }}</a>
+    </div>
+{% endblock privateAreaButtonResponsive %}
+
+
+{% block privateAreaContent %}
+    <div class="row container-row">
+        {{ include('FrontBundle:Component:partial.user.info.html.twig') }}
+
+        {% if user.assignedArticles|length > 0 %}
+            <div class="row container-row section light-background">
+                <div class="col-md-12">
+                    <h2 class="section-title">ARTICULOS ASIGNADOS <span class="icon-user-articles base-color pull-right icon-big"></span></h2>
+                </div>
+            </div>
+            <div class="row container-row">
+                <div class="col-md-12">
+                    <ul class="link-list">
+                        {% for article in user.assignedArticles %}
+                            <li>
+                                <p class="title">
+                                    <a href="{{ path('public.article.show', {'slug': article.seoSlug}) }}">{{ article }}</a>
+                                    <a href="{{ path('workflow.article.edit', {'id': article.id}) }}" data-toggle="tooltip" data-placement="top" title="Editar {{ article }}" data-original-title="Editar {{ article }}">
+                                        <span class="icon-data-edit"></span>
+                                    </a>
+                                </p>
+                                {% if article.published %}
+                                <p class="subtitle">{{ 'article.publishedAt' | trans({'%date%': article.publishedAt | date('d/m/Y'), '%user%': article.publishedBy, '%path%': '#'})|raw }}</p>
+                                {% else %}
+                                <p class="subtitle">No publicado</p>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock privateAreaContent %}

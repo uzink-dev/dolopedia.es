@@ -1,0 +1,35 @@
+{% extends 'FrontBundle:Layout:front.static.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block containerClass %}light-background{% endblock %}
+
+{% block staticTitle %}{{ 'page.login'|trans }}{% endblock %}
+
+{% block body %}
+        <div class="content">
+            <div class="formWindowWrapper">
+                <div class="formWindow">
+                    <div class="formWindow-head"><h2 class="title">{{ 'registration.method'|trans }}<span class="icon-user icon-big"></span></h2></h2></div>
+                    <div class="formWindow-content">
+                        <div class="formWindow-control">
+                            <p>
+                                Para crear una cuenta directamente desde la plataforma, solo tienes que seleccionar la opción “Crear mi cuenta en dolopedia” y accederás al panel de registro. Si dispones de una cuenta de Facebook o Twitter, puedes utilizarlas para crear tu cuenta de Dolopedia. Para utilizar cualquiera de ellas, selecciona la opción deseada. Si ya dispones de una cuenta en Dolopedia, <a href="{{ path('fos_user_security_login') }}">pulsa aqui para iniciar sesión</a>.
+                            </p>
+                        </div>
+                        <div class="formWindow-control last-with-any centered">
+                            <a href="{{ path('public.user.registration.default') }}" class="btn btn-primary formWindow-btn"><span class="icon-dolopedia"></span> {{ "registration.dolopedia"|trans }}</a>
+                        </div>                        
+                    </div>
+{#                    <div class="formWindow-footer black">
+                        <div class="formWindow-control first centered">
+                            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" class="btn btn-facebook formWindow-btn"><span class="icon-facebook"></span> {{ "registration.facebook"|trans }}</a>
+                        </div>
+                        <div class="formWindow-control centered">
+                            <a href="{{ path('hwi_oauth_service_redirect', {'service': 'twitter' }) }}" class="btn btn-twitter formWindow-btn"><span class="icon-twitter"></span> {{ "registration.twitter"|trans }}</a>
+                        </div>
+                    </div>#}
+                </div>
+            </div>    
+        </div>  
+{% endblock body %}

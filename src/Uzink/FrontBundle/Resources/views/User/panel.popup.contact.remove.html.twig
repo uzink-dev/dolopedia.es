@@ -1,0 +1,16 @@
+
+{% trans_default_domain 'dolopedia' %}
+
+<div id="PopupEliminarContacto" class="formWindow popup alert" style="display: none;">
+    <div class="formWindow-head"><h2 class="title">{{ 'contact.remove' | trans }}<span class="icon-cancel icon-big"></span></h2></div>
+    <div class="formWindow-content">
+        <p>{{ 'contact.removeAlert' | trans({'%user%': user}) }}</p><br/>
+        <strong>{{ 'contact.removeAlertSure' | trans }}</strong>
+    </div>
+    <div class="formWindow-footer">
+        <div class="formWindow-control alone last">
+            <a class="btn btn-dark-grey" href="{% block path %}{% endblock %}"><span class="icon-cancel"></span> {{ 'contact.remove' | trans }}</a>
+            <a href="javascript:$.fancybox.close();" class="formWindow-exit"> {{ 'popup.button.cancelAndExit' | trans }}</a>
+        </div>
+    </div>
+</div>

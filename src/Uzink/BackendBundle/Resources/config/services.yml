@@ -1,0 +1,349 @@
+parameters:
+    uzink.category.class: Uzink\BackendBundle\Entity\Category
+    uzink.article.class: Uzink\BackendBundle\Entity\Article
+    uzink.user.class: Uzink\BackendBundle\Entity\User
+    uzink.message.class: Uzink\BackendBundle\Entity\Message
+    uzink.message.form.class: Uzink\BackendBundle\Form\MessageType
+    uzink.request.class: Uzink\BackendBundle\Entity\Request
+    uzink.comment.class: Uzink\BackendBundle\Entity\Comment
+    uzink.comment.form.class: Uzink\BackendBundle\Form\CommentType
+
+    uzink.category.handler.class: Uzink\BackendBundle\Handler\CategoryHandler
+    uzink.article.handler.class: Uzink\BackendBundle\Handler\ArticleHandler
+    uzink.user.handler.class: Uzink\BackendBundle\Handler\UserHandler
+    uzink.workflow.handler.class: Uzink\BackendBundle\Handler\WorkflowHandler
+
+    uzink.message.searchForm.class: Uzink\BackendBundle\Search\Form\MessageSearchType
+
+    oauth.fosuser.provider.class: Uzink\BackendBundle\Security\Core\User\OAuthUserProvider
+
+    knp.doctrine_behaviors.blameable_listener.user_entity: BackendBundle\Entity\User
+
+services:
+    # -----------------------------------------------------------------------------------------------------------------
+    # Handlers
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.article.handler:
+        class: "%uzink.article.handler.class%"
+        arguments:
+            container: "@service_container"
+            em: "@doctrine.orm.entity_manager"
+            entityClass: "%uzink.article.class%"
+            formBuilder: "@form.factory"
+
+    uzink.category.handler:
+        class: "%uzink.category.handler.class%"
+        arguments:
+            container: "@service_container"
+            em: "@doctrine.orm.entity_manager"
+            entityClass: "%uzink.category.class%"
+
+    uzink.user.handler:
+        class: "%uzink.user.handler.class%"
+        arguments:
+            container: "@service_container"
+            em: "@doctrine.orm.entity_manager"
+            entityClass: "%uzink.user.class%"      
+
+    uzink.workflow.handler:
+        class: "%uzink.workflow.handler.class%"
+        arguments:
+            container: "@service_container"
+
+    uzink.password_resetting:
+        class: Uzink\BackendBundle\EventListener\PasswordResettingListener
+        arguments: ["@router"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    uzink.breadcrumb.handler:
+        class: Uzink\BackendBundle\Handler\BreadcrumbHandler
+        calls:
+            - [ setBreadcrumbFactory,[ "@white_october_breadcrumbs" ] ]
+            - [ setRouter,[ "@router" ] ]
+            - [ setTranslator,[ "@translator" ] ]
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # Managers
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.acl.manager:
+        class: Uzink\BackendBundle\Manager\AclManager
+        arguments:
+            provider: "@security.acl.provider"
+            context:  "@security.context"
+
+    uzink.article.manager:
+        class: Uzink\BackendBundle\Manager\ArticleManager
+        arguments:
+            class: "%uzink.article.class%"
+            handler: "@uzink.article.handler"
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    uzink.category.manager:
+        class: Uzink\BackendBundle\Manager\CategoryManager
+        arguments:
+            dispatcher: "@event_dispatcher"
+            em: "@doctrine.orm.entity_manager"
+            class: "%uzink.category.class%"
+        calls:
+            - [ setContainer,[ @service_container ] ]
+            - [ setAclManager,[ @uzink.acl.manager ] ]
+
+    uzink.draft.manager:
+        class: Uzink\BackendBundle\Manager\DraftManager
+        arguments:
+            class: Uzink\BackendBundle\Entity\Draft
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    uzink.request.manager:
+        class: Uzink\BackendBundle\Manager\RequestManager
+        arguments:
+            dispatcher: "@event_dispatcher"
+            em: "@doctrine.orm.entity_manager"
+            class: "%uzink.request.class%"
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    uzink.user.manager:
+        class: Uzink\BackendBundle\Manager\UserManager
+        arguments:
+            dispatcher: "@event_dispatcher"
+            em: "@doctrine.orm.entity_manager"
+            class: "%uzink.user.class%"
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    uzink.message.manager:
+        class: Uzink\BackendBundle\Manager\MessageManager
+        arguments:
+            class: "%uzink.message.class%"
+            formClass: "%uzink.message.form.class%"
+        calls:
+            - [ setContainer,[ @service_container ] ]
+            - [ setEntityManager,[ @doctrine.orm.entity_manager ] ]
+            - [ setEventDispatcher,[ @event_dispatcher ] ]
+            - [ setAclManager,[ @uzink.acl.manager ] ]
+
+    uzink.comment.manager:
+        class: Uzink\BackendBundle\Manager\CommentManager
+        arguments:
+            class: "%uzink.comment.class%"
+            formClass: "%uzink.comment.form.class%"
+        calls:
+            - [ setContainer,[ @service_container ] ]
+            - [ setEntityManager,[ @doctrine.orm.entity_manager ] ]
+            - [ setEventDispatcher,[ @event_dispatcher ] ]
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # Search
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.message.search:
+        class: Uzink\BackendBundle\Search\MessageSearch
+        arguments:
+            formClass: "%uzink.message.searchForm.class%"
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    uzink.activity.factory:
+        class: Uzink\BackendBundle\Activity\ActivityFactory
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # Form Types
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.form.type.imagepicker:
+        scope: request
+        class: Uzink\BackendBundle\Form\Type\ImagePickerType
+        arguments: []
+        tags:
+            - { name: form.type, alias: imagepicker }
+
+    uzink.form.type.article:
+        class: Uzink\BackendBundle\Form\ArticleType
+        arguments: ["@router", "@security.token_storage"]
+        tags:
+            - { name: form.type, alias: article }
+
+    uzink.form.type.draft:
+        class: Uzink\BackendBundle\Form\DraftType
+        arguments: ["@router", "@security.token_storage", "@security.authorization_checker"]
+        tags:
+            - { name: form.type, alias: draft }
+    
+    uzink.form.type.block:
+        class: Uzink\BackendBundle\Form\Type\BlockType
+        tags:
+            - { name: form.type, alias: block }    
+            
+    uzink.form.type.seo:
+        class: Uzink\BackendBundle\Form\Type\SeoType
+        tags:
+            - { name: form.type, alias: seo }             
+            
+    uzink.form.type.accordionBlock:
+        class: Uzink\BackendBundle\Form\Type\AccordionBlockType
+        tags:
+            - { name: form.type, alias: accordionBlock }
+            
+    uzink.form.type.accordion:
+        class: Uzink\BackendBundle\Form\Type\AccordionType
+        tags:
+            - { name: form.type, alias: accordion }     
+            
+    uzink.form.type.separator:
+        class: Uzink\BackendBundle\Form\Type\SeparatorType
+        tags:
+            - { name: form.type, alias: separator }    
+            
+    uzink.form.type.category:
+        class: Uzink\BackendBundle\Form\Type\CategoryType
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type, alias: category }
+
+    uzink.form.type.categorySelector:
+        class: Uzink\BackendBundle\Form\Type\CategorySelectorType
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type, alias: category_selector }
+
+    uzink.form.type.categorySharpPain:
+        class: Uzink\BackendBundle\Form\Type\CategorySharpPainType
+        tags:
+            - { name: form.type, alias: categorySharpPain }
+
+    uzink.form.type.categoryChronicPain:
+        class: Uzink\BackendBundle\Form\Type\CategoryChronicPainType
+        arguments:
+            entityManager: "@translator"
+        tags:
+            - { name: form.type, alias: categoryChronicPain }
+
+    uzink.form.type.parentCategory:
+        class: Uzink\BackendBundle\Form\Type\ParentCategoryType
+        arguments:
+            entityManager: "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type, alias: parentCategory }
+            
+    uzink.form.type.bibliography:
+        class: Uzink\BackendBundle\Form\Type\BibliographyType
+        tags:
+            - { name: form.type, alias: bibliography }
+
+    uzink.form.type.editor:
+        class: Uzink\BackendBundle\Form\Type\EditorType
+        tags:
+            - { name: form.type_extension, alias: ckeditor }
+
+    uzink.form.type.datepicker:
+        class: Uzink\BackendBundle\Form\Type\DatepickerType
+        tags:
+            - { name: form.type, alias: datepicker }
+
+    uzink.form.type.button_extension:
+        class: Uzink\BackendBundle\Form\Type\ButtonTypeExtension
+        tags:
+            - { name: form.type_extension, alias: button }
+
+    uzink.form.type.hidden_entity:
+        class: Lrotherfield\Component\Form\Type\HiddenEntityType
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: form.type, alias: hidden_entity }
+
+    uzink.form.type.receivers:
+        class: Uzink\BackendBundle\Form\Type\ReceiversType
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@security.token_storage'
+        tags:
+            - { name: form.type, alias: receivers }
+
+    uzink.extended_entity.widget:
+        class: Uzink\BackendBundle\Form\Type\ExtendedEntityType
+        arguments: [@property_accessor]
+        tags:
+            - { name: form.type, alias: extended_entity }
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # Subscribers
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.activity.listener:
+        class: Uzink\BackendBundle\EventListener\ActivitySubscriber
+        arguments: ["@uzink.activity.factory"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    uzink.article.subscriber:
+        class: Uzink\BackendBundle\EventListener\ChangeWatcherSubscriber
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # Workflow
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.workflow.listener.article_request:
+        class: Uzink\BackendBundle\Workflow\Listener\ArticleRequestProcessSubscriber
+        arguments: ["@uzink.workflow.handler", "@doctrine.orm.entity_manager", "@uzink.request.manager", "@event_dispatcher"]
+        tags:
+            - { name: kernel.event_subscriber }
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    uzink.workflow.listener.article_creation:
+        class: Uzink\BackendBundle\Workflow\Listener\ArticleCreationProcessSubscriber
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    uzink.workflow.listener.article_edition:
+        class: Uzink\BackendBundle\Workflow\Listener\ArticleEditionProcessSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+        calls:
+            - [ setContainer,[ @service_container ] ]
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # User Provider
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.fosuser.oauth.provider:
+        class: "%oauth.fosuser.provider.class%"
+        arguments: [@fos_user.user_manager,{facebook: facebook_id, twitter: twitter_id}]
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # ElFinder
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.elfinder.configurator:
+        class: Uzink\BackendBundle\ElFinder\ElFinderConfigurator
+        arguments: ["%fm_elfinder%", "@request_stack", "@security.token_storage", "%kernel.root_dir%"]
+
+    # -----------------------------------------------------------------------------------------------------------------
+    # Mailer
+    # -----------------------------------------------------------------------------------------------------------------
+    uzink.mailer:
+        class: Uzink\BackendBundle\Mailer\Mailer
+        arguments:
+            mailer: "@mailer"
+            spooledMailer: "@swiftmailer.mailer.spooledmailer"
+            router: "@router"
+            templating: "@twig"
+            transport: "@swiftmailer.transport"
+            fromEmail: %fos_user.registration.confirmation.from_email%
+
+    uzink.new_user_listener:
+        class: Uzink\BackendBundle\EventListener\NewUserListener
+        arguments: [@uzink.mailer, @doctrine.orm.default_entity_manager]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    uzink.newsletter.template_provider:
+        class: Uzink\BackendBundle\Services\NewsletterTemplateProvider

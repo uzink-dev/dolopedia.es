@@ -1,0 +1,23 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+{% form_theme form 'FrontBundle:Form:fields.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'message.new' | trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaContent %}
+
+    {{ form_start(form) }}
+    {{ form_row(form.block_message) }}
+    <div class="row container-row">
+        <div class="col-md-12">
+            <hr>
+            <button type="submit" class="btn btn-primary separate-right">
+                <span class="icon-save icon-message-send"></span> {{ 'form.button.send' | trans }}
+            </button>
+            <a href="{{ path('panel.message.index') }}" class="btn btn-grey"><span class="icon-cancel icon-big"></span> {{ 'form.button.cancelEdit' | trans }}</a> 
+        </div>
+    </div>
+    {{ form_end(form) }}
+
+{% endblock privateAreaContent %}

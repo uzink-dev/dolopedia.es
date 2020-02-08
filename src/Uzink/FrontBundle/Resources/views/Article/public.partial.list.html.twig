@@ -1,0 +1,18 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="row container-row">
+    <div class="col-md-12">
+        <ul class="link-list">
+            {% for article in articles %}
+            <a href="{{ path('public.article.show', {'slug': article.seoSlug}) }}" class="display-block">
+                <li>
+                    <p class="title">{{ article.title }}</p>
+                    <p class="subtitle">Publicado el {{ article.publishedAt|date('d/m/Y') }}</p>
+                </li>
+            </a>
+            {% else %}
+            <h4>{{ 'article.emptyList'|trans }}</h4>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

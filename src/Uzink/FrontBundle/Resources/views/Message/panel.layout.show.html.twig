@@ -1,0 +1,79 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+{% form_theme form 'FrontBundle:Form:fields.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ message.subject }}{% endblock privateAreaTitle %}
+
+{% block privateAreaContent %}
+
+    <div class="row container-row">
+        <div class="col-md-4 col-lg-3 section">
+            <div class="user-badge user-badge-md">
+                <img src="{{ message.sender.image | userHandler('user_thumb_pico') }}" class="user-badge-thumb thumb img-md" />
+                <div class="user-badge-details">
+                    <div class="line-wrap">
+                        <p class="dark-grey-color">{{ 'message.sender' | trans }}</p>
+                        <p><a href="#">{{ message.sender }}</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3 section">
+            <div class="line-wrap">
+                <p class="title dark-grey-color">{{ 'message.date' | trans }}</p>
+                <p>{{ message.createdAt | date('d/m/Y - H:i') }}</p>
+            </div>
+        </div>
+        <div class="col-md-5 col-lg-4 section">
+            <div class="line-wrap">
+                <p class="title dark-grey-color">{{ 'message.type.title' | trans }}</p>
+                <p>{{ 'message.type.normal' | trans }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row container-row">
+        <div class="col-md-12">
+            <hr>
+            {{ message.body }}
+        </div>
+        {% if message.attachmentName %}
+        <div class="col-md-12">
+            <div class="separate-top">
+                <a href="{{ vich_uploader_asset(message, 'attachmentFile') }}" target="_blank">{{ 'message.attachmentDownload'|trans({}, 'dolopedia') }}</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="row container-row " id="message-action-options">
+        <div class="col-md-12">
+            <hr>
+            <a href="#repond-message-form" class="btn btn-primary separate-right show-and-hide" data-hide="#message-action-options"><span class="icon-message-reply icon-big"></span> {{ 'form.button.reply' | trans }}</a> 
+            <a href="{{ path('panel.message.index') }}" class="dark-grey-color underline">{{ 'form.button.backToList' | trans }}</a>
+        </div>
+    </div>
+
+    {{ form_start(form, {'attr': {'id': 'repond-message-form', 'class': 'hide-weak'}}) }}
+
+        <div class="row container-row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+
+        {{ form_row(form.block_message) }}
+
+        <div class="row container-row">
+            <div class="col-md-12">
+                <hr>
+                <button type="submit" class="btn btn-primary separate-right">
+                    <span class="icon-save icon-message-send"></span> {{ 'form.button.send' | trans }}
+                </button>
+                <a href="#message-action-options" class="btn btn-grey show-and-hide" data-hide="#repond-message-form"><span class="icon-cancel icon-big"></span> {{ 'form.button.cancelEdit' | trans }}</a> 
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+{% endblock privateAreaContent %}

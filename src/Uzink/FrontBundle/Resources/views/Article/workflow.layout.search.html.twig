@@ -1,0 +1,83 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Search\\' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'article.search.result'|trans }}{% endblock privateAreaTitle %}
+
+{% macro article(article) %}
+    <div class="col-md-12">
+        <div class="table-well headed {{ not article.editor ? 'table-well-declined' }}">
+            <div class="head">
+                <div class="row">
+                    <div class="col-md-8 col-sm-7">
+                        <h3 class="head-title">{{ article.title }}</h3>
+                    </div>
+                    <div class="col-md-4 col-sm-5">
+                        <div class="right-align">
+                            <ul class="action-options">
+                                {% if article.published %}
+                                    <li><a href="{{ path('public.article.show', {'slug': article.seoSlug}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'article.actions.preview'|trans }}"><span class="icon-preview"></span></a></li>
+                                {% endif %}
+                                {% if is_granted('CONTENT', article) %}
+                                    <li><a href="{{ path('workflow.article.edit', {'id': article.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'article.actions.edit'|trans }}"><span class="icon-data-edit"></span></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-well-content">
+                <div class="row">
+                    <div class="col-md-8 col-sm-7">
+                        {# TODO::Show modified date #}
+                        {% if article.lastDraft %}
+                            <p>{{ 'article.modified' | trans }}: <span class="table-well-secondary-color">{{ article.lastDraft.createdAt|date('d/m/Y - H:i') }} por <a href="{{ path('public.user.show', {'id': article.lastDraft.createdBy.id }) }}">{{ article.lastDraft.createdBy }}</a></span></p>
+                        {% else %}
+                            <p>{{ 'article.modified' | trans }}: <span class="table-well-secondary-color">-</span></p>
+                        {% endif %}
+                        <p>{{ 'article.published' | trans }}: {{ article.published?article.publishedAt | date('d/m/Y') : '-' }}</p>
+                    </div>
+                    <div class="col-md-4 col-sm-5">
+                        <div class="right-align">
+                        {% if app.user.type == 'editor' %}
+                            <div class="user-badge inverted">
+                                <img class="user-badge-thumb thumb" src="{{ article.supervisor.image | userHandler('user_thumb_large') }}"/>
+                                <div class="user-badge-details">
+                                    <p>{{ 'article.supervisedBy'|trans() }}</p>
+                                    <p><a href="{{ path('public.user.show', {'id': article.supervisor.id }) }}">{{ article.supervisor }}</a></p>
+                                </div>
+                            </div>
+                        {% else %}
+                            {% if article.editor %}
+                                <div class="user-badge inverted">
+                                    <img class="user-badge-thumb thumb" src="{{ article.editor.image | userHandler('user_thumb_large') }}"/>
+                                    <div class="user-badge-details">
+                                        <p>{{ 'article.assignedTo' | trans }}</p>
+                                        <p><a href="{{ path('public.user.show', {'id': article.editor.id }) }}">{{ article.editor }}</a></p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <p class="table-well-main-color">{{ 'article.notAssigned' | trans }}</p>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as render %}
+
+{% block privateAreaContent %}
+    <div class="row container-row">
+        {{ include('FrontBundle:Component:flash.partial.html.twig') }}
+        {% for article in articles %}
+            {{ render.article(article) }}
+        {% endfor %}
+    </div>
+{% endblock privateAreaContent %}

@@ -1,0 +1,24 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="titled-box titled-box-xs with-gray-background {{ app.user.unreadMessages | length == 0 ? 'without-img' }}">
+    <h3 class="title with-arrow">{{ 'message.title' | trans }}</h3>
+    {% for message in app.user.unreadMessages %}
+    <div class="item">
+        <img src="{{ message.sender.image  | userHandler('user_thumb_large') }}" class="thumb img-52 item-img">
+        <p class="item-text jEllipsis" style="word-wrap: break-word;">
+            <a href="{{ path('panel.message.show', {'id': message.id}) }}">{{ message.subject }}</a>
+        </p>
+        <p class="item-date">
+            {{ message.createdAt | date('d/m/Y - H:i') }}
+        </p>
+        <div class="clearfix"></div>
+    </div>
+    {% else %}
+    <div class="item">
+        <p class="item-text">
+            No tienes mensajes no leídos
+        </p>
+        <div class="clearfix"></div>
+    </div>
+    {% endfor %}
+</div>

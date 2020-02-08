@@ -1,0 +1,39 @@
+admin.contact.index:
+    pattern:  /list/{page}
+    defaults: { _controller: AdminBundle:Contact:index, page: 1 }
+    methods:  [GET]
+    requirements:
+        page: \d+
+
+admin.contact.new:
+    pattern:  /new
+    defaults: { _controller: AdminBundle:Contact:new }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.contact.create:
+    pattern:  /create
+    defaults: { _controller: AdminBundle:Contact:create }
+    methods:  [POST]
+
+admin.contact.edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: AdminBundle:Contact:edit }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.contact.update:
+    pattern:  /{id}/update
+    defaults: { _controller: AdminBundle:Contact:update }
+    methods:  [POST, PUT]
+    requirements:
+        id: \d+
+
+admin.contact.delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: AdminBundle:Contact:delete }
+    methods:  [POST]
+    requirements:
+        id: \d+

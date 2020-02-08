@@ -1,0 +1,15 @@
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            {{ title }}
+        {% endblock %}
+
+        {% block subtitle %}
+            {{ subtitle }}
+        {% endblock subtitle %}
+
+        {% block content %}
+            {{ content }}
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

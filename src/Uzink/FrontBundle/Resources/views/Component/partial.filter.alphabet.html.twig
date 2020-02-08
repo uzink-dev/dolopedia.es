@@ -1,0 +1,20 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% set alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z'] %}
+{% set params = app.request.query.all  %}
+{% set filter = params['filter'] is defined ? params['filter'] : 'all' %}
+<ul class="search-filter visible-lg visible-md" data-filter-field="filter">
+    <li {{ filter == 'all' or filter == ''?'class="active"' }}><a href="{{ path(app.request.attributes.get('_route'), {'filter': 'all'}) }}">TODOS</a></li>
+    <li {{ filter == 'digit'?'class="active"' }}><a href="{{ path(app.request.attributes.get('_route'), {'filter': 'digit'}) }}">0-9</a></li>
+    {% for letter in alphabet %}
+        <li {{ filter == letter?'class="active"' }}><a href="{{ path(app.request.attributes.get('_route'), {'filter': letter}) }}">{{ letter }}</a></li>
+    {% endfor %}
+</ul>
+
+<select class="full-width form-control hidden-lg hidden-md" data-filter-field="filter">
+    <option {{ filter == 'all'?'selected="selected"' }} value="all">TODOS</option>
+    <option {{ filter == 'digit'?'selected="selected"' }} value="digit">0-9</option>
+    {% for letter in alphabet %}
+        <option {{ filter == letter?'selected="selected"' }} value="{{ letter }}">{{ letter }}</option>
+    {% endfor %}
+</select>

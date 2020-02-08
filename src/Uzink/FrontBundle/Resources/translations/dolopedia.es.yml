@@ -1,0 +1,588 @@
+home: Inicio
+password: Contraseña
+
+general:
+  emptyResults: No se han encontrado resultados
+  notResults: No hay resultados coincidentes con los criterios seleccionados
+
+featured:
+  title: Destacados
+  bestRated: Artículos mas valorados
+  moreRecentArticles: Artículos más recientes
+  moreFollowed: Usuarios mas seguidos
+  followers: 1 seguidor|%number% seguidores
+
+form:
+  error:
+    notBlank: Debe seleccionar algún valor para este campo
+  button:
+    saveChanges: "Guardar Cambios"
+    cancelEdit: "Cancelar Edición"
+    createAccount: "Crear Cuenta"
+    assignAccount: "Asignar Cuenta"
+    clearForm: "Borrar Formulario"
+    search: "Buscar"
+    send: "Enviar"
+    restore: "Recuperar"
+    showProfile: "Ver Perfil"
+    send: "Enviar"
+    reply: Responder
+    backToList: Volver a la lista
+
+popup:
+  button:
+    add: "Añadir"
+    cancelAndExit: "Cancelar y volver"
+    accept: "Aceptar"
+    remove: "Eliminar"
+  removeTitle: Eliminar elemento
+  removeDescription: Se va a eliminar el elemento seleccionado
+  areYouSure: ¿Estás seguro?, esta operación no podrá ser deshecha
+
+profile:
+  title: "Mi Perfil"
+  edit: "Edición de Mi Perfil"
+  action: "Editar Mi Perfil"
+  legend:
+    userData: "Datos de usuario"
+    socialProfiles: "Redes Sociales"
+  
+account:
+  title: "Mi Cuenta"
+  edit: "Edición de Mi Cuenta"
+  action: "Editar Mi Cuenta"
+  legend:
+    userData: "Datos de usuario"
+    location: "Localización"
+    password: "Contraseña"
+  type:
+    user: "Usuario Registrado"
+    leader: "Usuario Lider"
+    admin: "Usuario Administrador"    
+    
+registration:
+  userData: "Datos de usuario"
+  method: "Método de registro"
+  dolopedia: "Registro en Dolopedia"
+  facebook: "Registro con Facebook"
+  twitter: "Registro con Twitter"
+  notRegisteredYet: "¿Aún no eres usuario registrado?"
+  registerMe: "Registrame en Dolopedia"
+  restorePassword: "Recuperar Contraseña"
+  email: "Dirección de correo electrónico"
+  message:
+    resetEmailSended: "Le hemos enviado un email a %email%. En el se encuentra un enlace en el que ha de pulsar y le llevará a una página donde podrá restaurar su contraseña. No olvide revisar la carpeta de Spam si ve que su mensaje aparece en la bandeja de entrada."
+    resetAlreadyRequested: "La recuperación de la contraseña ya se ha solicitado en las últimas 24 horas. Se ha enviado previamente un email de recuperación a su correo electrónico, si no se encuentra en la bandeja de entrada revise por favor si su correo lo ha clasificado como Spam. Podrá volver a solicitar la recuperación 24 horas después de la solicitud anterior."
+    activationEmailSended: "Se ha enviado un email a %email%. Contiene un enlace de activación que debes presionar para activar tu cuenta."
+    userActivated: "Enhorabuena ya eres un usuario activo de Dolopedia, te hemos registrado correctamente ahora puedes acceder a tu perfil si lo deseas."
+contact:
+  title: "Mis Contactos"
+  remove: Eliminar Contacto
+  removeAlert: Va a eliminar al usuario %user% de su lista de contactos. <br/><strong>¿Desea continuar?</strong>
+  removeAlertSure: ¿Desea continuar?
+
+contact_page:
+  title: Formulario de contacto
+  name: Nombre y Apellidos
+  email: Dirección de Email
+  phone: Teléfono de contacto
+  message: Comentario
+  termsAndConditions: He leído y aceto las <a href="%conditionsLink%" target="_blank">Condiciones de Uso</a> y la <a href="%policyLink%" target="_blank">Política de Privacidad</a>
+  submit: Enviar
+  success: El formulario se ha enviado correctamente. Le responderemos lo antes posible.
+  widgets:
+    contact:
+      title: Contacta con nosotros
+      phone: Teléfono de Atención
+      email: Email
+    social:
+      title: Redes sociales
+
+
+
+comments:
+  title: "Mis Mensajes"
+  
+favourites:
+  title: "Favoritos"    
+  
+user:
+  name: Nombre
+  surname1: "1er Apellido"
+  surname2: "2º Apellido"
+  surnames: Apellidos
+  address: Dirección
+  email: Email
+  sector: Sector
+  job: Trabajo
+  workplace: "Centro de Trabajo"
+  otherWorkplace: "Otro centro de trabajo"
+  country: Pais
+  timezone: "Franja Horaria"
+  password: "Contraseña"
+  repassword: "Repetir Contraseña"
+  interests: Intereses
+  cv: CV
+  image: "Imagen de Usuario"
+  type: "Tipo de Usuario"
+  favouriteArticles: Favoritos
+  recentActivity: Actividad reciente
+  signUpDate: Fecha de alta
+  role: Rol
+  socialProfiles:
+    facebook: "Perfil en Facebook"
+    twitter: "Perfil en Twitter"
+    youtube: "Perfil en YouTube"
+    linkedin: "Perfil en LinkedIn"
+  actions:
+    sendMessage: Enviar mensaje
+    followUser: Seguir a este usuario
+    unfollowUser: Dejar de seguir
+
+request:
+  type:
+    new: Crear Artículo
+    modify: Modificar Artículo
+    validation: Validar Artículo
+    publication: Publicar Artículo
+    newDescription: Solicitud de creación de artículo
+    modifyDescription: Solicitud de modificación del artículo
+  filter:
+    empty: Filtrar resultados
+    newerFirst: Fecha de solicitud: Las mas nuevas primero
+    olderFirst: Fecha de solicitud: Las mas antiguas primero
+  fields:
+    article: Artículo asociado
+    creationDate: Fecha de solicitud
+    resolutionDate: Solicitud resuelta
+    resolutionPending: Pendiente de resolución
+    petitioner: Solicitante
+    category: Categoría
+  buttons:
+    accept: Aceptar Solicitud
+    decline: Rechazar Solicitud
+    back: Volver al listado
+    createArticle: Crear Artículo
+    modifyArticle: Modificar Artículo
+    viewArticle: Ver Artículo
+  validationError:
+    requestMustHaveAReasonToDecline: Al rechazar una solicitud debe indicarse una razón para ello
+    articleMustHaveEditor: Para poder aceptar
+  revisionDescription: Se ha solicitado la revision del borrador
+  publishDescription: Se ha solicitado la publicación del borrador
+  attachment: Documentación adicional
+  attachmentDownload: Ver documento adjunto a la solicitud
+
+  commentHelp:
+    new: Inserte en este campo sus observaciones sobre puntos importantes para la creación
+    modify: Inserte en este campo sus observaciones sobre puntos a modificar o corregir
+
+  created:
+    title: Solicitud creada con éxito
+    description: La solicitud ha sido creada correctamente. Puede hacer seguimiento de la misma a través de su perfil de usuario.
+  supervisorAssign: Asignar supervisor al cargo
+  editorAssign: Asignar editor al cargo
+  title: Solicitudes
+  to: Destinatario
+  subject: Asunto
+  content: Causas
+  subjectContent: 'Su solicitud "%request%" ha sido rechazada'
+  accepted: Al aceptar la solicitud, se envió una <ins>%requestType%</ins> al supervisor
+  comment: Comentario
+  modify: Solicitar modificación
+  new: Solicitar nuevo artículo
+
+article:
+  articles: Artículos
+  new: Nuevo Artículo
+  newRequest: Solicitar nuevo artículo
+  edit: Editar Artículo
+  id: ID del Artículo
+  title: Título del Artículo
+  category: Seleccione la categoría padre del artículo
+  category2: Categoría del artículo
+  categorySharpPain: Seleccione la categoría de dolor agudo
+  categoryChronicPain: Seleccione la categoría de dolor crónico
+  type: Seleccione el Tipo de Artículo
+  bibliography: Bibliografía
+  attached: Anexo
+  assignedUser: Usuario Asignado
+  assigned: Artículos asignados
+  unassigned: Artículos sin usuario asignado
+  selectAssignedUser: Seleccione el usuario editor del artículo
+  notAssigned: Artículo sin editor asignado
+  seoTitle: Título
+  seoUrl: URL Amigable
+  seoKeywords: Meta-Keywords
+  seoDescription: Descripción
+  contents: Contenidos
+  bibliographicEntries: Referencias bibliográficas del artículo
+  assigned: Mis artículos
+  assignedTo: Asignado a
+  supervisedBy: Supervisador por
+  modified: Modificado
+  history: Historial de Revisiones
+  byUser: Por el usuario
+  published: Publicado
+  notPublished: No publicado
+  publishedAt: Publicado el %date% por <a href="%path%">%user%</a>
+  publishedDatetime: Publicado el %date% a las %hour%
+  introduction: Introducción del Artículo
+  comment: Comentario
+  comments: Comentarios
+  myComments: Mis comentarios
+  editComment: Modificar comentario
+  discussions: Discusiones
+  addComment: Añadir comentario
+  noComments: No hay comentarios
+  emptyList: No hay artículos disponibles
+  search:
+    title: Buscador
+    result: Resultados de la búsqueda
+    form:
+      wantSearch: ¿qué quieres buscar?
+      keyword: Introduce el término a buscar
+      engine: Realizar la búsqueda en
+      tags: Etiquetas
+      category: Categoría
+      category.placeholder: Seleccione un categoría
+      author: Autor
+      search: Buscar...
+
+  filter:
+    newerFirst: Los artículos mas nuevos primero
+    olderFirst: Los artículos mas antiguos primero
+
+  actions:
+    up: Mover arriba
+    down: Mover abajo
+    preview: Ver Artículo Publicado
+    edit: Editar Artículo
+    delete: Eliminar Artículo
+    edited: Los cambios han sido guardados con éxito
+    revision: Se ha solicitado la revisión del artículo
+    validated: Se ha validado el artículo
+    not_validated: Se ha desestimado la validación del artículo
+    published: Se ha publicado el artículo
+    not_published: Se ha desestimado la publicación del artículo
+    created: El artículo ha sido creado con éxito
+    notValidated: Existen errores de validación en el formulario
+    saveDraft: Guardar Borrador
+    saveAndExit: Guardar y Salir
+    revise: Revisar
+    validate: Validar
+    noValidate: No validar
+    publish: Publicar
+    noPublish: No publicar
+    remove: Borrar
+    cancelAndBack: Cancelar edición y volver al listado
+    deleteSuccess: Se ha eliminado el elemento correctamente
+    deleteError: No see ha podido eliminar el elemento, puede ser debido a que tenga elementos vinculados
+    contentEditionExit: Puede haber modificaciones en el contenido, estas se perderán si abandona la página sin guardar previamente
+    removeCollaborator: Eliminar como colaborador
+    editionForbidden: No puedes editar este artículo. Solo podrás editar este artículo cuando se encuentre en proceso de validación o publicación
+
+  blocks:
+    article: Artículo
+    category: Categorización
+    introduction: Introducción
+    content: Contenido del Artículo
+    aditionalContent: Contenido Adicional
+    assigment: Asignación
+    seo: SEO
+
+  types:
+    techniques:
+      title: Técnicas
+      anatomy: Anatomía
+      patientPosition: Posición y Preparación del Paciente
+      material: Material
+      equipment: Equipamiento
+      drugs: Fármacos
+      procedureDescription: Descripción del Procedimiento
+      pointLocatization: Localización del punto diana
+      radioscopy: Mediante Radioscopia
+      echography: Mediante Ecografía
+      technicalRealization: Realización técnica propiamente dicha
+      puncture: Punción
+      needleValidation: Verificación de la correcta posición de la aguja
+      drugsOrProtocol: Sustancias a administrar o Protocolo a Utilizar
+      aftercare: Cuidados Posteriores
+      indications: Indicaciones
+      contraindications: Contraindicaciones
+      complications: Complicaciones
+      clinicPearls: Perlas Clínicas
+    clinicEntity:
+      title: Entidad Clínica
+      blocks:
+        definition: Definición
+        epidemiology: Epidemiología
+        aetiopathogenesis: Etiopatogenia
+        precipitatingFactors: Factores Precipitantes
+        clinic: Clínica
+        complications: Complicaciones
+        diagnosis: Diagnóstico
+        diferentialDiagnosis: Diagnóstico Diferencial
+        forecast: Pronóstico
+        prevention: Prevención
+        treatment: Tratamiento
+      definition: Conceptos Generales
+      painLocation: Localización del dolor
+      affectedSystem: Sistema afectado
+      clinicPearls: Perlas Clínicas
+      anamnesis: Anamnesis
+      physicalExamination: Exploración Física
+      complementaryExploration: Exploraciones Complementarias
+      generalities: Generalidades
+      therapeuticStrategies: Estrategias terapéuticas
+      conservativeTreatment: Tratamiento conservador
+      pharmacological: Fármacológico
+      notPharmacological: No farmacológico
+      interventionalTreatment: Tratamiento  intervencionista
+      surgery: Cirugía
+      interventionAlgorithm: Algoritmo de actuación
+
+    general:
+      title: General
+      blocks:
+        content: Contenido del artículo
+      content: Contenido
+
+    drug:
+      blocks:
+        pharmacologicalActions: Acciones farmacológicas
+      title: Fármaco
+      general: Generalidades
+      introduction: Introducción
+      nameAndDosage: Nombre comercial y forma farmacéutica
+      chemicalCharacteristics: Características químicas
+      pharmacokinetics: Farmacocinética
+      mechanismOfAction: Mecanismo de acción
+      placeOfAction: Lugar de acción
+      analgesicEffect: Efecto analgésico
+      otherClinicalEffects: Otros efectos clínicos
+      dosageAndAdministration: Posología y administración
+      adverseEffects: Efectos adversos
+      interactions: Interacciones
+      indications: Indicaciones
+      contraindications: Contraindicaciones
+
+
+category:
+  assigned: Mis categorías
+  createdAt: Fecha de creación
+  articles: Artículos
+  countArticles: "{0} No existen artículos en esta categoría|{1} 1 artículo en esta categoría|[1,Inf] %count% artículos en esta categoría"
+  tree: Árbol de contenidos
+  edit: Editar categoría
+  new: Nueva categoría
+  title: Título
+  leader: Lider asociado
+  parent: Categoría padre
+  image: Imagen
+  introduction: Introducción
+  description: Descripción
+  bibliographicEntries: Bibliografía
+  actions:
+    up: Mover arriba
+    down: Mover abajo
+    preview: Ver categoría
+    new: Nueva categoría
+    clone: Clonar categoría
+    newArticle: Nuevo artículo
+    delete: Eliminar categoría
+    edit: Editar categoría
+    edited: Los cambios han sido guardados con éxito.
+    created: La categoría ha sido creado con éxito.
+    notValidated: Existen errores de validación en el formulario.
+
+    
+  blocks:
+    category: Datos de la categoría
+    seo: SEO
+
+team:
+  title: Mi Equipo
+  of: Equipo de %user%
+  new: Nuevo miembro
+  newFromUser: Agregar usuario existente
+  parentUser: %role% al cargo
+  childrenUserMe: %role% a mi cargo
+  childrenUserYour: %role% a su cargo
+  selectParentUser: Seleciona al responsable
+  selectUser: Seleciona un usuario
+  selectType: Seleciona el tipo de usuario
+  myUppers: Mis superiores
+  backToTeam: Volver a mi equipo
+  articles: 1 Artículo|%number% Artículos
+  teamUsers: 1 usuario|%number% usuarios
+  withoutChildren: No tiene usuarios asignados
+  roles:
+    ROLE_SUPERADMIN: Administrador
+    ROLE_ADMIN: Administrador
+    ROLE_LEADER: Lider
+    ROLE_SUPERVISOR: Supervisor
+    ROLE_EDITOR: Editor
+    ROLE_USER: Usuario
+  rolesPlural:
+    ROLE_SUPERADMIN: Administador|Administradores
+    ROLE_ADMIN: Administador|Administradores
+    ROLE_LEADER: Lider|Lideres
+    ROLE_SUPERVISOR: Supervisor|Supervisores
+    ROLE_EDITOR: Editor|Editores
+    ROLE_USER: Usuario|Usuarios
+
+message:
+  title: Mis mensajes
+  new: Crear mensaje
+  multiple: Mensaje múltiple
+  new_multiple: Crear mensaje múltiple
+  multiple_receiver: Destinatarios
+  write: Redactar mensaje
+  receiver: Destinatario
+  sender: Remitente
+  date: Fecha
+  sent: Mensaje enviado
+  multiple_sent: Mensaje múltiple encolado. Este proceso puede tardar algunos minutos
+  type:
+    title: Tipo de mensaje
+    normal: Mensaje
+    request: Petición de amistad
+  subject: Asunto
+  message: Mensaje
+  attachment: Documento adjunto
+  attachmentDownload: Ver documento adjunto en el mensaje
+
+  response: Responder mensaje
+  description:
+    received: Enviado el %date% a las %hour% por %user%
+    sent: Enviado el %date% a las %hour% a %user%
+  filter:
+    all: Ver todos
+    readed: Ver leídos
+    notReaded: Ver no leídos
+    readed_unreaded: "Leidos / No Leidos"
+    date: "Desde / Hasta"
+    show: Mostrar
+
+page:
+  login: "Acceder al Área de Usuario"
+  registration: "Registro de Nuevo Usuario"
+  
+breadcrumbs:
+  home: "Inicio"
+  
+common:
+  selectEmptyValue: Seleccione una opción
+  keywords: Palabras clave
+
+net:
+  title: Red pública
+  center:
+    title: Centros
+    usersThere: Usuarios en este centro
+  promoter:
+    title: Patrocinadores
+
+collaboration:
+  title: Colaboraciones
+  creationRequest: Solicitudes de creación de artículo
+  creationRequestDes: Cada solicitud creación va asociada a un artículo diferente
+  sentAt: Enviada el %date% a las %hour%
+  type:
+    request_new: Solicitud de creación
+    request_modify: Solicitud de modificación
+  status:
+    pending: Pendiente de resolución
+    confirmed: Aceptada
+    declined: Rechazada
+
+crossCategory:
+  sharp:
+    main: Dolor Agudo
+    postoperativePain: Dolor Postoperatorio
+    obstetricPain: Dolor Obstétrico
+    polytrauma: Politraumatísmo
+    majorBurns: Grandes Quemados
+    symptomaticPain: Dolor Sintomático
+  chronic:
+    main: Dolor Crónico
+    physicalExploration:
+      main: Exploración física
+      headFaceMouth: Cabeza, cara y boca
+      neck: Cuello
+      superiorLimbs: Extremidades superiores
+      thorax: Torax
+      abdominal: Abdominal
+      lumbarRegion: Zona lumbar (Columna lumbar, sacro y cóccix)
+      lowerLimbs: Extremidades inferiores
+      pelvicRegion: Región pélvica
+      genitalRegion: Región genital, anal y perianal
+      general: Generalizado
+    furtherExploration:
+      main: Exploración complementaria
+      headFaceMouth: Cabeza, cara y boca
+      neck: Cuello
+      superiorLimbs: Extremidades superiores
+      thorax: Torax
+      abdominal: Abdominal
+      lumbarRegion: Zona lumbar (Columna lumbar, sacro y cóccix)
+      lowerLimbs: Extremidades inferiores
+      pelvicRegion: Región pélvica
+      genitalRegion: Región genital, anal y perianal
+      general: Generalizado
+    clinicalEntities:
+      main: Entidades clínicas
+      headFaceMouth: Cabeza, cara y boca
+      neck: Cuello
+      superiorLimbs: Extremidades superiores
+      thorax: Torax
+      abdominal: Abdominal
+      lumbarRegion: Zona lumbar (Columna lumbar, sacro y cóccix)
+      lowerLimbs: Extremidades inferiores
+      pelvicRegion: Región pélvica
+      genitalRegion: Región genital, anal y perianal
+      general: Generalizado
+    pharmacologicalProtocols:
+      main: Protocolos farmacológicos
+      headFaceMouth: Cabeza, cara y boca
+      neck: Cuello
+      superiorLimbs: Extremidades superiores
+      thorax: Torax
+      abdominal: Abdominal
+      lumbarRegion: Zona lumbar (Columna lumbar, sacro y cóccix)
+      lowerLimbs: Extremidades inferiores
+      pelvicRegion: Región pélvica
+      genitalRegion: Región genital, anal y perianal
+      general: Generalizado
+    painProcedures:
+      main: Procedimientos del dolor
+      headFaceMouth: Cabeza, cara y boca
+      neck: Cuello
+      superiorLimbs: Extremidades superiores
+      thorax: Torax
+      abdominal: Abdominal
+      lumbarRegion: Zona lumbar (Columna lumbar, sacro y cóccix)
+      lowerLimbs: Extremidades inferiores
+      pelvicRegion: Región pélvica
+      genitalRegion: Región genital, anal y perianal
+      general: Generalizado
+    rehabilitationExercises:
+      main: Ejercicios de rehabilitación
+      headFaceMouth: Cabeza, cara y boca
+      neck: Cuello
+      superiorLimbs: Extremidades superiores
+      thorax: Torax
+      abdominal: Abdominal
+      lumbarRegion: Zona lumbar (Columna lumbar, sacro y cóccix)
+      lowerLimbs: Extremidades inferiores
+      pelvicRegion: Región pélvica
+      genitalRegion: Región genital, anal y perianal
+      general: Generalizado
+
+ROLE_USER: Usuario
+ROLE_EDITOR: Editor
+ROLE_SUPERVISOR: Supervisor
+ROLE_LEADER: Lider
+ROLE_ADMIN: Adminsitrador
+ROLE_SUPER_ADMIN: Super-Administrador

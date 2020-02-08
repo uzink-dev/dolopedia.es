@@ -1,0 +1,39 @@
+admin.menu.index:
+    pattern:  /list/{page}
+    defaults: { _controller: AdminBundle:Menu:index, page: 1 }
+    methods:  [GET]
+    requirements:
+        page: \d+
+
+admin.menu.new:
+    pattern:  /new
+    defaults: { _controller: AdminBundle:Menu:new }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.menu.create:
+    pattern:  /create
+    defaults: { _controller: AdminBundle:Menu:create }
+    methods:  [POST]
+
+admin.menu.edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: AdminBundle:Menu:edit }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.menu.update:
+    pattern:  /{id}/update
+    defaults: { _controller: AdminBundle:Menu:update }
+    methods:  [POST, PUT]
+    requirements:
+        id: \d+
+
+admin.menu.delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: AdminBundle:Menu:delete }
+    methods:  [POST]
+    requirements:
+        id: \d+

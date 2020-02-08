@@ -1,0 +1,42 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="row container-row">
+    <div class="col-md-12">
+        <ul class="link-list with-img with-breadcrumb">
+            {% for category in categories %}
+                <a href="{{ path('public.category.show', {'slug': category.seoSlug}) }}" class="display-block">
+                    <li>
+                        <div class="img-64 img-link fake-img"><span class="icon-categories"></span></div>
+                        <p class="title">{{ category.title }}</p>
+                        <p class="subtitle">Creada el {{ category.createdAt|date('d/m/Y') }}</p>
+                        <div class="breadcrumb">
+                            <ul>
+                                {% for breadcrumb in category.breadcrumbs %}
+                                    <li>&nbsp;{{ breadcrumb }}&nbsp;</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                </a>
+            {% endfor %}
+            {% for article in articles %}
+            <a href="{{ path('public.article.show', {'slug': article.seoSlug}) }}" class="display-block">
+                <li>
+                    <div class="img-64 img-link fake-img"><span class="icon-article"></span></div>
+                    <p class="title"> {{ article.title }}</p>
+                    <p class="subtitle">Publicado el {{ article.publishedAt|date('d/m/Y') }}</p>
+                    <div class="breadcrumb">
+                        {% spaceless %}
+                        <ul>
+                            {% for breadcrumb in article.breadcrumbs %}
+                                <li>&nbsp;{{ breadcrumb }}&nbsp;</li>
+                            {% endfor %}
+                        </ul>
+                        {% endspaceless %}
+                    </div>
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

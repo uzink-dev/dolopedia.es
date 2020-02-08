@@ -1,0 +1,29 @@
+{% trans_default_domain 'dolopedia' %}
+{% form_theme formRequest 'FrontBundle:Form:fields.html.twig' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Entity\\' %}
+{% if formRequest.type.vars.data is constant(namespace ~ 'Request::TYPE_REQUEST_NEW') %}
+    {% set action = 'new' %}
+{% else %}
+    {% set action = 'modify' %}
+{% endif %}
+
+<div id="{{ action }}Request" class="formWindow formAjax popup" data-formajax-complete="#completeRequest" style="display: none;">
+    <div class="formWindow-head"><h2 class="title">{{ ('request.' ~ action) | trans }}  <span class="icon-data-edit icon-big"></span></h2></div>
+    {{ form_start(formRequest) }}
+        <div class="formWindow-content">
+            {{ form_row(formRequest.article) }}
+            {{ form_row(formRequest.title) }}
+            {{ form_row(formRequest.category) }}
+            {{ form_row(formRequest.content, { 'help': ('request.commentHelp.' ~ action) | trans }) }}
+            {{ form_row(formRequest.attachmentFile) }}
+        </div>
+        <div class="formWindow-footer">
+            <div class="formWindow-control alone last">
+                <button class="btn btn-dark-grey"><span class="icon-forward"></span> {{ 'popup.button.add'|trans() }}</button>
+                <span class="spinner little"></span>
+                <a href="javascript:$.fancybox.close();" class="formWindow-exit"> {{ 'popup.button.cancelAndExit'|trans() }}</a>
+            </div>
+        </div>
+    {{ form_end(formRequest) }}
+</div>

@@ -1,0 +1,157 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Entity\\' %}
+
+{% block seo %}
+    <title>{{ article.seoH1 is not empty ? article.seoH1 : article.title  }} | Dolopedia</title>
+    <meta name="description" content="{{ article.seoDescription is not empty ? article.seoDescription : article.title }}">
+    <meta name="keywords" content="{{ article.seoKeywords }}">
+    <meta property="og:site_name" content="Dolopedia" />
+    {% set currentPath = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+    <meta property="og:url" content="{{ currentPath }}" />
+    <meta property="og:title" content="{{ article.seoH1 is not empty ? article.seoH1 : article.title  }}" />
+    <meta property="og:description" content="{{ article.seoDescription is not empty ? article.seoDescription : article.title }}" />
+    <meta property="og:image" content="{{ app.request.getSchemeAndHttpHost() ~ asset('bundles/front/img/dolopedia-logo-min.png') }}" />
+{% endblock seo %}
+
+{% block body %}
+    {% set newUri = (app.user)?'#newRequest':path('fos_user_security_login') %}
+    {% set modifyUri = (app.user)?'#modifyRequest':path('fos_user_security_login') %}
+
+    <div class="content">
+
+        <div class="row container-row">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+        </div>
+
+        <div class="columns-container">
+            <div class="row container-row container-right-column tabs-header-container">
+                <div class="col-md-12">
+                    <h1>{{ article.title }}</h1>
+
+                    <div class="section">
+                        <div class="user-badge separate-right pull-left">
+                            <p class="user-badge-info without-margin">Última actualización el {{ article.publishedAt|date('d/m/Y') }}</p>
+                        </div>
+                        <div class="pull-left">
+                            <div class="rate separate-right">
+                                <span class="rate-score">{{ article.rate }}</span>
+                                <div class="rate-stars" data-raty-score="{{ app.user?article.rateByUser(app.user):article.rate }}" data-raty-url="{{ app.user ? path('panel.article.addRating', {'id': article.id}) }}"></div>
+                            </div>
+                            <div class="add-this separate-right">
+                                <!-- AddThis Button BEGIN -->
+                                <div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+                                <a class="addthis_button_facebook"></a>
+                                <a class="addthis_button_twitter"></a>
+                                <a class="addthis_button_email"></a>
+                                <a class="addthis_button_compact"></a><a class="addthis_counter addthis_bubble_style"></a>
+                                </div>
+                                <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+                                <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52b3fd390bb0f56c"></script>
+                                <!-- AddThis Button END -->
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="responsive-block pull-left">
+                            <a class="btn btn-light separate-right" onClick="window.print()"><span class="icon-print"></span> Imprimir</a>
+                            {% if app.user %}<a class="btn {{ app.user.isFavouriteArticle(article)?'btn-gold':'btn-light' }}" data-action-favourite="{{ path('panel.favouriteArticles.toogle', {'id': article.id}) }}"><span class="icon-favorite"></span> Favorito</a>{% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUMNA DERECHA -->
+                <div class="right-column align-bottom goes-to-bottom">
+                    <div class="column-inner">
+                        <a href="{{ newUri }}" class="btn btn-big btn-primary full-width visible-lg visible-md popupLauncher"><span class="icon-create-article icon-shadow "></span> {{ 'article.newRequest' | trans }}</a>
+                        <a href="{{ modifyUri }}" class="btn btn-big btn-grey full-width separate-top visible-lg visible-md popupLauncher "><span class="icon-modify-article icon-shadow"></span> {{ 'request.modify' |trans }}</a>
+
+                        <ul class="nav nav-tabs right-tabs icon-tabs">
+                          <li class="active"><a href="#article-content" data-toggle="tooltip" data-placement="top" title="Contenido del artículo"><span class="icon-article"></span></a></li>
+                          <li><a href="#article-comments" data-toggle="tooltip" data-placement="top" title="Comentarios"><span class="icon-comment"></span></a></li>
+                          <li><a href="#article-credits" data-toggle="tooltip" data-placement="top" title="Créditos"><span class="icon-credits"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content">
+                <div id="article-content" class="tab-pane active">
+                    <div id="article-body" class="row container-row container-right-column" >
+                        {% set adHeaderZone = article.adHeaderZone ?: article.category.adHeaderZone %}
+                        {% if not article.whitoutAds and adHeaderZone %}
+                        <div class="header-ad">
+                            <ins data-revive-zoneid="{{ adHeaderZone }}" data-revive-id="{{ revive_id }}"></ins>
+                        </div>
+                        {% endif %}
+
+                        {% render(controller('BackendBundle:Article:Content', {'article': article})) %}
+
+                        {% set adFooterZone = article.adFooterZone ?: article.category.adFooterZone %}
+                        {% if not article.whitoutAds and adFooterZone %}
+                            <div class="footer-ad">
+                                <ins data-revive-zoneid="{{ adFooterZone }}" data-revive-id="{{ revive_id }}"></ins>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if article.bibliographicEntries|length > 0 %}
+                        {{ include('FrontBundle:Article:public.partial.bibliography.html.twig') }}
+                    {% endif %}
+
+                    <div class="row container-row section">
+                        <div class="col-md-12">
+                            <div class="user-badge">
+                                <p class="user-badge-info without-margin">Última actualización el {{ article.publishedAt|date('d/m/Y') }}</p>
+                            </div>
+
+                            <a class="btn btn-light separate-right" onClick="window.print()"><span class="icon-print"></span> Imprimir</a>
+                            {% if app.user %}<a class="btn {{ app.user.isFavouriteArticle(article)?'btn-gold':'btn-light' }}" data-action-favourite="{{ path('panel.favouriteArticles.toogle', {'id': article.id}) }}"><span class="icon-favorite"></span> Favorito</a>{% endif %}
+                            </div>
+                    </div>
+                </div>
+
+                <div id="article-comments" class="tab-pane ">
+                {% render(controller('BackendBundle:Comment:Add', {'id': article.id, 'scope': constant(namespace ~ 'Comment::SCOPE_PUBLIC')})) %}
+                </div>
+
+                <div id="article-credits" class="tab-pane ">
+                    <div class="row container-row">
+                        <div class="col-md-12">
+                            <h2 class="base-color no-top-separation">Créditos</h2>
+                        </div>
+                        <div class="inline-wrapper">
+                            {% for user in article.collaborators %}
+                                {{ include('FrontBundle:Component:partial.user.box.html.twig') }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row container-row section blue-background pre-footer">
+            <div class="col-md-8">
+                <p class="info centered"><span class="icon-info"></span> Si deseas que se cree un nuevo artículo o modificar este en el que estás, puedes enviarnos una solicitud con tu proposición</p>
+            </div>
+            <div class="col-md-4">
+                <div class="centered">
+                    <a href="{{ newUri }}" class="btn btn-big btn-primary popupLauncher"><span class="icon-create-article icon-shadow "></span> {{ 'article.newRequest' | trans }}</a>
+                </div>
+                <div class="centered">
+                    <a href="{{ modifyUri }}" class="btn btn-big btn-dark-grey separate-top popupLauncher "><span class="icon-modify-article icon-shadow"></span> {{ 'request.modify' |trans }}</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% if app.user %}
+    {{ render(controller('BackendBundle:Request:createRequestForm', {'entity': article.category} )) }}
+    {{ render(controller('BackendBundle:Request:createRequestForm', {'entity': article} )) }}
+    {% endif %}
+    {{ include('FrontBundle:Article:workflow.popup.request.complete.html.twig') }}
+
+{% endblock body %}

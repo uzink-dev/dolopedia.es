@@ -1,0 +1,64 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'article.editComment' | trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+{% endblock privateAreaButton %}
+
+{% block privateAreaContent %}
+
+    <div class="row container-row">
+        <div class="col-md-6 section">
+            <div class="line-wrap">
+                <p class="dark-grey-color">Título del Artículo</p>
+                <p><a href="{{ path('public.article.show', {'slug': comment.article.seoSlug}) }}">{{ comment.article }}</a></p>
+            </div>
+        </div>
+        <div class="col-md-6 section">
+            <div class="line-wrap">
+                <p class="title dark-grey-color">Fecha del comentario</p>
+                <p>{{ comment.createdAt | date('d/m/Y H:i') }}</p>
+            </div>
+        </div>
+    </div>
+
+    {{ form_start(form) }}
+        <div class="row container-row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+
+        <div class="form-well headed">
+            <div class="head">
+                <span class="head-icon icon-big  icon-data-edit"></span>
+                <h3 class="head-title">Modificar</h3>
+            </div>
+            <div class="container section">
+                <div class="row container-row ">
+                    <div class="form-group col-md-12">
+                        {{ form_row(form.content, { 'attr':{'class': 'form-control', 'placeholder': 'Introduce tu comentario', 'rows': 8, 'noresize': 'noresize'} }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row container-row">
+            <div class="col-md-12">
+                <hr>
+                <button type="submit" class="btn btn-primary separate-right">
+                    <span class="icon-save icon-big"></span> Guardar Cambios
+                </button>
+                {% if referer == path('panel.comment.edit', {'id': comment.id}) or referer is empty %}
+                    {% set returnUrl = path('panel.comment.index') %}
+                {% else %}
+                    {% set returnUrl = referer %}
+                {% endif %}
+                <a href="{{ returnUrl }}" class="btn btn-grey"><span class="icon-refresh icon-big"></span> Cancelar Edición</a> 
+            </div>
+        </div>
+    {{ form_end(form) }}
+
+{% endblock privateAreaContent %}

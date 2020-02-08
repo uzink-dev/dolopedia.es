@@ -1,0 +1,30 @@
+{% block subject %}
+    {% autoescape false %}
+    Solicitud resuelta
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Hola {{ user.name }}
+
+    Tu solicitud para el artículo {{ request.title }} ha sido resuelta puedes ver el estado de tus solicitudes desde este link: {{ url }}
+
+    Atentamente,
+    El equipo de Dolopedia
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Solicitud resuelta
+        {% endblock %}
+
+        {% block subtitle %}
+            Se ha resuelto una propuesta tuya
+        {% endblock subtitle %}
+
+        {% block content %}
+            Tu solicitud para el artículo {{ request.title }} ha sido resuelta puedes ver el estado de tus solicitudes desde este <a href="{{ url }}">aquí</a>.
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

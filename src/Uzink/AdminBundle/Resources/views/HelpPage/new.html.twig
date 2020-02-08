@@ -1,0 +1,37 @@
+{% extends 'AdminBundle:Layout:layout.html.twig' %}
+
+{% form_theme form 'AdminBundle:Form:fields.html.twig' %}
+
+{%  block title %}Creación de {{ metadata.entityDescription }}{% endblock %}
+
+{% block top_buttons %}
+<a class="btn btn-default" href="{{ path('admin.' ~ metadata.entityName ~ '.index', {'role': role}) }}">
+    {{ icon('list') }} Volver al listado
+</a>
+<a class="btn btn-primary" href="{{ path('admin.' ~ metadata.entityName ~ '.new', {'role': role}) }}">
+    {{ icon('plus') }} Crear nuevo
+</a>
+{% endblock %}
+
+{% block content %}
+<section id="creation-form">
+    <div class="col-md-12">
+        <form class="form" action="{{ path('admin.' ~ metadata.entityName ~ '.create', {'role': role}) }}"
+              method="post" {{ form_enctype(form) }} novalidate>
+            {% set form_type = 'horizontal' %}
+            {{ form_widget(form) }}
+            <div class="well form-actions">
+                <button type="submit" class="btn btn-success">
+                    {{ icon('plus') }} Crear
+                </button>
+                <a class="btn btn-default" href="{{ path('admin.' ~ metadata.entityName ~ '.index', {'role': role}) }}">
+                    {{ icon('list') }} Volver al listado
+                </a>
+                <a class="btn btn-primary" href="{{ path('admin.' ~ metadata.entityName ~ '.new', {'role': role}) }}">
+                    {{ icon('plus') }} Crear nuevo
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

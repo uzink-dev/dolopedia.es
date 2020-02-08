@@ -1,0 +1,39 @@
+admin.center.index:
+    pattern:  /list/{page}
+    defaults: { _controller: AdminBundle:Center:index, page: 1 }
+    methods:  [GET]
+    requirements:
+        page: \d+
+
+admin.center.new:
+    pattern:  /new
+    defaults: { _controller: AdminBundle:Center:new }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.center.create:
+    pattern:  /create
+    defaults: { _controller: AdminBundle:Center:create }
+    methods:  [POST]
+
+admin.center.edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: AdminBundle:Center:edit }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.center.update:
+    pattern:  /{id}/update
+    defaults: { _controller: AdminBundle:Center:update }
+    methods:  [POST, PUT]
+    requirements:
+        id: \d+
+
+admin.center.delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: AdminBundle:Center:delete }
+    methods:  [POST]
+    requirements:
+        id: \d+

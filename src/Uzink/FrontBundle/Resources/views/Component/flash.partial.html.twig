@@ -1,0 +1,16 @@
+<div class="row container-row">
+    <div class="col-md-12">
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong>Completado.</strong> {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong>Error.</strong> {{ flashMessage }}
+        </div>
+    {% endfor %}
+    </div>
+</div>

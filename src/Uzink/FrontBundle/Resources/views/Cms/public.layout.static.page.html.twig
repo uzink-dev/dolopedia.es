@@ -1,0 +1,22 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% block body %}
+    <div class="content">
+
+        <div class="row container-row content-header">
+            <div class="col-md-12">
+                {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+
+                <h1>{{ page.title }}</h1>
+            </div>
+        </div>
+
+        <div class="row container-row section">
+            <div class="col-md-12">
+                {{ page.content|raw }}
+            </div>
+        </div>
+
+    </div>
+{% endblock body %}

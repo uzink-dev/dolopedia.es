@@ -1,0 +1,405 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% block form_row %}
+{% spaceless %}
+    <div class="row container-row ">
+        <div class="form-group col-md-12">
+            {% if form.vars.label != null %}
+            {{ form_label(form) }}
+            {% endif %}
+            {% if help is defined %}
+            <span class="help">{{ help }}</span>
+            {% endif %}
+            {{ form_widget(form, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form) }}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock form_row %}
+
+{% block block_row %}
+{% spaceless %}
+    <div class="form-well headed">
+        <div class="head">
+            <span class="head-icon icon-big  {{ icon }}"></span>
+            <h2 class="head-title">{{ form.vars.label|trans({}, form.vars.translation_domain) }}</h2>
+        </div>
+        <div class="container section">
+            {% for child in form %}
+            {{ form_row(child) }}
+            {% endfor %}
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock block_row %}
+
+{% block button_widget %}
+    <button type="submit" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" class="btn {{ context }}" {{ form.vars.disabled?'disabled="disabled"' }}>{{ icon is defined ? ('<span class="' ~ icon ~ '"></span> ')|raw }}{{ form.vars.label|trans }}</button>
+{% endblock button_widget %}
+
+{% block hidden_widget %}
+    <input type="hidden" id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" value="{{ form.vars.data }}">
+{% endblock hidden_widget %}
+
+{% block choice_widget_options %}
+{% spaceless %}
+    {% for group_label, choice in options %}
+        {% if choice is iterable %}
+            <optgroup label="{{ group_label|trans({}, translation_domain) }}">
+                {% set options = choice %}
+                {{ block('choice_widget_options') }}
+            </optgroup>
+        {% else %}
+            <option {% for attrname, attrvalue in choice.attr|default({}) if attrvalue is not empty %}{{ attrname }}="{{ attrvalue }}" {% endfor %} value="{{ choice.value }}"{% if choice is selectedchoice(value) %} selected="selected"{% endif %}>{{ choice.label|trans({}, translation_domain) }}</option>
+        {% endif %}
+    {% endfor %}
+{% endspaceless %}
+{% endblock choice_widget_options %}
+
+{% block accordionBlock_row %}
+{% spaceless %}
+    <div class="form-well headed">
+        <div class="head">
+            <span class="head-icon icon-big  {{ icon }}"></span>
+            <h2 class="head-title">{{ form.vars.label|trans({}, form.vars.translation_domain) }}</h2>
+        </div>
+        {% for child in form %}
+        {{ form_row(child) }}
+        {% endfor %}
+    </div>
+{% endspaceless %}
+{% endblock accordionBlock_row %}
+
+{% block accordion_row %}
+{% spaceless %}
+    <a href="#{{ form.vars.id }}" class="accordion-header collapsed" data-toggle="collapse" data-parent="#{{ form.parent.vars.id }}">{{ form.vars.label|trans({}, form.vars.translation_domain) }}</a>
+    <div id="{{ form.vars.id }}" class="section accordion-content collapse ">
+        <div class="container">
+            <div class="row container-row ">
+                <div class="col-md-12">
+                    {% for child in form %}
+                    {{ form_row(child) }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock accordion_row %}
+
+{% block ckeditor_row %}
+    <div class="form-group editor">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock ckeditor_row %}
+
+{% block textarea_row %}
+{% spaceless %}
+    <div class="form-group col-md-12">
+        {{ form_label(form) }}
+        {% if help is defined %}
+            <span class="help">{{ help }}</span>
+        {% endif %}
+        {{ form_errors(form) }}
+        {{ form_widget(form, { 'attr': {'class': 'form-control', 'rows': '6' } }) }}
+    </div>
+{% endspaceless %}
+{% endblock textarea_row %}
+    
+{% block separator_row %}
+{% spaceless %}
+    <div class="form-group separator">
+        <fieldset>
+            <legend>{{ form.vars.label|trans({}, form.vars.translation_domain) }}</legend>
+        </fieldset>
+        {{ form_widget(form) }}
+    </div>
+{% endspaceless %}
+{% endblock separator_row %}    
+
+{% block seo_row %}
+{% spaceless %}
+    <div class="form-well headed">
+        <div class="head">
+            <span class="head-icon icon-big  {{ icon }}"></span>
+            <h2 class="head-title">{{ form.vars.label|trans({}, form.vars.translation_domain) }}</h2>
+        </div>
+        <div class="container section">
+            <div class="row container-row ">
+                <div class="form-group col-md-6">
+                    {{ form_label(form.seoH1) }}
+                    {{ form_errors(form.seoH1) }}
+                    {{ form_widget(form.seoH1, { 'attr': {'class': 'form-control' } }) }}
+                </div>
+                <div class="form-group col-md-6">
+                    {{ form_label(form.seoSlug) }}
+                    {{ form_errors(form.seoSlug) }}
+                    {{ form_widget(form.seoSlug, { 'attr': {'class': 'form-control' } }) }}
+                </div>
+            </div>
+            <div class="row container-row ">
+                <div class="form-group col-md-12">
+                    {{ form_label(form.seoKeywords) }}
+                    {{ form_errors(form.seoKeywords) }}
+                    {{ form_widget(form.seoKeywords, { 'attr': {'class': 'form-control' } }) }}
+                </div>
+            </div>
+            <div class="row container-row ">
+                <div class="form-group col-md-12">
+                    {{ form_label(form.seoDescription) }}
+                    {{ form_errors(form.seoDescription) }}
+                    {{ form_widget(form.seoDescription, { 'attr': {'class': 'form-control', 'rows': 6 } }) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endspaceless %}
+{% endblock seo_row %}
+
+{% block parentCategory_widget %}
+    {% spaceless %}
+        {% if form.vars.data is not empty %}
+            {% set current_id = form.vars.data %}
+        {% else %}
+            {% set current_id = id %}
+        {% endif %}
+        <select id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" {{ form.vars.required?'required="required"' }} {% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        {% if form.vars.empty_value != null %}
+            <option value="">{{ form.vars.empty_value | trans }}</option>
+        {% endif %}
+        {% for choice in form.vars.choices %}
+            <option value="{{ choice.value }}" {{ choice.value == current_id ? 'selected="selected"' }}>{{ choice.label|raw }}</option>
+        {% endfor %}
+        </select>
+    {% endspaceless %}
+{% endblock parentCategory_widget %}
+
+{% block category_widget %}
+    {% spaceless %}
+        <select id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" {{ form.vars.required?'required="required"' }} {% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        {% if form.vars.empty_value != null %}
+            <option value="">{{ form.vars.empty_value | trans }}</option>
+        {% endif %}
+        {% for choice in form.vars.choices %}
+            <option value="{{ choice.value }}" {{ choice.value == form.vars.data ? 'selected="selected"' }}>{{ choice.label|raw }}</option>
+        {% endfor %}
+        </select>
+    {% endspaceless %}
+{% endblock category_widget %}
+
+{% block category_selector_widget %}
+    <div id="category-selector">
+        {% spaceless %}
+            <div class="input-group">
+                <input type="text" id="category-selector-title" class="form-control" placeholder="Seleccione un categoría" {% if form.vars.data %} value="{{ form.vars.data.title }}"{% endif %}>
+                <input type="hidden" id="category-selector-id" name="{{ form.vars.full_name }}"{% if form.vars.data %} value="{{ form.vars.data.id }}"{% endif %}>
+                <span class="input-group-btn">
+                    <button class="btn btn-grey selector-popup-launcher" type="button">
+                        <span class="icon-categories"></span>
+                    </button>
+                </span>
+            </div>
+        {% endspaceless %}
+
+        <div id="category-selector-popup" class="formWindow popup" data-internal-link-uri-category="{{ path('public.category.show', {'slug': '_slug_'}) }}" data-internal-link-uri-article="{{ path('public.article.show', {'slug': '_slug_'}) }}" style="display: none;">
+            <div class="formWindow-head"><h2 class="title">Seleccionar categoría</h2></div>
+            <div class="formWindow-content">
+                {{ render(controller('BackendBundle:Category:TreeCategory', {'popup': true, 'showArticles': false})) }}
+            </div>
+            <div class="formWindow-footer">
+                <div class="formWindow-control alone last">
+                    <a class="btn btn-dark-grey" data-popup-action="accept"><span class="icon-check"></span> {{ 'popup.button.accept'|trans() }}</a>
+                    <a href="javascript:$.fancybox.close();" class="formWindow-exit"> {{ 'popup.button.cancelAndExit'|trans() }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock category_selector_widget %}
+
+{% block categoryChronicPain_widget %}
+    {% spaceless %}
+        <select id="{{ form.vars.id }}" name="{{ form.vars.full_name }}" {{ form.vars.required?'required="required"' }} {% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        {% if form.vars.empty_value != null %}
+            <option value="">{{ form.vars.empty_value | trans }}</option>
+        {% endif %}
+        {% for choice in form.vars.choices %}
+            <option value="{{ choice.value }}" {{ choice.value == form.vars.data ? 'selected="selected"' }}>{{ choice.label|raw }}</option>
+        {% endfor %}
+        </select>
+    {% endspaceless %}
+{% endblock categoryChronicPain_widget %}
+
+{% block collection_item_widget %}
+{% spaceless %}
+    <div id="{{ prototype.vars.id }}" data-bibliography-uid="__uid__" data-bibliography-position="__position__" data-prototype-index="{{ prototype.vars.name }}" >
+    {% for entry in prototype %}
+        {{ form_widget(entry) }}
+    {% endfor %}
+    </div>
+{% endspaceless %}
+{% endblock collection_item_widget %}
+
+{% block collection_item_show %}
+{% spaceless %}
+    <p class="base-color reference-link-item" data-bibliography-uid="__uid__">
+        <a href="#__uid__" class="reference-link inverted">__position__</a>
+        <a href="__link__">__author__ . __title__ . __publication__, __year__ ; __volume__:__pages__</a>
+    </p>
+{% endspaceless %}
+{% endblock collection_item_show %}        
+
+{% block bibliography_row %}
+    <div class="form-group col-md-12">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        <div id="entriesShow" class="reference-links-wrapper" data-prototype="{{ block('collection_item_show')|e }}">
+        {% for entry in form.vars.data %}
+            {% spaceless %}
+            <p class="base-color reference-link-item" data-bibliography-uid="{{ entry.uid }}">
+                <a href="#{{ entry.uid }}" class="reference-link inverted">{{ entry.position }}</a>
+                {% set basicInfo = [] %}
+                {% set basicInfo = entry.author is not empty ? basicInfo|merge([entry.author]) : basicInfo %}
+                {% set basicInfo = entry.title is not empty ? basicInfo|merge([entry.title]) : basicInfo %}
+                {% set basicInfo = entry.publication is not empty ? basicInfo|merge([entry.publication]) : basicInfo %}
+                {% set basicInfoString = basicInfo|join(' . ') %}
+                {% set locationInfo = [] %}
+                {% set locationInfo = entry.volume is not empty ? locationInfo|merge([entry.volume]) : locationInfo %}
+                {% set locationInfo = entry.pages is not empty ? locationInfo|merge([entry.pages]) : locationInfo %}
+                {% set locationInfoString = locationInfo|join(':') %}
+                {{ entry.link is not empty ? ('<a href="' ~ entry.link ~ '">')|raw }}
+                {{ basicInfoString }}
+                {{ basicInfoString is not empty and entry.year is not empty ? ', ' }}
+                {{ entry.year is not empty or basicInfoString is not empty ? '; ' }}
+                {{ locationInfoString }}
+                {{ entry.link is not empty ? '</a>' }}
+            </p>
+            {% endspaceless %}
+        {% endfor %}
+        </div>
+        <div id="entriesCollection" class="hidden" data-prototype="{{ block('collection_item_widget')|e }}" data-entries-url="{{ path('workflow.article.bibliographic', {'uid': '__uid__'}) }}">
+        {% for entry in form.vars.form %}
+            <div id="{{ entry.vars.id }}" data-bibliography-uid="{{ entry.vars.data.uid }}" data-bibliography-position="{{ entry.vars.data.position }}" data-prototype-index="{{ loop.index0 }}" >
+            {% for row in entry %}
+                {{ form_widget(row) }}
+            {% endfor %}
+            </div>
+        {% endfor %}            
+        </div>
+    </div>
+{% endblock bibliography_row %}
+
+{% block datepicker_widget %}
+    <div class="input-group datetimepicker half-input">
+        {{ form_widget(form, {'attr': {'class': 'form-control'}}) }}
+        <span class="input-group-addon add-on pointer">
+            <span class="icon-tree-down"></span>
+        </span>
+    </div>
+{% endblock datepicker_widget %}
+
+{% block imagepicker_widget %}
+    <div class="form-group fileinput fileinput-image fileinput-new" data-provides="fileinput">
+        <div class="fileinput-new thumbnail" style="width: {{ size.height + 10 }}px; height: {{ size.height + 10 }}px;">
+            {% if form.parent.vars.data.image == null %}
+                <img data-src="{{ 'holder.js/100%x100%/' ~ colors.background ~ ':' ~ colors.foreground }}" alt="Holder Image">
+            {% else %}
+                <img src="{{ form.parent.vars.data|entityHandler }}" alt="{{ form.parent.vars.data }}">
+            {% endif %}
+        </div>
+        <div class="fileinput-preview fileinput-exists thumbnail" style="width: {{ size.height + 10 }}px; height: {{ size.height + 10 }}px;"></div>
+        <div class="fileinput-buttons">
+            <span class="btn btn-primary btn-file">
+                <span class="icon-folder icon-big"></span>
+                <span class="fileinput-new"> Explorar</span>
+                <span class="fileinput-exists"> Cambiar</span>&nbsp;
+                <input type="file" name="{{ form.vars.full_name }}">
+            </span>
+            <a href="#" class="btn btn-primary btn-grey btn-file-delete fileinput-exists" data-dismiss="fileinput">
+                <span class="icon-cancel icon-big"></span> Eliminar
+            </a>
+        </div>
+    </div>
+{% endblock imagepicker_widget %}
+
+{% block file_widget %}
+    <div class="fileinput fileinput-file fileinput-new input-group" data-provides="fileinput">
+        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Seleccionar fichero</span><span class="fileinput-exists">Cambiar</span>{{ form_widget(form) }}</span>
+        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Eliminar</a>
+    </div>
+{% endblock file_widget %}
+
+{% block receivers_row %}
+    <div id="receiver-field" data-field-id="{{ form.vars.id }}">
+        <div class="form-group col-md-12">
+            <div class="receivers-filter">
+                <div class="filter">
+                    <label for="filter-name">{{ 'user.name'|trans }}</label>
+                    <input type="text" id="filter-name" class="form-control" data-filter-attribute="name">
+                </div>
+                <div class="filter">
+                    <label for="filter-email">{{ 'user.email'|trans }}</label>
+                    <input type="text" id="filter-email" class="form-control" data-filter-attribute="email">
+                </div>
+                <div class="filter">
+                    <label for="filter-role">{{ 'user.role'|trans }}</label>
+                    <select id="filter-role" class="form-control" data-filter-attribute="role">
+                        <option value=""></option>
+                        <option value="Editor">Editor</option>
+                        <option value="Supervisor">Supervisor</option>
+                        <option value="Lider">Lider</option>
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                </div>
+                <div class="filter">
+                    <label for="filter-signup-date">{{ 'user.signUpDate'|trans }}</label>
+                    <div class="date-selector">
+                        <div class="input-group datetimepicker">
+                            <input type="text" id="filter-signup-date" data-format="dd/MM/yyyy" class="form-control" data-filter-attribute="signupdate">
+                            <span class="input-group-addon add-on pointer">
+                            <span class="icon-tree-down"></span>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter">
+                    <a href="#" class="btn btn-block btn-grey separate-top separate-lg" data-filter-action="filter">
+                        <span class="icon-refresh"></span> Mostrar
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="receivers-list">
+            <ul class=" list">
+                {% for receiver in availableReceivers %}
+                    <li class="receiver-item" data-id="{{ receiver.id }}">
+                        <div class="user-image" style="background-image: url('{{ receiver.image | userHandler('user_thumb_pico') }}')"></div>
+                        <div class="user-info">
+                            <div class="user-name name">{{ receiver }}</div>
+                            <ul class="extra-info">
+                                <li class="data role">{{ ('team.roles.' ~ receiver.role)|trans }}</li>
+                                <li class="data email">{{ receiver.email }}</li>
+                                <li class="data">{{ 'user.signUpDate'|trans }} <span class="signupdate">{{ receiver.createdAt|date('d/m/Y') }}</span>  </li>
+                            </ul>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="pagination-wrapper">
+                <ul class="pagination"></ul>
+            </div>
+        </div>
+        <div class="selection-elements">
+            <a href="#" data-receiver-action="select-all">Seleccionar todos</a>
+            <a href="#" data-receiver-action="unselect-all">Deseleccionar todos</a>
+        </div>
+        <div class="form-group col-md-12">
+            {{ form_label(form) }}
+            <div class="form-control receiver-control"></div>
+        </div>
+        <div class="hidden">
+            {{ form_widget(form) }}
+        </div>
+    </div>
+{% endblock receivers_row %}

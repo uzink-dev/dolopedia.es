@@ -1,0 +1,33 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% if 'public' in app.request.attributes.get('_route') %}
+    {% set path = path('public.user.show', {'id': user.id}) %}
+{% else %}
+    {% set path = path('workflow.team.show', {'id': user.id}) %}
+{% endif %}
+
+<div class="titled-image user-badge-thumb">
+    {% if app.user and user != app.user %}
+        {% set route = app.request.attributes.get('_route') %}
+        {% if 'workflow.article.edit' in route %}
+            <ul class="titled-image-options">
+                <li><a href="{{ path('workflow.article.removeCollaborator', {'id': article.id, 'userID': user.id}) }}"><span class="icon-cancel base-color" data-toggle="tooltip" data-placement="right" title="{{ 'article.actions.removeCollaborator' | trans }}"></span></a></li>
+            </ul>
+        {% else %}
+            <ul class="titled-image-options {% if 'panel.user.contact.show' in route or 'public.user.show' in route %}visible-xs visible-sm{% endif %}">
+                {% if app.user.isWorkgroupUser(user) %}
+                    <li><a href="{{ path('panel.message.new', {'receiver': user.id}) }}"><span class="icon-mail" data-toggle="tooltip" data-placement="right" title="{{ 'user.actions.sendMessage' | trans }}"></span></a></li>
+                {% endif %}
+                {% if user not in app.user.contacts %}
+                    <li><a data-action-toggle-follow="{{ path('panel.user.contact.follow.toogle', {'id': user.id}) }}" data-action-following="false"><span class="icon-add" data-toggle="tooltip" data-placement="right" title="{{ 'user.actions.followUser' | trans }}"></span></a></li>
+                {% else %}
+                    <li><a data-action-toggle-follow="{{ path('panel.user.contact.follow.toogle', {'id': user.id}) }}" data-action-following="true" {% if 'panel.user.contact.index' in app.request.attributes.get('_route') %}data-follow-delete-item="true"{% endif %} data-delete-confirmation-message="{{ 'contact.removeAlert'|trans({'%user%': user}) }}"><span class="icon-cancel base-color" data-toggle="tooltip" data-placement="right" title="{{ 'user.actions.unfollowUser' | trans }}"></span></a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% endif %}
+    <a href="{{ block('path') is not empty?block('path'):path }}" alt="{{ ('team.roles.' ~ user.role) | trans | upper }}">
+        <img src="{{ user.image | userHandler('user_thumb_large') }}" class="img-lg">
+        <p class="titled-image-title">{{ ('team.roles.' ~ user.role) | trans | upper }}</p>
+    </a>
+</div>

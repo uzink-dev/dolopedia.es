@@ -1,0 +1,117 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('fonts/icomoon.eot');
+  src: url('fonts/icomoon.eot?#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf') format('truetype'), url('fonts/icomoon.woff') format('woff'), url('fonts/icomoon.svg#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-svg:before {
+  content: "\e602";
+}
+.icon-svg2:before {
+  content: "\e603";
+}
+.icon-svg3:before {
+  content: "\e604";
+}
+.icon-svg4:before {
+  content: "\e605";
+}
+.icon-svg5:before {
+  content: "\e606";
+}
+.icon-svg6:before {
+  content: "\e607";
+}
+.icon-svg7:before {
+  content: "\e608";
+}
+.icon-svg8:before {
+  content: "\e609";
+}
+.icon-svg9:before {
+  content: "\e60a";
+}
+.icon-svg10:before {
+  content: "\e60b";
+}
+.icon-svg11:before {
+  content: "\e60c";
+}
+.icon-svg12:before {
+  content: "\e60d";
+}
+.icon-svg13:before {
+  content: "\e60e";
+}
+.icon-svg14:before {
+  content: "\e60f";
+}
+.icon-svg15:before {
+  content: "\e610";
+}
+.icon-svg16:before {
+  content: "\e611";
+}
+.icon-svg17:before {
+  content: "\e612";
+}
+.icon-svg18:before {
+  content: "\e613";
+}
+.icon-svg19:before {
+  content: "\e614";
+}
+.icon-svg20:before {
+  content: "\e615";
+}
+.icon-svg21:before {
+  content: "\e616";
+}
+.icon-svg22:before {
+  content: "\e617";
+}
+.icon-svg23:before {
+  content: "\e618";
+}
+.icon-svg24:before {
+  content: "\e619";
+}
+.icon-svg25:before {
+  content: "\e61a";
+}
+.icon-svg26:before {
+  content: "\e61b";
+}
+.icon-svg27:before {
+  content: "\e61c";
+}
+.icon-svg28:before {
+  content: "\e61d";
+}
+.icon-svg29:before {
+  content: "\e61e";
+}
+.icon-svg30:before {
+  content: "\e61f";
+}
+.icon-svg31:before {
+  content: "\e620";
+}
+.icon-svg32:before {
+  content: "\e621";
+}

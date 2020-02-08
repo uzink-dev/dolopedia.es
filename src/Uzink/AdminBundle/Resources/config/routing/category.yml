@@ -1,0 +1,46 @@
+admin.category.index:
+    pattern:  /list/{page}
+    defaults: { _controller: AdminBundle:Category:index, page: 1 }
+    methods:  [GET]
+    requirements:
+        page: \d+
+
+admin.category.new:
+    pattern:  /new
+    defaults: { _controller: AdminBundle:Category:new }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.category.create:
+    pattern:  /create
+    defaults: { _controller: AdminBundle:Category:create }
+    methods:  [POST]
+
+admin.category.edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: AdminBundle:Category:edit }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.category.update:
+    pattern:  /{id}/update
+    defaults: { _controller: AdminBundle:Category:update }
+    methods:  [POST, PUT]
+    requirements:
+        id: \d+
+
+admin.category.delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: AdminBundle:Category:delete }
+    methods:  [GET, POST]
+    requirements:
+        id: \d+
+
+admin.category.confirm.delete:
+    pattern:  /{id}/confirm-delete
+    defaults: { _controller: AdminBundle:Category:confirmDelete }
+    methods:  [POST]
+    requirements:
+        id: \d+

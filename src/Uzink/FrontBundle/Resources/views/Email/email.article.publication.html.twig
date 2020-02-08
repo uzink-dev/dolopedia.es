@@ -1,0 +1,30 @@
+{% block subject %}
+    {% autoescape false %}
+    Publicacion de artículo
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Hola {{ user.name }}
+
+    El artículo {{ article }} se ha publicado puedes verlo desde el siguiente link: {{ url }}
+
+    Atentamente,
+    El equipo de Dolopedia
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Publicacion de artículo
+        {% endblock %}
+
+        {% block subtitle %}
+            El artículo {{ article }} ha sido publicado
+        {% endblock subtitle %}
+
+        {% block content %}
+            Una nueva versión del artículo {{ article }} ha sido publicada, puedes verla desde <a href="{{ url }}">aquí</a>.
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

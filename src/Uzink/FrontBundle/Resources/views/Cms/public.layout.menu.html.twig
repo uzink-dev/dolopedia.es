@@ -1,0 +1,48 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% macro internal(item, _context) %}
+    {% set route = app.request.attributes.get('_route') %}
+    {% set class = '' %}
+    {% if 'public.home' in item.route %}
+        {% set class = 'public.home' in route ? 'current blue' : '' %}
+    {% elseif ('public.category' in item.route) or ('public.article' in item.route) %}
+        {% set class = ('public.category' in route) or ('public.article' in route) ? 'current' : '' %}
+    {% elseif 'public.net.center' in item.route %}
+        {% set class = 'public.net.center' in route ? 'current' : '' %}
+    {% elseif 'public.net.promoter' in item.route %}
+        {% set class = 'public.net.promoter' in route ? 'current' : '' %}
+    {% else %}
+        {% set class = item.route in route ? 'current' : '' %}
+    {% endif %}
+    <li class="{{ class }}"><a href="{{ path(item.route) }}">{{ item.title }}</a></li>
+{% endmacro %}
+
+{% macro external(item, _context) %}
+    <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+{% endmacro %}
+
+{% macro static(item, _context) %}
+    {% set params = app.request.attributes.get('_route_params') %}
+    {% set slug = params['slug'] is defined?params['slug']:'' %}
+    <li class="{{ slug == item.page.seoSlug?'current' }}"><a href="{{ path('public.cms.static', {'slug': item.page.seoSlug}) }}">{{ item.title }}</a></li>
+{% endmacro %}
+
+{% macro item(item) %}
+    {% import _self as render %}
+    {% set namespace = 'Uzink\\BackendBundle\\Entity\\' %}
+
+    {% if item.type == constant(namespace ~ 'MenuItem::TYPE_ITEM_STATIC') %}
+        {{ render.static(item, _context) }}
+    {% elseif item.type == constant(namespace ~ 'MenuItem::TYPE_ITEM_INNER_LINK') %}
+        {{ render.internal(item, _context) }}
+    {% elseif item.type == constant(namespace ~ 'MenuItem::TYPE_ITEM_EXTERNAL_LINK') %}
+        {{ render.external(item, _context) }}
+    {% endif %}
+{% endmacro %}
+{% import _self as render %}
+
+<ul>
+{% for item in items %}
+    {{ render.item(item, _context) }}
+{% endfor %}
+</ul>

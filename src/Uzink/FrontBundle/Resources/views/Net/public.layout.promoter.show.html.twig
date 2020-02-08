@@ -1,0 +1,26 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block body %}
+    <div class="content">
+
+        <div class="row container-row content-header">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+            <div class="col-md-12">
+                <h1>{{ promoter.title }}</h1>
+            </div>
+        </div>
+
+        <div class="row container-row section">
+            <div class="col-md-12">
+                {% if promoter.image %}
+                <img src="{{ promoter.image|centerHandler('promoter_large') }}" class="pull-right"/>
+                {% endif %}
+                {{ promoter.description|raw }}
+                {% if promoter.link is not null %}<p><a href="{{ promoter.link }}">Ir al sitio web</a></p>{% endif %}
+            </div>
+        </div>
+
+    </div>
+{% endblock body %}

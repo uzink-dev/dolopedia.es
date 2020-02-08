@@ -1,0 +1,144 @@
+{% trans_default_domain 'dolopedia' %}
+
+{# Macros Definition #}
+{% macro draw(user, level = 1, context) %}
+    {% import _self as tree %}
+    {% if level > 3 %}
+        {% set level = 3 %}
+    {% endif %}
+    {% set levelClass=['', 'treeView-categoryLev1', 'treeView-categoryLev2', 'treeView-categoryLev3'] %}
+
+    {% if user.children|length > 0 %}
+        <li class="{{ levelClass[level] }}">
+            <div id="treeView-Cat-{{ user.id }}"
+                 class="treeView-branch"
+                 data-tree-type="category"
+                 data-tree-id="{{ user.id }}">
+                <span class="treeView-line"></span>
+                <span class="collapsable">
+                    <span class="treeView-icon icon-tree-expand treeView-icon-collapsed icon-big"></span>
+                    <span class="treeView-text">
+                        {{ user.name ~ ' ' ~ user.surname1 ~ ' ' ~ user.surname2 }}
+                    </span>
+                </span>
+                <div class="treeView-actions">
+                    <div class="dropdown">
+                        <button id="{{ 'changeRole' ~ user.id }}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ ('team.roles.' ~ user.role)|trans }}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="{{ 'changeRole' ~ user.id }}">
+                            <li>
+                                <a href="{{ path('workflow.team.change_role', {'id': user.id, 'role': 'ROLE_EDITOR'}) }}">
+                                    {{ ('team.roles.ROLE_EDITOR')|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('workflow.team.change_role', {'id': user.id, 'role': 'ROLE_SUPERVISOR'}) }}">
+                                    {{ ('team.roles.ROLE_SUPERVISOR')|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('workflow.team.change_role', {'id': user.id, 'role': 'ROLE_LEADER'}) }}">
+                                    {{ ('team.roles.ROLE_LEADER')|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="treeView-actions">
+                    <img src="{{ user.image|userHandler('user_thumb_pico') }}" class="treeView-img"/>
+                </div>
+                <div class="treeView-actions">
+                    <a href="{{ path('workflow.team.detail', {'id': user.id} ) }}" target="_blank" data-toggle="tooltip" title="Ver usuario">
+                        <span class="treeView-action icon-preview"></span>
+                    </a>
+                </div>
+            </div>
+            <ul class="collapsed">
+                {% for child in user.orderedChildren %}
+                    {%- spaceless -%}
+                        {{ tree.draw(child, level + 1, context) }}
+                    {%- endspaceless -%}
+                {% endfor %}
+            </ul>
+        </li>
+    {% else %}
+        <li class="treeView-article">
+            <div id="treeView-Art-{{ user.id }}"
+                 class="treeView-branch"
+                 data-tree-type="article"
+                 data-tree-id="{{ user.id }}">
+                <span class="treeView-line"></span>
+                <span class="treeView-text">
+                    {{ user.name ~ ' ' ~ user.surname1 ~ ' ' ~ user.surname2 ~ ' (' ~ ('team.roles.' ~ user.role)|trans() ~ ')' }}
+                </span>
+                <div class="treeView-actions">
+                    <div class="dropdown">
+                        <button id="{{ 'changeRole' ~ user.id }}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ ('team.roles.' ~ user.role)|trans }}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="{{ 'changeRole' ~ user.id }}">
+                            <li>
+                                <a href="{{ path('workflow.team.change_role', {'id': user.id, 'role': 'ROLE_EDITOR'}) }}">
+                                    {{ ('team.roles.ROLE_EDITOR')|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('workflow.team.change_role', {'id': user.id, 'role': 'ROLE_SUPERVISOR'}) }}">
+                                    {{ ('team.roles.ROLE_SUPERVISOR')|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('workflow.team.change_role', {'id': user.id, 'role': 'ROLE_LEADER'}) }}">
+                                    {{ ('team.roles.ROLE_LEADER')|trans }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="treeView-actions">
+                    <img src="{{ user.image|userHandler('user_thumb_pico') }}" class="treeView-img"/>
+                </div>
+                <div class="treeView-actions">
+                    <a href="{{ path('workflow.team.detail', {'id': user.id} ) }}" target="_blank" data-toggle="tooltip" title="Ver usuario">
+                        <span class="treeView-action icon-preview"></span>
+                    </a>
+                </div>
+            </div>
+        </li>
+    {% endif %}
+{% endmacro %}
+
+{# Content #}
+{% import _self as tree %}
+
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <div class="tree-search">
+            <div class="input-group">
+                <input type="text" data-toggle="team-search" name="keywords" class="form-control" aria-label="Buscar" placeholder="Buscar usuarios...">
+                <div class="input-group-btn">
+                    <button class="btn btn-blue" type="submit"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="treeView">
+    <div id="treeView-main" class="treeView-branch"  data-tree-type="root">
+        <span class="treeView-title collapsable">
+            <span class="treeView-icon icon-tree-collapse icon-big"></span>
+            <span class="treeView-text">
+                {{ user.name ~ ' ' ~ user.surname1 ~ ' ' ~ user.surname2 ~ ' (' ~ ('team.roles.' ~ user.role)|trans() ~ ')' }}
+            </span>
+        </span>
+    </div>
+    <ul class="treeView-main">
+        {% for child in user.orderedChildren %}
+            {{ tree.draw(child, 1, _context) }}
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,30 @@
+{% block subject %}
+    {% autoescape false %}
+    Nueva solicitud
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Hola {{ user.name }}
+
+    El usuario {{ request.userFrom }} ha hecho una nueva solicitud, puedes acceder a ella a través de este link: {{ url }}
+
+    Atentamente,
+    El equipo de Dolopedia
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Nueva solicitud
+        {% endblock %}
+
+        {% block subtitle %}
+            La solicitud requiere una acción por tu parte
+        {% endblock subtitle %}
+
+        {% block content %}
+            El usuario {{ request.userFrom }} ha hecho una nueva solicitud, puedes acceder a ella a través desde <a href="{{ url }}">aquí</a>.
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

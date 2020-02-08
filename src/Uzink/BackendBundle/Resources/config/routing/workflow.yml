@@ -1,0 +1,174 @@
+# ------------------------------------------------------------------------------------------------
+# * Article Routes *******************************************************************************
+# ------------------------------------------------------------------------------------------------
+workflow.article.setPermissions:
+    path:  /articulos/permisos
+    defaults: { _controller: BackendBundle:Article:SetPermissions }
+
+workflow.article.list:
+    path:  /articulos
+    defaults: { _controller: BackendBundle:Article:Index }
+    methods:  [GET]
+
+workflow.article.search:
+    path:  /articulos/buscar
+    defaults: { _controller: BackendBundle:Article:Search }
+    methods:  [GET]
+
+workflow.article.new:
+    path:  /articulo/nuevo/{id}
+    defaults: { _controller: BackendBundle:Article:NewArticle, id: null }
+    methods:  [GET, POST]
+    requirements:
+        id:   \d+
+    
+workflow.article.edit:
+    path:  /articulo/editar/{id}
+    defaults: { _controller: BackendBundle:Article:EditArticle }
+    methods:  [GET, POST]
+    requirements:
+        id:   \d+|__id__
+
+workflow.article.update_editor:
+    path:  /articulo/actualizar-editor/{id}
+    defaults: { _controller: BackendBundle:Article:ChangeEditor }
+    methods:  [GET, POST]
+    requirements:
+        id:   \d+|__id__
+
+workflow.article.delete:
+    path:  /articulo/eliminar/{id}
+    defaults: { _controller: BackendBundle:Article:DeleteArticle }
+    methods:  [GET]
+
+workflow.article.removeCollaborator:
+    path:  /articulo/eliminar-colaborador/{id}/{userID}
+    defaults: { _controller: BackendBundle:Article:deleteCollaborator }
+    methods:  [GET]
+
+workflow.article.tree.position:
+    path:  /articulo/arbol/posicion/{id}/{action}
+    defaults: { _controller: BackendBundle:Article:treeArticlePositionModify }
+    methods:  [GET]
+    requirements:
+        id:   \d+|__id__
+        action:  up|down
+
+workflow.article.bibliographic:
+    path:  /articulo/bibliografia/{uid}
+    defaults: { _controller: BackendBundle:Article:bibliographicEntry }
+    methods:  [GET]
+
+workflow.article.contentForm:
+    path:  /articulo/contenido/{type}
+    defaults: { _controller: BackendBundle:Article:ContentForm, type: null }
+    methods:  [GET]
+    requirements:
+        culture:  techniques|clinicEntity|#value#
+
+# ------------------------------------------------------------------------------------------------
+# * Category Routes ******************************************************************************
+# ------------------------------------------------------------------------------------------------
+workflow.category.tree:
+    path: /categoria/arbol
+    defaults: { _controller: BackendBundle:Category:TreeCategory }
+    methods:  [GET]
+
+workflow.category.tree.position:
+    path: /categoria/arbol/posicion/{id}/{action}
+    defaults: { _controller: BackendBundle:Category:TreeCategoryPositionModify }
+    methods:  [GET]
+    requirements:
+        action:  up|down
+
+workflow.category.list:
+    path: /categorias
+    defaults: { _controller: BackendBundle:Category:Index, id: null }
+    methods:  [GET]
+
+workflow.category.new:
+    path: /categoria/nueva/{id}
+    defaults: { _controller: BackendBundle:Category:CategoryNew, id: null }
+    methods:  [GET, POST]
+
+workflow.category.clone:
+    path: /categoria/clonar/{id}
+    defaults: { _controller: BackendBundle:Category:CategoryClone, id: null }
+    methods:  [GET, POST]
+
+workflow.category.edit:
+    path: /categoria/editar/{id}
+    defaults: { _controller: BackendBundle:Category:CategoryEdit }
+    methods:  [GET, POST]
+
+workflow.category.delete:
+    path: /categoria/eliminar/{id}
+    defaults: { _controller: BackendBundle:Category:CategoryDelete }
+    methods:  [GET, POST]
+    
+# ------------------------------------------------------------------------------------------------
+# * Request Routes *******************************************************************************
+# ------------------------------------------------------------------------------------------------    
+workflow.request.list:
+    path:  /solicitudes
+    defaults: { _controller: BackendBundle:Request:ListRequests }
+    methods:  [GET, POST]
+    
+workflow.request.new:
+    path:  /solicitud/nueva
+    defaults: { _controller: BackendBundle:Request:CreateRequest }
+    methods:  [GET, POST]
+    
+workflow.request.response:
+    path:  /solicitud/{id}
+    defaults: { _controller: BackendBundle:Request:ResponseRequest }
+    methods:  [GET, POST]
+    
+workflow.request.accept:
+    path:  /solicitud/{id}/aceptar
+    defaults: { _controller: BackendBundle:Request:AcceptRequest }
+    methods:  [GET, POST]
+    
+workflow.request.decline:
+    path:  /solicitud/{id}/rechazar
+    defaults: { _controller: BackendBundle:Request:DeclineRequest }
+    methods:  [GET, POST]
+    
+workflow.request.createArticle:
+    path:  /solicitud/crear-articulo/{id}
+    defaults: { _controller: BackendBundle:Request:createArticle }
+    methods:  [GET, POST]
+    
+workflow.request.modifyArticle:
+    path:  /solicitud/modificar-articulo/{id}
+    defaults: { _controller: BackendBundle:Request:modifyArticle }
+    methods:  [GET, POST]
+
+# ------------------------------------------------------------------------------------------------
+# * User Routes **********************************************************************************
+# ------------------------------------------------------------------------------------------------
+workflow.team.show:
+    path:  /equipo
+    defaults: { _controller: BackendBundle:User:ShowTeam }
+    methods:  [GET]
+workflow.team.detail:
+    path:  /equipo/{id}
+    defaults: { _controller: BackendBundle:User:showTeamDetail }
+    methods:  [GET]
+    requirements:
+        id:   \d+
+workflow.team.create:
+    path:  /equipo/crear
+    defaults: { _controller: BackendBundle:User:CreateTeam }
+    methods:  [GET, POST]
+workflow.team.assign:
+    path:  /equipo/asignar
+    defaults: { _controller: BackendBundle:User:assignTeam }
+    methods:  [GET, POST]
+workflow.team.change_role:
+    path:  /equipo/cambiar-rol/{id}/{role}
+    defaults: { _controller: BackendBundle:User:ChangeRole }
+    methods:  [GET]
+    requirements:
+        culture:  ROLE_EDITOR|ROLE_SUPERVISOR|ROLE_LEADER
+

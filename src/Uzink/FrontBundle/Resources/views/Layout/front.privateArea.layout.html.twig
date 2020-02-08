@@ -1,0 +1,116 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% block dashboard %}
+    <ul class="profile-dashboard">
+        <li><a href="{{ path('workflow.article.list') }}" data-toggle="tooltip" data-placement="right" title="Artículos asignados"><span class="icon-article icon-white"></span> {{ app.user.assignedArticles|length }}</a></li>
+        <li><a href="{{ path('workflow.request.list') }}" data-toggle="tooltip" data-placement="right" title="Solicitudes pendientes"><span class="icon-notify icon-white"></span> {{ app.user.pendingRequests|length }}</a></li>
+        <li><a href="{{ path('panel.message.index') }}" data-toggle="tooltip" data-placement="right" title="Mensajes no leídos"><span class="icon-mail icon-white"></span> {{ app.user.unreadMessages|length }}</a></li>
+    </ul>
+{% endblock dashboard %}
+
+{% block leftNav %}
+    <div class="col-md-9 col-sm-9 visible-xs">
+        <ul>
+            {{ block('panelMenu') }}
+        </ul>
+        <ul>
+            {{ block('workflowMenu') }}
+        </ul>
+    </div>
+    <div class="col-md-7 col-sm-7 hidden-xs">
+        {{ block('dashboard') }}
+    </div>
+{% endblock leftNav %}
+
+{% block userMenuResponsive %}
+    {{ parent() }}
+    <div class="row">
+        <div class="bar dark-grey-background visible-xs">
+            <div class="col-xs-12">
+                {{ block('dashboard') }}
+            </div>
+        </div>
+    </div>
+{% endblock userMenuResponsive %}
+
+{% block body %}
+            {{ block('modals') }}
+
+            <div class="full-container-left-column ">
+
+                {# LEFT COLUMN #}
+                <div class="left-column border-right">
+                    <div class="user-badge user-badge-md section">
+                        <div class="titled-image user-badge-thumb">
+                            <img src="{{ app.user.image | userHandler('user_thumb_mini') }}" alt="{{ 'user.image' | trans }}" class="user-badge-thumb" />
+                            <p class="titled-image-badge" data-toggle="tooltip" data-placement="right" title="{{ ('team.roles.' ~ app.user.role) | trans }}">{{ ('team.roles.' ~ app.user.role) | trans | upper | slice(0,1)}}</p>
+                        </div>
+
+                        <div class="user-badge-details">
+                            <p class="title"><a href="{{ path('public.user.show', {'id': app.user.id}) }}">{{ app.user.name ~ ' ' ~ app.user.surname1}}</a></p>
+                            <p class="subtitle">{{ app.user.job }}</p>
+                        </div>
+                    </div>
+
+                    <ul class="list-menu list-menu-normal">
+                        {% block panelMenu %}
+                        {% set route = app.request.get('_route') %}
+                        <li class="{{ 'profile' in route?'current' }}"><a href="{{ path('panel.user.profile.show') }}">{{ 'profile.title'|trans }}</a></li>
+                        <li class="{{ 'account' in route?'current' }}"><a href="{{ path('panel.user.account.show') }}">{{ 'account.title'|trans }}</a></li>
+                        <li class="{{ 'contact' in route?'current' }}"><a href="{{ path('panel.user.contact.index') }}">{{ 'contact.title'|trans }}</a></li>
+                        <li class="{{ 'comment' in route?'current' }}"><a href="{{ path('panel.comment.index') }}">{{ 'article.myComments' | trans }}</a></li>
+                        <li class="{{ 'message' in route?'current' }}"><a href="{{ path('panel.message.index') }}">{{ 'message.title'|trans }}</a></li>
+                        <li class="{{ 'favouriteArticles' in route?'current' }}"><a href="{{ path('panel.favouriteArticles.index') }}">{{ 'user.favouriteArticles'|trans }}</a></li>
+                        <li class="{{ 'collaboration' in route?'current' }}"><a href="{{ path('panel.collaboration.index') }}">{{ 'collaboration.title'|trans }}</a></li>
+                        {% endblock panelMenu %}
+                    </ul>
+
+                    {% if is_granted('ROLE_EDITOR') %}
+                    <ul class="list-menu list-menu-labeled">
+                        {% block workflowMenu %}
+                        {% set route = app.request.get('_route') %}
+                        <li class="list-title"><span class="menu-item">WORKFLOW</span></li>
+                        <li class="{{ 'article' in route?'current' }}"><a href="{{ path('workflow.article.list') }}"><span class="icon-article"></span> {{ 'article.assigned'|trans }}</a></li>
+                        <li class="{{ 'request' in route?'current' }}"><a href="{{ path('workflow.request.list') }}"><span class="icon-notify"></span> {{ 'request.title'|trans }}</a></li>
+                        {% if is_granted('ROLE_SUPERVISOR') %}
+                        <li class="{{ 'category.list' in route?'current' }}"><a href="{{ path('workflow.category.list') }}"><span class="icon-categories"></span> {{ 'category.assigned'|trans }}</a></li>
+                        <li class="{{ 'team' in route?'current' }}"><a href="{{ path('workflow.team.show') }}"><span class="icon-user"></span> {{ 'team.title'|trans }}</a></li>
+                        <li class="{{ 'category.tree' in route?'current' }}"><a href="{{ path('workflow.category.tree') }}"><span class="icon-tree"></span> {{ 'category.tree'|trans }}</a></li>
+                        {% endif %}
+                        {% endblock workflowMenu %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {# LEFT COLUMN #}
+
+                <div class="main-content">
+                    <div class="full-container">
+                        <div class="row">
+                            {% if block('privateAreaButtonResponsive') is not empty %}
+                            <div class="bar bar-link light-background visible-sm visible-xs">
+                                {{ block('privateAreaButtonResponsive') }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="content">
+
+                            <div class="row container-row content-header">
+                                {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+                                <div class="col-md-7">
+                                    <h1>{{ block('privateAreaTitle') }}</h1>
+                                </div>
+                                <div class="col-md-5">
+                                    {{ block('privateAreaButton') }}
+                                </div>
+                            </div>
+                            {{ block('privateAreaContent') }}
+                        </div>
+                    </div>
+                </div>
+                {# END LEFT COLUMNS #}
+            </div>
+            {{ block('popups') }}
+{% endblock body %}
+

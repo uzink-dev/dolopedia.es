@@ -1,0 +1,86 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+{% form_theme requestSearchForm 'FrontBundle:Form:fields.html.twig' %}
+
+{% block privateAreaTitle %}{{ 'request.title'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+    {{ form(requestSearchForm) }}
+{% endblock privateAreaButton %}
+
+{% block privateAreaContent %}
+
+    <div class="row container-row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#solicitudes-recibidas" data-toggle="tab">Solicitudes Recibidas</a>
+                </li>
+                <li>
+                    <a href="#solicitudes-enviadas" data-toggle="tab">Solicitudes Enviadas</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-content">
+        <div class="content">
+            <div id="solicitudes-recibidas"
+                 class="tab-pane active"
+                 data-filtered-list="#solicitudes-recibidas-container">
+                <div class="row container-row">
+                    <div class="col-md-12">
+                        <ul class="solicitudes__filtros clearfix">
+                            <li class="solicitudes__filtros__item solicitudes__filtros__item--active"
+                                data-filter-item="*">Todas</li>
+                            <li class="solicitudes__filtros__item"
+                                data-filter-item=".table-well-pending">Pendientes</li>
+                            <li class="solicitudes__filtros__item"
+                                data-filter-item=".table-well-success">Aceptadas</li>
+                            <li class="solicitudes__filtros__item"
+                                data-filter-item=".table-well-declined">Rechazadas</li>
+                        </ul>
+                    </div>
+                    <div id="solicitudes-recibidas-container" data-filtered-list-item=".solicitudes-recibidas__item">
+                        {% for request in requestReceived %}
+                            {% set direction = 'incoming' %}
+                            {% set format = 'list' %}
+                            {% set itemClass = 'solicitudes-recibidas__item' %}
+                            {{ include('FrontBundle:Request/Item:workflow.partial.data.' ~ request.type ~ '.html.twig') }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div id="solicitudes-enviadas"
+                 class="tab-pane"
+                 data-filtered-list="#solicitudes-enviadas__container">
+                <div class="row container-row">
+                    <div class="col-md-12">
+                        <ul class="solicitudes__filtros clearfix">
+                            <li class="solicitudes__filtros__item solicitudes__filtros__item--active"
+                                data-filter-item="*">Todas</li>
+                            <li class="solicitudes__filtros__item"
+                                data-filter-item=".table-well-pending">Pendientes</li>
+                            <li class="solicitudes__filtros__item"
+                                data-filter-item=".table-well-success">Aceptadas</li>
+                            <li class="solicitudes__filtros__item"
+                                data-filter-item=".table-well-declined">Rechazadas</li>
+                        </ul>
+                    </div>
+                    <div id="solicitudes-enviadas__container" data-filtered-list-item=".solicitudes-enviadas__item">
+                        {% for request in requestSent %}
+                            {% set direction = 'outcoming' %}
+                            {% set format = 'list' %}
+                            {% set itemClass = 'solicitudes-enviadas__item' %}
+                            {{ include('FrontBundle:Request/Item:workflow.partial.data.' ~ request.type ~ '.html.twig') }}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock privateAreaContent %}

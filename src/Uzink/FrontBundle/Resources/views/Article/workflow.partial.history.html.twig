@@ -1,0 +1,44 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div id="article-history" class="tab-pane">
+    <div class="row container-row">
+        <div class="col-md-12">
+            <div class="relative section">
+                <h2 class="base-color no-top-separation">{{ 'article.history' | trans }}</h2>
+            </div>
+
+            {% for draft in article.drafts|reverse %}
+                {% set status = 'badge-drafted' %}
+                {% set icon = 'icon-clock' %}
+                {% set title = 'Borrador del artículo' %}
+                {% if draft.status is constant(namespace ~ 'Draft::STATUS_REVISION') %}
+                    {% set status = 'badge-validation' %}
+                    {% set icon = 'icon-check' %}
+                    {% set title = 'Borrador en revisión' %}
+                {% elseif draft.status is constant(namespace ~ 'Draft::STATUS_VALIDATED') %}
+                    {% set status = 'badge-validation' %}
+                    {% set icon = 'icon-article' %}
+                    {% set title = 'icon-check' %}
+                    {% set title = 'Borrador validado' %}
+                {% elseif draft.status is constant(namespace ~ 'Draft::STATUS_PUBLISHED') %}
+                    {% set status = 'badge-published' %}
+                    {% set icon = 'icon-article' %}
+                    {% set title = 'icon-check' %}
+                    {% set title = 'Borrador publicado' %}
+                {% endif %}
+                <div class="thumb-badge">
+                    <div class="badge-thumb badge-history {{ status }}" data-toggle="tooltip" data-placement="left" title="{{ title }}"><span class="{{ icon }}"></span></div>
+                    <div class="badge-info">
+                        <p>
+                            {{ 'article.modified' | trans }}: <a href="#">{{ draft.updatedAt | date('d/m/Y - H:i') }}</a>
+                            <span class="separate-left-bordered">{{ 'article.byUser' | trans }}: <a href="#">{{ draft.createdBy }}</a></span>
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="dark-grey-color">No existen revisiones de este artículo</div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>

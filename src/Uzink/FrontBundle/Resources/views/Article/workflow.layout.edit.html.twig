@@ -1,0 +1,52 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+{% form_theme form 'FrontBundle:Form:fields.html.twig' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Entity\\' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'article.edit'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+    <a data-form-action="{{ constant(namespace ~ 'Article::ACTION_PREVIEW') }}" data-form-id="editArticleForm" data-form-url="{{ path('public.article.preview', {'id': article.id}) }}" class="btn btn-big btn-primary pull-right visible-lg visible-md"><span class="icon-shadow icon-preview "></span> Vista Previa</a>
+{% endblock privateAreaButton %}
+
+{% block privateAreaContent %}
+    {{ include('FrontBundle:Article:workflow.partial.content.html.twig') }}
+{% endblock privateAreaContent %}
+
+{% block modals %}
+    {{ include('FrontBundle:Article:workflow.modal.content.html.twig') }}
+    {{ include('FrontBundle:Article:workflow.popup.bibliography.html.twig') }}
+    {{ include('FrontBundle:Article:workflow.popup.internalLinks.html.twig') }}
+    {{ include('FrontBundle:Article:workflow.popup.multimedia.html.twig') }}
+    {{ include('FrontBundle:Article:workflow.popup.externalLinks.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        var formHasChanged = false;
+        var submitted = false;
+
+        $(document).on('change', 'input, select, textarea', function (e) {
+            formHasChanged = true;
+        });
+
+        $(document).ready(function () {
+            window.onbeforeunload = function (e) {
+                if (!submitted) {
+                    var message = '{{ 'article.actions.contentEditionExit'|trans }}', e = e || window.event;
+                    if (e) {
+                        e.returnValue = message;
+                    }
+                    return message;
+                }
+            }
+            $('form').submit(function() {
+                submitted = true;
+            });
+        });
+
+    </script>
+{% endblock javascripts %}

@@ -1,0 +1,60 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="row container-row section cloud-background">
+    <div class="col-md-12">
+        <h2 class="centered title-big no-border white-color">{{ 'featured.title'|trans }}</h2>
+
+        {% if recentArticles|length %}
+        <div class="centered section">
+            <div class="col-md-6 col-sm-6 block-box-width">
+                <div class="link-box">
+                    <h3 class="link-box-title">{{ 'featured.moreRecentArticles'|trans }}<span class="icon-clock icon-big pull-right"></span></h3>
+                    <ul class="link-list small-list no-separator">
+                        {% for rArticle in recentArticles %}
+                        <li>
+                            <p class="title"><a href="{{ path('public.article.show', {'slug': rArticle.seoSlug}) }}">{{ rArticle.title }}</a></p>
+                            <p class="subtitle">{{ 'article.publishedDatetime'|trans( {'%date%': rArticle.publishedAt|date('d/m/Y'), '%hour%': rArticle.publishedAt|date('H:i') } ) }}</a></p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if bestRatingArticles|length %}
+            <div class="col-md-6 col-sm-6 block-box-width">
+                <div class="link-box">
+                    <h3 class="link-box-title">{{ 'featured.bestRated'|trans }} <span class="icon-like icon-big pull-right"></span></h3>
+                    <ul class="link-list small-list no-separator">
+                        {% for brArticle in bestRatingArticles %}
+                        <li>
+                            <p class="title"><a href="{{ path('public.article.show', {'slug': brArticle.seoSlug}) }}">{{ brArticle.title }}</a></p>
+                            <p class="subtitle">{{ 'article.publishedDatetime'|trans( {'%date%': brArticle.publishedAt|date('d/m/Y'), '%hour%': brArticle.publishedAt|date('H:i') } ) }}</a></p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="col-md-6 col-sm-6 block-box-width">
+                <div class="link-box">
+                    <h3 class="link-box-title">{{ 'featured.moreFollowed'|trans }} <span class="icon-users icon-big pull-right"></span></h3>
+                    <ul class="link-list small-list no-separator">
+                        {% for user in moreFollowed %}
+                        <li>
+                            <div class="user-badge">
+                                <a href="{{ path('public.user.show', {'id': user.id}) }}"><img class="user-badge-thumb thumb" src="{{ user.image|userHandler }}"/></a>
+                                <div class="user-badge-details">
+                                    <p><a href="{{ path('public.user.show', {'id': user.id}) }}">{{ user }}</a></p>
+                                    <p class="subtitle">{{ 'featured.followers'|transchoice(user.followers|length, {'%number%': user.followers|length}) }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

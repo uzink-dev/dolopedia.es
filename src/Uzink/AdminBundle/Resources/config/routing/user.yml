@@ -1,0 +1,46 @@
+admin.user.index:
+    pattern:  /list/{page}
+    defaults: { _controller: AdminBundle:User:index, page: 1 }
+    methods:  [GET, POST]
+    requirements:
+        page: \d+
+
+admin.user.new:
+    pattern:  /new
+    defaults: { _controller: AdminBundle:User:new }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.user.create:
+    pattern:  /create
+    defaults: { _controller: AdminBundle:User:create }
+    methods:  [POST]
+
+admin.user.edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: AdminBundle:User:edit }
+    methods:  [GET]
+    requirements:
+        id: \d+
+
+admin.user.update:
+    pattern:  /{id}/update
+    defaults: { _controller: AdminBundle:User:update }
+    methods:  [POST, PUT]
+    requirements:
+        id: \d+
+
+admin.user.delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: AdminBundle:User:delete }
+    methods:  [GET, POST]
+    requirements:
+        id: \d+
+
+admin.user.confirm.delete:
+    pattern:  /{id}/confirm-delete
+    defaults: { _controller: AdminBundle:User:confirmDelete }
+    methods:  [POST]
+    requirements:
+        id: \d+

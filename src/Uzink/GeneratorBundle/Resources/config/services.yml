@@ -1,0 +1,20 @@
+parameters:
+    generator.menu.main.class: Knp\Menu\MenuItem
+    generator.menu.voter.request.class: Uzink\GeneratorBundle\Menu\RequestVoter
+
+services:
+    generator.menu.main:
+        class: %generator.menu.main.class% # the service definition requires setting the class
+        factory_service: generator.menu_builder
+        factory_method: mainMenu
+        arguments: ["@request"]
+        scope: request # needed as we have the request as a dependency here
+        tags:
+            - { name: knp_menu.menu, alias: main } # The alias is what is used to retrieve the menu
+
+    generator.menu.voter.request:
+        class: %generator.menu.voter.request.class%
+        arguments:
+            container: "@service_container"
+        tags:
+            - { name: knp_menu.voter }

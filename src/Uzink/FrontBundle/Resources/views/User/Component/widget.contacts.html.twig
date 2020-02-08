@@ -1,0 +1,12 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="titled-box titled-box-xs">
+    <h3 class="title with-arrow">{{ 'contact.title' | trans }}</h3>
+    <div class="grid">
+        {% for user in app.user.contacts %}
+        <img src="{{ user.image | userHandler('user_thumb_large') }}" class="thumb img-48 grid-img" data-toggle="tooltip" data-placement="top" title="{{ user }}">
+        {% else %}
+        <p>No has añadido ningún contacto todavía</p>
+        {% endfor %}
+    </div>
+</div>

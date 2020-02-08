@@ -1,0 +1,57 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block seo %}
+    <title>{{ category.title }} | Dolopedia</title>
+    <meta name="description" content="{{ category.description | striptags | raw }}">
+    <meta name="keywords" content="Dolopedia">
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <div class="row container-row content-header">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+            <div class="col-md-9">
+                <h1>{{ category.title }}</h1>
+            </div>
+            <div class="col-md-3">
+                {% set uri = (app.user)?'#newRequest':path('fos_user_security_login') %}
+                <a href="{{ uri }}" class="popupLauncher btn btn-big btn-primary pull-right visible-lg visible-md"><span class="icon-create-article icon-shadow "></span> {{ 'article.newRequest' | trans }}</a>
+            </div>
+        </div>
+
+        <div class="row container-row section">
+            <div class="col-md-12">
+                {% set bibliographyIndex = 1 %}
+                {{ category.introduction | content | raw }}
+                {{ category.description | content | raw }}
+            </div>
+        </div>
+
+        {% if category.bibliographicEntries|length > 0 %}
+            {{ include('FrontBundle:Category:public.partial.bibliography.html.twig') }}
+        {% endif %}
+
+        {% if category.children|length %}
+        <div class="row container-row section light-background">
+            <div class="col-md-12">
+                <h2 class="section-title">SUBCATEGORÍAS <span class="icon-categories base-color pull-right icon-big"></span></h2>
+            </div>
+        </div>
+        {% render(controller('BackendBundle:Category:gridCategories',{'parentCategory': category})) %}
+        {% endif %}
+
+        <div class="row container-row section light-background">
+            <div class="col-md-12">
+                <h2 class="section-title">ARTICULOS EN ESTA CATEGORÍA <span class="page-count base-color pull-right">{{ category.publishedArticles | length }}</span></h2>
+            </div>
+        </div>
+        {% include 'FrontBundle:Article:public.partial.list.html.twig' with {'articles': articles} %}
+    </div>
+
+    {% if app.user %}
+        {{ render(controller('BackendBundle:Request:createRequestForm', {'entity': category} )) }}
+    {% endif %}
+    {{ include('FrontBundle:Article:workflow.popup.request.complete.html.twig') }}
+{% endblock body %}

@@ -1,0 +1,42 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+
+{% block body %}
+            <div class="content">
+                <div class="row">
+                    <div class="welcome">
+                        <div class="row container-row">
+                            <div class="col-lg-6 col-md-7 col-sm-7">
+                                <div class="welcome-info">
+                                    <h1 class="welcome-title">Bienvenid@ a Dolopedia</h1>
+                                    <p>La red de conocimiento sobre anestesiología y <br/>
+                                    tratamiento del dolor que crece con tus aportaciones</p>
+                                    <div class="btn-group">
+                                        <a href="{{ path('public.user.registration.options') }}" class="btn btn-primary">Regístrate ahora</a>
+                                        {#<a href="{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}" class="btn btn-primary">Conéctate con <span class="icon-facebook"></span></a>#}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col-lg-6 col-md-5 col-sm-5 relative">
+                                <img src="{{ asset('bundles/front/img/medicos-header.jpg') }}" class="welcome-img"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row container-row">
+                    <div class="col-md-12">
+                        <h2 class="centered title-big no-border text-color">Categorías de la Dolopedia</h2>
+                        <p class="subtitle subtitle-big centered">En la Dolopedia puedes navegar por una agrupación temática del contenido, para que todo sea más fácil</p>
+                    </div>
+                </div>
+                
+                <div class="centered">
+                    {% render(controller('BackendBundle:Category:gridCategories')) %}
+                </div>
+
+                {% render(controller('BackendBundle:Home:Featured')) %}
+
+                {% render(controller('BackendBundle:Home:Promoters')) %}
+            </div>
+{% endblock body %}

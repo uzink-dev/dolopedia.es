@@ -1,0 +1,160 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+{% form_theme sentFilter 'FrontBundle:Form:fields.html.twig' %}
+{% form_theme receivedFilter 'FrontBundle:Form:fields.html.twig' %}
+
+{% set namespace = '\\Uzink\\BackendBundle\\Entity\\' %}
+
+{% macro pager(pager, parameter) %}
+    <div class="row container-row section">
+        {% if pager is not null and pager.haveToPaginate %}
+            {{ pagerfanta(pager, 'dolopedia', {'pageParameter' : '[' ~ parameter ~ ']'}) }}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro draw(messages, direction) %}
+    {% import _self as messageDrawer %}
+
+    {% for message in messages %}
+        {{  messageDrawer.element(message, direction)  }}
+    {% else %}
+        No hay mensajes
+    {% endfor %}
+{% endmacro %}
+
+{% macro element(message, direction) %}
+    {% set date = message.createdAt | date('d/m/Y') %}
+    {% set hour = message.createdAt | date('H:i') %}
+    {% if app.user == message.receiver %}
+        {% set user = message.receiver  %}
+        {% set description = 'message.description.received' | trans({'%date%': date, '%hour%': hour, '%user%': message.sender }) %}
+    {% else %}
+        {% set user = message.sender  %}
+        {% set description = 'message.description.sent' | trans({'%date%': date, '%hour%': hour, '%user%': message.receiver }) %}
+    {% endif %}
+
+    {% set receivedClass = '' %}
+    {% if message.multiple %}
+        {% if direction == constant('\\Uzink\\BackendBundle\\Entity\\Message::RECEIVED') and not message.multipleSendMetadata['readed'][app.user.id] %}
+            {% set receivedClass = 'pending' %}
+        {% endif %}
+    {% else %}
+        {% if not message.readed and direction == constant('\\Uzink\\BackendBundle\\Entity\\Message::RECEIVED') %}
+            {% set receivedClass = 'pending' %}
+        {% endif %}
+    {% endif %}
+
+    <div class="user-badge user-badge-sm user-badge-block {{ receivedClass }} separate-bottom">
+        <img src="{{ message.sender.image | userHandler('user_thumb_pico') }}" class="thumb user-badge-thumb"/>
+        <div class="user-badge-info">
+            <a href="{{ path('panel.message.show', {'id': message.id}) }}"><p class="title">{{ message.subject }}</p></a>
+            <p class="subtitle">{{ description }}</a></p>
+        </div>
+    </div>
+{% endmacro %}
+
+{% block privateAreaTitle %}{{ 'message.title' | trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+    <a href="{{ path('panel.message.multiple') }}" class="btn btn-primary btn-big pull-right  visible-lg visible-md"><span class="icon-mail"></span> {{ 'message.multiple' | trans }}</a>
+    <a href="{{ path('panel.message.new') }}" class="btn btn-primary btn-big pull-right  visible-lg visible-md" style="margin-right: 10px;"><span class="icon-mail"></span> {{ 'message.new' | trans }}</a>
+{% endblock privateAreaButton %}
+
+{% block privateAreaButtonResponsive %}
+    <div class="col-md-12">
+        <a href="{{ path('panel.message.new') }}" ><span class="icon-create-user icon-md-inline"></span> {{ 'message.new'|trans }}</a>
+    </div>
+{% endblock privateAreaButtonResponsive %}
+
+{% block privateAreaContent %}
+
+    {% import _self as message %}
+
+    <div class="row container-row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#mensajes-recibidos">Mensajes Recibidos</a>
+                </li>
+                <li>
+                    <a href="#mensajes-enviados">Mensajes Enviados</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-content">
+        <div class="content">
+            {{ include('FrontBundle:Component:flash.partial.html.twig') }}
+            <div id="mensajes-recibidos" class="tab-pane active">
+                <div class="row container-row">
+                    <form method="get" action="#">
+                        <div class="col-lg-4">
+                            {{ form_label(receivedFilter.receivedSortSelect) }}
+                            {{ form_widget(receivedFilter.receivedSortSelect) }}
+                        </div>
+                        <div class="clearfix hidden-lg">&nbsp;</div>
+                        <div class="col-lg-6">
+                            {{ form_label(receivedFilter.receivedDateFrom) }}
+                            <div class="date-selector">
+                                {{ form_widget(receivedFilter.receivedDateFrom) }}
+                                <span class="inputs-separator"> / </span>
+                                {{ form_widget(receivedFilter.receivedDateTo) }}
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <a data-form-action="save" class="btn btn-block btn-grey separate-top separate-lg"><span class="icon-refresh"></span> {{ 'message.filter.show' | trans }}</a>
+                        </div>
+                        <input type="hidden" name="tab" value="mensajes-recibidos">
+                        {{ form_rest(receivedFilter) }}
+                    </form>
+                </div>
+
+                <div class="row container-row">
+                    <div class="col-md-12">
+                        <hr>
+                        {{ message.draw(receivedPager.getCurrentPageResults, constant(namespace ~ 'Message::RECEIVED')) }}
+                    </div>
+
+                </div>
+
+                {{ message.pager(receivedPager, constant(namespace ~ 'Message::RECEIVED')) }}
+            </div>
+
+            <div id="mensajes-enviados" class="tab-pane">
+                <div class="row container-row">
+                    <form method="get" action="#">
+                        <div class="col-lg-10">
+                            {{ form_label(sentFilter.sentDateFrom) }}
+                            <div class="date-selector">
+                                {{ form_widget(sentFilter.sentDateFrom) }}
+                                <span class="inputs-separator"> / </span>
+                                {{ form_widget(sentFilter.sentDateTo) }}
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="col-lg-2">
+                            <a data-form-action="save" class="btn btn-block btn-grey separate-top separate-lg"><span class="icon-refresh"></span> {{ 'message.filter.show' | trans }}</a>
+                        </div>
+                        <input type="hidden" name="tab" value="mensajes-enviados">
+                        {{ form_rest(sentFilter) }}
+                    </form>
+                </div>
+
+                <div class="row container-row">
+                    <div class="col-md-12">
+                        <hr>
+                        {{ message.draw(sentPager.getCurrentPageResults, constant(namespace ~ 'Message::SENT')) }}
+                    </div>
+                </div>
+
+                {{ message.pager(sentPager, constant(namespace ~ 'Message::SENT')) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock privateAreaContent %}

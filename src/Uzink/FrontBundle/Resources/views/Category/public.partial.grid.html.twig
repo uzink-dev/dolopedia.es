@@ -1,0 +1,21 @@
+    <div class="row container-row section">
+    {% for category in categories %}
+        <div class="col-md-6 col-sm-6 block-card-width">
+           <div class="link-card link-card-md">
+               <div class="link-card-image">
+                   <img src="{{ category.image | categoryHandler('category_large') }}" />
+               </div>
+               <div class="link-card-info">
+                   <a href="{{ path('public.category.show', {'slug': category.seoSlug}) }}" class="link-card-header">{{ category.title }}
+                   <span class="page-count">{{ category.articlesNB }}</span>
+                   </a>
+                   <div class="link-card-info-content">
+                       <p>
+                           {{ category.description | striptags | raw }}
+                       </p>
+                   </div>
+               </div>
+           </div>
+        </div>    
+    {% endfor %}
+    </div>            

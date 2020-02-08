@@ -1,0 +1,28 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="container-row row centered section cloud-background transversal-categories">
+    <div class="col-lg-12">
+        <h2 class="centered title-big no-border white-color">{{ 'crossCategory.sharp.main'|trans }}</h2>
+        <ul class="sharp-list">
+            {% for key, item in sharpCategories %}
+                <li>
+                    <a href="{% if item.categorySlug is not empty %}{{ path('public.category.show', {'slug': item.categorySlug}) }}{% endif %}">{{ item.label|trans }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2 class="centered title-big no-border white-color">{{ 'crossCategory.chronic.main'|trans }}</h2>
+        <div class="chronic-section">
+            {% for key, category in chronicCategories %}
+                <ul class="chronic-section__list">
+                    <li class="title">{{ category.label|trans }}</li>
+                    {% for item in category.items %}
+                        <li>
+                            <a href="{% if item.categorySlug is not empty %}{{ path('public.category.show', {'slug': item.categorySlug}) }}{% endif %}">{{ item.label|trans }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+</div>

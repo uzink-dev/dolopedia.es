@@ -1,0 +1,24 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="titled-box titled-box-xs  without-img with-gray-background">
+    <h3 class="title with-arrow">{{ 'user.favouriteArticles' | trans }}</h3>
+
+    {% for article in app.user.favouritesArticles %}
+    <div class="item">
+        <p class="item-text jEllipsis" style="word-wrap: break-word;">
+            <a href="{{ path('public.article.show', {'slug': article.seoSlug}) }}">{{ article }}</a>
+        </p>
+        <p class="item-date">
+            {{ 'article.publishedDatetime' | trans({'%date%': article.publishedAt | date('d/m/Y'), '%hour%': article.publishedAt | date('H:i')}) }}
+        </p>
+        <div class="clearfix"></div>
+    </div>
+    {% else %}
+    <div class="item">
+        <p class="item-text jEllipsis" style="word-wrap: break-word;">
+            Aún no tienes ningún artículo marcado como favorito
+        </p>
+        <div class="clearfix"></div>
+    </div>
+    {% endfor %}
+</div>

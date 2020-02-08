@@ -1,0 +1,25 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="row container-row section light-background">
+    <div class="col-md-12">
+        <h2 class="title title-small base-color">{{ 'article.bibliographicEntries'|trans }}</h2>
+        <ol class="strong">
+        {% for entry in article.bibliographicEntries %}
+            {% spaceless %}
+                <li>
+                    <a name="{{ entry.uid }}"></a>
+                    {{ entry.link is not empty ? ('<a href="' ~ entry.link ~ '" target="_blank">')|raw }}
+                    {{ entry.title }}
+                    {{ entry.title is not empty ? ', ' }}
+                    {{ entry.author is not empty ? 'por ' ~ entry.author }}
+                    {{ entry.publication is not empty ? 'en ' ~ entry.publication }}
+                    {{ entry.volume is not empty ? 'Vol. ' ~ entry.volume }}
+                    {{ entry.pages is not empty ? ', en las páginas ' ~ entry.pages }}
+                    {{ entry.year is not empty ? ', año ' ~ entry.year }}
+                    {{ entry.link is not empty ? '</a>' }}
+                </li>
+            {% endspaceless %}
+        {% endfor %}
+        </ol>
+    </div>
+</div>

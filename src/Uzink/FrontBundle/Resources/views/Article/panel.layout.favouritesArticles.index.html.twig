@@ -1,0 +1,36 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'user.favouriteArticles' | trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+{% endblock privateAreaButton %}
+
+{% block privateAreaContent %}
+
+    {% if pager.getCurrentPageResults|length > 0 %}
+        <ul class="link-list with-img">
+            {% for article in pager.getCurrentPageResults %}
+            <li>
+                <img src="{{ article.owner.image | userHandler('user_thumb_large') }}" class="img-64 img-link">
+                <p class="title"><a href="{{ path('public.article.show', {'slug': article.seoSlug}) }}">{{ article }}</a></p>
+                <p class="subtitle">{{ 'article.publishedAt' | trans({ '%date%': article.publishedAt | date('d/m/Y'), '%path%': path('public.user.show', {'id': article.owner.id}), '%user%': article.owner }) | raw }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="row container-row">
+            <div class="col-md-12">
+                <p>{{ 'general.emptyResults'|trans }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row container-row section">
+        {% if pager is not null and pager.haveToPaginate %}
+            {{ pagerfanta(pager, 'dolopedia') }}
+        {% endif %}
+    </div>
+
+{% endblock privateAreaContent %}

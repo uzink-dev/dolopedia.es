@@ -1,0 +1,83 @@
+{% extends 'AdminBundle:Layout:layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% block title %}Links de categoría{% endblock %}
+
+{% block content %}
+    <form method="post" novalidate>
+        <div class="col-xs-12">
+            <h2 class="centered title-big no-border white-color">{{ 'crossCategory.sharp.main'|trans }}</h2>
+            <div class="sharp-list">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <colgroup>
+                            <col class="col-xs-10">
+                            <col class="col-xs-2">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, item in sharpCategories %}
+                            <tr>
+                                <td>{{ item|trans }}</td>
+                                <td>
+                                    {{ form_widget(attribute(form, key), {'attr': {'class': 'form-control'} }) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h2 class="centered title-big no-border white-color">{{ 'crossCategory.chronic.main'|trans }}</h2>
+            <div class="chronic-section">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <colgroup>
+                            <col class="col-xs-10">
+                            <col class="col-xs-2">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Categoría</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cKey, list in chronicCategories %}
+                            <tr>
+                                <td colspan="2">
+                                    <strong>{{ ('crossCategory.chronic.' ~ cKey ~ '.main')|trans }}</strong>
+                                </td>
+                            </tr>
+                                {% for iKey, item in list %}
+                                <tr>
+                                    <td>{{ item|trans }}</td>
+                                    <td>
+                                        {{ form_widget(attribute(form, cKey ~ '_' ~ iKey), {'attr': {'class': 'form-control'} }) }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}
+
+
+
+

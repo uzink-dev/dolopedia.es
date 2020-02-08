@@ -1,0 +1,46 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div id="bibliographyPopup" class="formWindow popup" style="display: none;">
+    <div class="formWindow-head"><h2 class="title">Entrada Bibliográfica <span class="icon-data-edit icon-big"></span></h2></div>
+    <div class="formWindow-content">
+        <div class="formWindow-control">
+            <label for="inputTitulo">Título</label>
+            <input type="text" id="bibliographyTitle" class="form-control" />
+        </div>
+        <div class="formWindow-control">
+            <label for="inputAutor">Autor</label>
+            <input type="text" id="bibliographyAuthor" class="form-control" />
+        </div>
+        <div class="formWindow-control">
+            <label for="inputRevista">Revista / Publicación</label>
+            <input type="text" id="bibliographyPublication" class="form-control" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 formWindow-control">
+                <label for="inputVolumen">Volumen</label>
+                <input type="text" id="bibliographyVolume" class="form-control" />
+            </div>
+            <div class="col-md-4 formWindow-control">
+                <label for="inputNumero">Páginas</label>
+                <input type="text" id="bibliographyPages" class="form-control" />
+            </div>
+            <div class="col-md-4 formWindow-control">
+                <label for="inputAño">Año</label>
+                <input type="text" id="bibliographyYear" class="form-control" />
+            </div>
+        </div>
+        <div class="formWindow-control">
+            <label for="inputRevista">Enlace</label>
+            <input type="text" id="bibliographyLink" class="form-control" />
+        </div>
+        <input type="hidden" id="bibliographyUid" />
+        <input type="hidden" id="bibliographyPosition" />
+    </div>
+    <div class="formWindow-footer">
+        <div class="formWindow-control alone last">
+            <a class="btn btn-dark-grey" data-popup-action="accept"><span class="icon-forward" ></span> {{ 'popup.button.add'|trans() }}</a>
+            <a href="javascript:$.fancybox.close();" class="formWindow-exit"> {{ 'popup.button.cancelAndExit'|trans() }}</a>                        
+        </div>
+    </div>
+</div>

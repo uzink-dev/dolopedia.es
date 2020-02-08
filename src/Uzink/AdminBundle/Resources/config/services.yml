@@ -1,0 +1,107 @@
+parameters:
+    admin.list_max_per_page: 10
+
+    admin.manager.class: Uzink\AdminBundle\Manager\AdminManager
+    admin.engine.class: Uzink\BackendBundle\Entity\Engine
+    admin.center.class: Uzink\BackendBundle\Entity\Center
+    admin.contact.class: Uzink\BackendBundle\Entity\Contact
+    admin.promoter.class: Uzink\BackendBundle\Entity\Promoter
+    admin.menu.class: Uzink\BackendBundle\Entity\Menu
+    admin.page.class: Uzink\BackendBundle\Entity\Page
+    admin.helppage.class: Uzink\BackendBundle\Entity\HelpPage
+    admin.user.class: Uzink\BackendBundle\Entity\User
+    admin.article.class: Uzink\BackendBundle\Entity\Article
+    admin.category.class: Uzink\BackendBundle\Entity\Category
+
+    generator.menu_builder.class: Uzink\AdminBundle\Menu\Builder
+    admin.form.datepicker.class: Uzink\AdminBundle\Form\Type\DatepickerType
+    admin.form.datetimepicker.class: Uzink\AdminBundle\Form\Type\DatetimepickerType
+
+services:
+    admin.engine.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.engine.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.center.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.center.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.contact.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.contact.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.promoter.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.promoter.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.menu.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.menu.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.page.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.page.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.helppage.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.helppage.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.user.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.user.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.article.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.article.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    admin.category.manager:
+      class: %admin.manager.class%
+      arguments: [%admin.category.class%]
+      calls:
+          - [setEventDispatcher, ["@event_dispatcher"]]
+          - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
+
+    generator.menu_builder:
+        class: %generator.menu_builder.class%
+        arguments:
+            factory: "@knp_menu.factory"
+            security: "@security.context"
+            requestStack: "@request_stack"
+
+    admin.form.datepicker:
+        class: %admin.form.datepicker.class%
+        tags:
+            - { name: form.type, alias: datepicker }
+
+    admin.form.datetimepicker:
+        class: %admin.form.datetimepicker.class%
+        tags:
+            - { name: form.type, alias: datetimepicker }
+

@@ -1,0 +1,30 @@
+{% block subject %}
+    {% autoescape false %}
+    Nuevo artículo asignado
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Hola {{ user.name }}
+
+    Te han asignado un nuevo artículo, puedes acceder a el a través de este link: {{ url }}
+
+    Atentamente,
+    El equipo de Dolopedia
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Nuevo artículo asignado
+        {% endblock %}
+
+        {% block subtitle %}
+            Puedes editar un nuevo artículo
+        {% endblock subtitle %}
+
+        {% block content %}
+            Te han asignado un nuevo artículo {{ article }}, puedes acceder a el a través desde <a href="{{ url }}">aquí</a>.
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

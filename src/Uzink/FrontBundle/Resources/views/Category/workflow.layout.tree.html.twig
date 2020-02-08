@@ -1,0 +1,18 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+    
+{% block privateAreaTitle %}{{ 'category.tree'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaContent %}
+    <div class="row container-row">
+        <div class="col-md-12">
+            {{ include('FrontBundle:Category:workflow.partial.tree.html.twig') }}
+        </div>
+    </div>
+{% endblock privateAreaContent %}
+
+{% block modals %}
+    {{ include('FrontBundle:Category:workflow.modal.delete.forbiden.html.twig') }}
+    {{ include('FrontBundle:Category:workflow.modal.delete.html.twig') }}
+{% endblock %}    

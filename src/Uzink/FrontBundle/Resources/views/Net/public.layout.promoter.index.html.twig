@@ -1,0 +1,62 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block body %}
+    <div class="content">
+
+        <div class="row container-row content-header">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+            <div class="col-md-12">
+                <h1>{{ 'net.promoter.title' | trans }}</h1>
+            </div>
+        </div>
+
+{#        <div class="row container-row section">
+            <div class="col-md-12">
+                <p class="emphasis">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            </div>
+        </div>
+
+        <div class="row container-row section light-background">
+            <div class="col-md-12">
+                {% include('FrontBundle:Component:partial.filter.alphabet.html.twig') %}
+            </div>
+        </div>#}
+
+        <div class="row container-row section">
+
+            {% for promoter in pager.getCurrentPageResults %}
+                <div class="col-md-6 col-sm-6 block-card-width">
+                    <div class="link-card">
+                        <div class="link-card-image">
+                            <img src="{{ promoter.image|centerHandler('promoter_thumb') }}"/>
+                        </div>
+                        <div class="link-card-info">
+                            <a href="{{ path('public.net.promoter.show', {'slug': promoter.seoSlug}) }}" class="link-card-header">{{ promoter.title }}</a>
+                            <div class="link-card-info-content">
+                                <p class="grey-color">
+                                    {% if promoter.link is not null %}<a href="{{ promoter.link }}">Ir al sitio web</a>{% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row container-row section">
+                    <div class="col-md-12">
+                        <p class="emphasis">{{ 'general.notResults'|trans }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <div class="row container-row section">
+            {% if pager is not null and pager.haveToPaginate %}
+                {{ pagerfanta(pager, 'dolopedia') }}
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock body %}

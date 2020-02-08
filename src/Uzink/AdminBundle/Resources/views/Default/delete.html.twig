@@ -1,0 +1,35 @@
+{% extends 'AdminBundle:Layout:layout.html.twig' %}
+
+{% form_theme form 'AdminBundle:Form:fields.html.twig' %}
+
+{%  block title %}Borrado de {{ metadata.entityDescription }}{% endblock %}
+
+{% block top_buttons %}
+<a class="btn btn-default" href="{{ path('admin.' ~ metadata.entityName ~ '.edit', { 'id': entity.id }) }}">
+    {{ icon('list') }} Volver a la edición
+</a>
+{% endblock %}
+
+{% block content %}
+<section id="edition-form">
+    <div class="col-md-12">
+        <h1>Esta funcionalidad de borrado todavía no está completamente implementada.</h1>
+        <h4>No se realizará el borrado</h4>
+        <hr/>
+        <form class="form"
+              action="{{ path('admin.' ~ metadata.entityName ~ '.confirm.delete', { 'id': entity.id }) }}"
+              method="post" {{ form_enctype(form) }} novalidate>
+            {% set form_type = 'horizontal' %}
+            {{ form_widget(form) }}
+            <div class="well form-actions">
+                <button type="submit" class="btn btn-danger">
+                  {{ icon('remove') }} Borrar
+                </button>
+                <a class="btn btn-default" href="{{ path('admin.' ~ metadata.entityName ~ '.edit', { 'id': entity.id }) }}">
+                    {{ icon('list') }} Volver a la edición
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

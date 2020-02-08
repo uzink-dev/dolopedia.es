@@ -1,0 +1,104 @@
+# Message route fields generation fields configuration
+
+# These parameters are getted from Activity
+activity:
+  fields:
+    sender:
+      route:
+        name: public.user.show
+        params:
+          id: sender.id
+
+    userFrom:
+      route:
+        name: public.user.show
+        params:
+          id: sender.id
+
+    receiver:
+      route:
+        name: public.user.show
+        params:
+          id: receiver.id
+
+    userTo:
+      route:
+        name: public.user.show
+        params:
+          id: receiver.id
+
+# These parameters are getted from Entity where coincide with the class type
+entity:
+  Uzink\BackendBundle\Entity\User:
+    fields:
+      fullName:
+        route:
+          name: public.user.show
+          params:
+            id: id
+
+  Uzink\BackendBundle\Entity\Article:
+    fields:
+      title:
+        route:
+          name: public.article.show
+          params:
+            slug: seoSlug
+
+  Uzink\BackendBundle\Entity\Category:
+      fields:
+        title:
+          route:
+            name: public.category.show
+            params:
+              slug: seoSlug
+        owner:
+          route:
+            name: public.user.show
+            params:
+              id: id
+
+  Uzink\BackendBundle\Entity\Draft:
+      fields:
+        article:
+          route:
+            name: workflow.article.edit
+            params:
+              id: article.id
+
+  Uzink\BackendBundle\Entity\Message:
+      fields:
+        subject:
+          route:
+            name: panel.message.show
+            params:
+              id: id
+
+  Uzink\BackendBundle\Entity\Request:
+    fields:
+      article:
+        route:
+          name: workflow.article.edit
+          params:
+            id: article.id
+      userFrom:
+        route:
+          name: public.user.show
+          params:
+            id: userFrom.id
+      userTo:
+        route:
+          name: public.user.show
+          params:
+            id: userFrom.id
+
+# These parameters are getted from Entity
+# There is the most important precedence
+event:
+  activity.article.new_editor:
+    fields:
+      title:
+        route:
+          name: workflow.article.edit
+          params:
+            id: id

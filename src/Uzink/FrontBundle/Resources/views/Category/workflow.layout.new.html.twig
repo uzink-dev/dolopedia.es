@@ -1,0 +1,18 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+{% form_theme form 'FrontBundle:Form:fields.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'category.new'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaContent %}
+    {% include('FrontBundle:Category:workflow.partial.content.html.twig') %}
+{% endblock privateAreaContent %}
+
+{% block modals %}
+    {{ include('FrontBundle:Article:workflow.modal.content.html.twig') }}
+    {{ include('FrontBundle:Article:workflow.popup.bibliography.html.twig') }}
+    {{ include('FrontBundle:Article:workflow.popup.internalLinks.html.twig') }}
+    {{ include('FrontBundle:Article:workflow.popup.multimedia.html.twig') }}
+    {{ include('FrontBundle:Article:workflow.popup.externalLinks.html.twig') }}
+{% endblock %}

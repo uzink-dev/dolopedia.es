@@ -1,0 +1,13 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="user-box">
+    {{ include('FrontBundle:Component:partial.user.imageBox.html.twig') }}
+    {% if 'public' in app.request.attributes.get('_route') %}
+        {% set path = path('public.user.show', {'id': user.id}) %}
+    {% else %}
+        {% set path = path('workflow.team.show', {'id': user.id}) %}
+    {% endif %}
+    <a href="{{ block('path') is not empty?block('path'):path }}" class="{{ user }}">{{ user | title }}</a>
+    <p class="subtitle">{{ user.job }}</p>
+    {% block extra %}{% endblock %}
+</div>

@@ -1,0 +1,9 @@
+{% extends 'GeneratorBundle::layout.html.twig' %}
+
+{% block headerlogo %}
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ path('public.home') }}">
+            <img src="{{ asset('bundles/front/img/dolopedia-admin.png') }}" class="img-responsive" style="height: 25px;">
+        </a>
+    </div>
+{% endblock headerlogo %}

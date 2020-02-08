@@ -1,0 +1,71 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'profile.title'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+    <a href="{{ path('panel.user.profile.edit') }}" class="btn btn-big btn-primary pull-right visible-lg visible-md"><span class="icon-create-user icon-shadow"></span> {{ 'profile.action'|trans }}</a>
+{% endblock privateAreaButton %}
+
+{% block privateAreaButtonResponsive %}
+    <div class="col-md-12">
+        <a href="{{ path('panel.user.profile.edit') }}"><span class="icon-create-user icon-md-inline"></span> {{ 'profile.action'|trans }}</a>
+    </div>
+{% endblock privateAreaButtonResponsive %}
+
+{% block privateAreaContent %}
+    <div class="row container-row">
+        <div class="col-md-12">
+            <div class="user-badge user-badge-lg section">
+                <div class="user-badge-details without-margin">
+                    <p class="title">{{ app.user.name ~ ' ' ~ app.user.surname1 ~ ' ' ~ app.user.surname2 }}</p>
+                    <p class="subtitle">{{ app.user.job }}</p>
+                    {% if app.user.address is not null %}
+                    <p>{{ 'user.address'|trans }}: {{ app.user.address }}</p>
+                    {% endif %}
+                    <p><a href="#" class="text-color underline">{{ app.user.email }}</a></p>
+                    {% if app.user.workplace is not null %}
+                    <p><a href="{{ path('public.net.center.show', {'slug': app.user.workplace.seoSlug}) }}"><span class="icon-center icon-md-inline"></span> {{ app.user.workplace.title }}</a></p>
+                    {% elseif app.user.otherWorkplace is not null %}
+                    <p><span class="icon-center icon-md-inline"></span> {{ app.user.otherWorkplace }}</a></p>
+                    {% endif %}
+                    <div class="add-this-folow top-right">
+                        <div class="addthis_toolbox addthis_32x32_style addthis_default_style">
+                        {% for key, profile in app.user.socialProfiles %}
+                            {% if profile != '' %}
+                                <a class="addthis_button_{{ key }}_follow" addthis:userid="{{ profile }}">
+                                    <span class="icon-{{ key }} icon-big"></span>
+                                </a>                                
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52b3fd390bb0f56c"></script>
+                    </div>                              
+                    {% if app.user.interests|length > 0 %}
+                    <p class="title-section">{{'user.interests'|trans}}:</p>                    
+                    <p class="text-secion">
+                        {% for interest in app.user.interests %}
+                            {{ interest }}{{ loop.last?'.':', ' }}
+                        {% endfor %}
+                    </p>
+                    {% endif %}
+                    {% if app.user.cv is not null %}
+                    <p class="title-section">{{ 'user.cv'|trans }}:</p>
+                    <p class="text-section">{{ app.user.cv }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row container-row">
+        <div class="col-md-8">
+            {{ render(controller('BackendBundle:User:RenderActivity', {'page': 1})) }}
+        </div>
+        <div class="col-md-4">
+            {{ include('FrontBundle:User/Component:widget.contacts.html.twig') }}
+            {{ include('FrontBundle:User/Component:widget.messages.html.twig') }}
+            {{ include('FrontBundle:User/Component:widget.favouriteArticles.html.twig') }}
+        </div>
+    </div>
+{% endblock privateAreaContent %}
+

@@ -1,0 +1,152 @@
+{% extends 'AdminBundle:Layout:layout.html.twig' %}
+
+{% block content %}
+    <div class="col-md-4">
+        <table class="records_list table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6" colspan="2">Equipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Usuarios</td>
+                    <td class="col-md-2">
+                        <a class="btn btn-default" href="{{ path('admin.user.index') }}">{{ icon('list') }} Listado</a>
+                        <a class="btn btn-default" href="{{ path('admin.user.new') }}">{{ icon('plus') }} Nueva</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="records_list table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-6" colspan="2">Workflow</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Artículos</td>
+                <td class="col-md-2">
+                    <a class="btn btn-default" href="{{ path('admin.article.index') }}">{{ icon('list') }} Listado</a>
+                    <a class="btn btn-default" href="{{ path('admin.article.new') }}">{{ icon('plus') }} Nueva</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Categorías</td>
+                <td class="col-md-2">
+                    <a class="btn btn-default" href="{{ path('admin.category.index') }}">{{ icon('list') }} Listado</a>
+                    <a class="btn btn-default" href="{{ path('admin.category.new') }}">{{ icon('plus') }} Nueva</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="records_list table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6" colspan="2">CMS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Menús</td>
+                    <td class="col-md-2">
+                        <a class="btn btn-default" href="{{ path('admin.menu.index') }}">{{ icon('list') }} Listado</a>
+                        <a class="btn btn-default" href="{{ path('admin.menu.new') }}">{{ icon('plus') }} Nueva</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Páginas</td>
+                    <td class="col-md-2">
+                        <a class="btn btn-default" href="{{ path('admin.page.index') }}">{{ icon('list') }} Listado</a>
+                        <a class="btn btn-default" href="{{ path('admin.page.new') }}">{{ icon('plus') }} Nueva</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="records_list table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6" colspan="2">Red</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Centros</td>
+                    <td class="col-md-2">
+                        <a class="btn btn-default" href="{{ path('admin.center.index') }}">{{ icon('list') }} Listado</a>
+                        <a class="btn btn-default" href="{{ path('admin.center.new') }}">{{ icon('plus') }} Nueva</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Patrocinadores</td>
+                    <td class="col-md-2">
+                        <a class="btn btn-default" href="{{ path('admin.promoter.index') }}">{{ icon('list') }} Listado</a>
+                        <a class="btn btn-default" href="{{ path('admin.promoter.new') }}">{{ icon('plus') }} Nueva</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="records_list table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-md-6" colspan="2">Configuración</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Motores de búsqueda</td>
+                    <td class="col-md-2">
+                        <a class="btn btn-default" href="{{ path('admin.engine.index') }}">{{ icon('list') }} Listado</a>
+                        <a class="btn btn-default" href="{{ path('admin.engine.new') }}">{{ icon('plus') }} Nueva</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Enlaces pagina de inicio</td>
+                    <td class="col-md-2">
+                        <a class="btn btn-default" href="{{ path('admin.links.index') }}">{{ icon('edit') }} Editar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <table class="records_list table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th class="col-md-6" colspan="2">Páginas de ayuda</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Usuario</td>
+                <td class="col-md-2">
+                    <a class="btn btn-default" href="{{ path('admin.helpPage.index', {'role': 'usuario'}) }}">{{ icon('list') }} Listado</a>
+                    <a class="btn btn-default" href="{{ path('admin.helpPage.new', {'role': 'usuario'}) }}">{{ icon('plus') }} Nueva</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Editor</td>
+                <td class="col-md-2">
+                    <a class="btn btn-default" href="{{ path('admin.helpPage.index', {'role': 'editor'}) }}">{{ icon('list') }} Listado</a>
+                    <a class="btn btn-default" href="{{ path('admin.helpPage.new', {'role': 'editor'}) }}">{{ icon('plus') }} Nueva</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Supervisor</td>
+                <td class="col-md-2">
+                    <a class="btn btn-default" href="{{ path('admin.helpPage.index', {'role': 'supervisor'}) }}">{{ icon('list') }} Listado</a>
+                    <a class="btn btn-default" href="{{ path('admin.helpPage.new', {'role': 'supervisor'}) }}">{{ icon('plus') }} Nueva</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Lider</td>
+                <td class="col-md-2">
+                    <a class="btn btn-default" href="{{ path('admin.helpPage.index', {'role': 'lider'}) }}">{{ icon('list') }} Listado</a>
+                    <a class="btn btn-default" href="{{ path('admin.helpPage.new', {'role': 'lider'}) }}">{{ icon('plus') }} Nueva</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

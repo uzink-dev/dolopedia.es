@@ -1,0 +1,68 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'profile.edit'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaContent %}
+    {{ form_start(form, {'method': 'POST', 'attr' : {'novalidate': 'novalidate'}}) }}
+        <div class="form-well headed">
+            <div class="head">
+                <span class="head-icon icon-big icon-user"></span>
+                <h3 class="head-title">{{ 'profile.legend.userData'|trans }}</h3>
+            </div>
+            <div class="container section">
+                <div class="row container-row ">
+                    <div class="col-md-12">
+                        {{ form_row(form.imageResource) }}
+                    </div>
+                </div>                                        
+                <div class="row container-row ">
+                    <div class="form-group col-md-12">
+                        {{ form_row(form.address) }}
+                    </div>
+                </div>
+                <div class="row container-row ">
+                    <div class="form-group col-md-12">
+                        {{ form_row(form.interests) }}
+                    </div>
+                </div>                                        
+                <div class="row container-row ">
+                    <div class="form-group col-md-12">
+                        {{ form_row(form.cv) }}
+                    </div>
+                </div>                                           
+            </div>
+        </div>
+
+        <div class="form-well headed">
+            <div class="head">
+                <span class="head-icon icon-big icon-location"></span>
+                <h3 class="head-title">{{ 'profile.legend.socialProfiles'|trans }}</h3>
+            </div>
+            <div class="container section">
+                {{ form_errors(form.socialProfiles) }}
+                {% for profile in form.socialProfiles %}
+                    <div class="row container-row ">
+                        <div class="form-group col-md-12">
+                            <label for="{{ profile.vars.id }}">{{ ('user.socialProfiles.' ~ profile.vars.name)|trans }}</label>
+                            {{ form_widget(profile, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>                     
+                {% endfor %}                    
+            </div>
+        </div>                                
+
+        <div class="row container-row">
+        <div class="col-md-12">
+                <hr>
+                <button type="submit" class="btn btn-primary separate-right">
+                    <span class="icon-save icon-big"></span> {{ 'form.button.saveChanges'|trans }}
+                </button>
+                <a href="{{ path('panel.user.profile.show') }}" class="btn btn-grey"><span class="icon-cancel icon-big"></span> {{ 'form.button.cancelEdit'|trans }}</a> 
+            </div>
+        </div>
+        {{ form_rest(form) }}
+    {{ form_end(form) }}
+{% endblock privateAreaContent %}
+

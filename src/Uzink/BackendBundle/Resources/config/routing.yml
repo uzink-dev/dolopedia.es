@@ -1,0 +1,11 @@
+public.routes:
+    resource: "@BackendBundle/Resources/config/routing/public.yml"
+    prefix:   /
+
+panel.routes:
+    resource: "@BackendBundle/Resources/config/routing/panel.yml"
+    prefix:   /areaprivada
+
+workflow.routes:
+    resource: "@BackendBundle/Resources/config/routing/workflow.yml"
+    prefix:   /workflow

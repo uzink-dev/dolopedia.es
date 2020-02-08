@@ -1,0 +1,24 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'account.edit'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaContent %}
+    <form action="{{ path('panel.user.account.edit') }}" method="POST" role="form" novalidate="novalidate">
+        {% include('FrontBundle:User:panel.partial.account.edit.data.html.twig') %}
+        <div class="row container-row">
+            <div class="col-md-12">
+                <hr/>                                
+            </div>
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary separate-right">
+                    <span class="icon-user icon-big"></span> Guardar Cambios
+                </button>
+                <a href="{{ path('panel.user.account.show') }}" class="btn btn-grey"><span class="icon-revert icon-big"></span> Cancelar Edición</a> 
+            </div>
+        </div>
+        {{ form_rest(form) }}
+    </form>
+{% endblock privateAreaContent %}
+

@@ -1,0 +1,5 @@
+bibliographyRoutes:
+    type: rest
+    prefix: /v1
+    resource: Uzink\RestBundle\Controller\BibliographyController
+    name_prefix:  api_ # naming collision

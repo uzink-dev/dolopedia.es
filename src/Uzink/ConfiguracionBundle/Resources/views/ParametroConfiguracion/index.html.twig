@@ -1,0 +1,112 @@
+{% extends 'BraincraftedBootstrapBundle::layout.html.twig' %}
+
+{%  block title %}Parámetros de configuración{%  endblock %}
+
+{% block body -%}
+    
+    <div class="container-fluid">
+    <div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+            {{  knp_menu_render('main', {'currentClass': 'active', 'template': 'GeneratorBundle:Menu:knp_menu.html.twig'}) }}
+		</div>
+	</div>
+</div>
+
+
+<div id="crud-layout">
+
+    
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            
+            <div class="span12">
+                
+                <header class="jumbotron subhead" id="overview">
+
+                    <h1>Parámetros de configuración</h1>
+
+                </header>
+                
+            </div>
+            
+        </div>
+        
+        <div class="row-fluid">
+
+            <div class="breadcrumbs-wrapper">   
+
+                <div class="span7">
+
+                    <div class="breadcrumbs">
+
+                        {{ wo_render_breadcrumbs() }}
+
+                    </div>
+
+                </div>
+
+
+                <div class="span5">
+
+                    <div class="btn-group pull-right">
+
+                        <a class="btn" href="{{ path('admin_configuracion_parametros_new') }}">
+                            <i class="icon-plus"></i>
+                            Crear nuevo parámetro
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+        
+        {% include 'BraincraftedBootstrapBundle::partial.flash.html.twig' %}
+        
+        <div class="row-fluid">
+
+            <div class="span10">
+
+                <section id="records_list">
+                    
+                    <table class="records_list table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Valor</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for entity in pager %}
+                            <tr>
+                                <td><a href="{{ path('admin_configuracion_parametros_edit', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                                <td>{{ entity.nombre }}</td>
+                                <td>{{ entity.valor }}</td>
+                                <td>
+                                    <a class="btn" href="{{ path('admin_configuracion_parametros_edit', { 'id': entity.id }) }}">                                 
+                                        <i class="icon-pencil"></i> Editar
+                                     </a>                                
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <div class="centered">
+                        {{  pagerfanta(pager, 'twitter_bootstrap') }}
+                    </div>
+                    
+                </section>
+            </div>
+                    
+
+
+        </div>
+    </div>
+        
+</div>
+{% endblock %}

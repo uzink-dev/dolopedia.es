@@ -1,0 +1,122 @@
+{% trans_default_domain 'dolopedia' %}
+
+{% import _self as draw %}
+
+{% macro listItem(key, item, context) %}
+    {% import _self as draw %}
+
+    <li>
+        <a href="#{{ key }}">{{ item.title|trans }}</a>
+
+        {% if item.fields is defined and item.fields|length > 1 %}
+        <ul>
+            {% for subkey,subitem in item.fields %}
+                {% if subitem|hasContent(subkey, context.article) %}
+                        {{ draw.listItem(subkey, subitem, context) }}
+                {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </li>
+{% endmacro %}
+
+{# Content Index #}
+<div class="right-column">
+    {% set adSideZone = article.adSideZone ?: article.category.adSideZone %}
+    {% if not article.whitoutAds and adSideZone %}
+        <div class="side-ad">
+            <ins data-revive-zoneid="{{ adSideZone }}" data-revive-id="{{ revive_id }}"></ins>
+        </div>
+    {% endif %}
+    <div class="column-inner">
+        <div class="index-box" id="article-index">
+            <a class="index-box-title" data-toggle="collapse" data-parent="#article-index" href="#article-index-content">
+                {{ article.title }}
+            </a>
+            <ol id="article-index-content" class="index-box-content collapse in">
+            {% if (article.introduction|trim) is not empty %}
+                <li>
+                    <a href="#introduction">{{ 'article.blocks.introduction'|trans }}</a>
+                </li>
+            {% endif %}
+            {% for key, item in structure %}
+                {% if item.type == 'accordion' and item|hasContent(key, article) %}
+                    {{ draw.listItem(key, item, _context) }}
+                {% endif %}
+            {% endfor %}
+            </ol>
+        </div>
+
+    </div>
+</div>
+
+{% macro accordion(key, item, context) %}
+    {% import _self as draw %}
+
+    <h2 id="{{ key }}">{{ item.title|trans }}</h2>
+    {% for subitemKey, subitem in item.fields %}
+        {% if subitem|hasContent(subitemKey, context.article) %}
+            {% if subitem.type == 'ckeditor' %}
+                {% if item.fields|length > 1  %}
+                    {% set showTitle = true %}
+                {% else %}
+                    {% set showTitle = false %}
+                {% endif %}
+                {{ draw.editor(subitemKey, subitem, context, showTitle) }}
+            {% elseif subitem.type == 'separator' %}
+                {{ draw.separator(subitemKey, subitem, context) }}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro separator(key, item, context) %}
+    {% import _self as draw %}
+
+    <div class="separator-field">
+        <span class="separator-title" id="{{ key }}">{{ item.title|trans }}</span>
+        {% for subitemKey, subitem in item.fields %}
+            {% if subitem|hasContent(subitemKey, context.article) %}
+                {% if subitem.type == 'ckeditor' %}
+                    {% if item.fields|length > 1  %}
+                        {% set showTitle = true %}
+                    {% else %}
+                        {% set showTitle = false %}
+                    {% endif %}
+                    {{ draw.editor(subitemKey, subitem, context, showTitle) }}
+                {% elseif subitem.type == 'separator' %}
+                    {{ draw.separator(subitemKey, subitem, context) }}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% macro editor(key, item, context, showTitle) %}
+    <div class="editor-field">
+        {% if showTitle %}
+        <span class="editor-title" id="{{ key }}">{{ item.title|trans }}</span>
+        {% endif %}
+        {{ context.article.content[key]|content(context.bibliographyIndex)|raw }}
+    </div>
+{% endmacro %}
+
+{# Content Data #}
+<div class="col-md-12 pull-left">
+    {% set bibliographyIndex = 1 %}
+    {% if  (article.introduction|trim) is not empty %}
+        <h2 class="without-top-margin" id="introduction">{{ 'article.blocks.introduction'|trans }}</h2>
+        {{ article.introduction|content(bibliographyIndex)|raw }}
+    {% endif %}
+
+    {% for key, item in structure %}
+        {% if item.type == 'accordion' and item|hasContent(key, article) %}
+            {{ draw.accordion(key, item, _context) }}
+        {% endif %}
+    {% endfor %}
+
+    {% if (article.attached|trim) is not empty %}
+        <h2 id="attached" >{{ 'article.attached'|trans }}</h2>
+        {{ article.attached|raw }}
+    {% endif %}
+</div>

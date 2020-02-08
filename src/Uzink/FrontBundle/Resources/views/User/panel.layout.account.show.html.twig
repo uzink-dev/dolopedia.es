@@ -1,0 +1,92 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'account.title'|trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+    <a href="{{ path('panel.user.account.edit') }}" class="btn btn-big btn-primary pull-right visible-lg visible-md"><span class="icon-create-user icon-shadow"></span> {{ 'account.action'|trans }}</a>
+{% endblock privateAreaButton %}
+
+{% block privateAreaButtonResponsive %}
+    <div class="col-md-12">
+        <a href="{{ path('panel.user.account.edit') }}" ><span class="icon-create-user icon-md-inline"></span> {{ 'account.action'|trans }}</a>
+    </div>
+{% endblock privateAreaButtonResponsive %}
+
+{% block privateAreaContent %}
+    <div class="row container-row">
+        <div class="col-md-12">
+            <div class="titled-box titled-box-lg">
+                <h3 class="title">Datos de usuario</h3>
+                <div class="row">
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.name'|trans }}</span>
+                        <span class="data-info">{{ app.user.name }}</span>
+                    </div>
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.type'|trans }}</span>
+                        <span class="data-info">Usuario registrado</span>
+                    </div>                                            
+                </div>
+                <div class="row">
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.surname1'|trans }}</span>
+                        <span class="data-info">{{ app.user.surname1 }}</span>
+                    </div>
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.surname2'|trans }}</span>
+                        <span class="data-info">{{ app.user.surname2 }}</span>
+                    </div>                                            
+                </div>
+                <div class="row">
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.email'|trans }}</span>
+                        <span class="data-info">{{ app.user.email }}</span>
+                    </div>
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.sector'|trans }}</span>
+                        <span class="data-info">{{ app.user.sector }}</span>
+                    </div>                        
+                </div>                                                                                
+                <div class="row">
+                    {% if app.user.job is not null  %}
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.job'|trans }}</span>
+                        <span class="data-info">{{ app.user.job }}</span>
+                    </div>    
+                    {% endif %}
+                    {% if app.user.workplace is not null  %}                        
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.workplace'|trans }}</span>
+                        <span class="data-info">{{ app.user.workplace }}</span>
+                    </div>                 
+                    {% elseif app.user.otherWorkplace is not null %}
+                    <div class="col-md-6 separate-bottom">
+                        <span class="data-title">{{ 'user.workplace'|trans }}</span>
+                        <span class="data-info">{{ app.user.otherWorkplace }}</span>
+                    </div>                                         
+                    {% endif %}
+                </div>    
+
+            </div>
+        </div>
+    </div>
+    <div class="row container-row">
+        <div class="col-md-12">
+            <div class="titled-box titled-box-lg">
+                <h3 class="title">Localización</h3>
+                <div class="row">
+                    <div class="col-md-12 separate-bottom">
+                        <span class="data-title">{{ 'user.country'|trans }}</span>
+                        <span class="data-info">{{ app.user.country|countryName }}</span>
+                    </div>
+                    <div class="col-md-12 separate-bottom">
+                        <span class="data-title">{{ 'user.timezone'|trans }}</span>
+                        <span class="data-info">{{ app.user.timezone|timezoneName }}</span>
+                    </div>                                            
+                </div>
+            </div>
+        </div>
+    </div>  
+{% endblock privateAreaContent %}
+

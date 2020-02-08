@@ -1,0 +1,91 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="form-well headed">
+    <div class="head">
+        <span class="head-icon icon-big icon-user"></span>
+        <h3 class="head-title">{{ 'account.legend.userData'|trans }}</h3>
+    </div>
+    <div class="container section">
+
+        <div class="row container-row">
+            <div class="form-group col-md-6">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form_row(form.role, {'attr': {'disabled':'disabled'}}) }}
+
+            </div>
+        </div>
+        <div class="row container-row">
+            <div class="form-group col-md-6">
+                {{ form_row(form.surname1) }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form_row(form.surname2) }}
+            </div>
+        </div>
+        <div class="row container-row">
+            <div class="form-group col-md-12">
+                {{ form_row(form.email) }}
+            </div>
+        </div>
+        <div class="row container-row">
+            <div class="form-group col-md-6">
+                {{ form_row(form.sector, {'attr': {'class': 'extendedLauncher'} }) }}
+            </div>
+        </div>
+        <div class="row container-row">
+            <div class="form-group col-md-12">
+                <div id="extendedSector" class="extended-info" style="display: none;">
+                    <div class="row container-row">
+                        <div class="form-group col-md-6">
+                            {{ form_row(form.job) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{ form_row(form.workplace) }}
+                        </div>
+                    </div>
+                    <div id="extendedCentro" class="row container-row" style="display: none;">
+                        <div class="form-group col-md-12">
+                            {{ form_row(form.otherWorkplace) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-well headed">
+    <div class="head">
+        <span class="head-icon icon-big icon-location"></span>
+        <h3 class="head-title">{{ 'account.legend.location'|trans }}</h3>
+    </div>
+    <div class="container section">
+        <div class="row container-row ">
+            <div class="form-group col-md-6">
+                {{ form_row(form.country) }}
+            </div>
+        </div>
+        <div class="row container-row ">
+            <div class="form-group col-md-12">
+                {{ form_row(form.timezone) }}
+            </div>
+        </div>
+    </div>
+</div>                        
+<div class="form-well headed">
+    <div class="head">
+        <span class="head-icon icon-big icon-save"></span>
+        <h3 class="head-title">{{ 'account.legend.password'|trans }}</h3>
+    </div>
+    <div class="container section">
+        <div class="row container-row ">
+            <div class="form-group col-md-6">
+                {{ form_row(form.plainPassword.first) }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form_row(form.plainPassword.second) }}
+            </div>                                    
+        </div>
+    </div>
+</div>

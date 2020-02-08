@@ -1,0 +1,64 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% form_theme form 'FrontBundle:Form:fields.html.twig' %}
+
+{% block body %}
+    <div class="content">
+        <div class="row container-row content-header">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+            <div class="col-md-9">
+                <h1>{{ 'article.search.title'|trans }}</h1>
+            </div>
+        </div>
+
+        <div class="section">
+            <form role="form">
+                <div class="form-well">
+                    <div class="container section">
+                        <div class="row container-row ">
+                            <div class="form-group col-md-8">
+                                {{ form_label(form.keyword) }}
+                                {{ form_widget(form.keyword, { 'attr': {'class': 'form-control', 'placeholder': 'article.search.form.search'|trans } }) }}
+                                {{ form_errors(form.keyword) }}
+                            </div>
+                            <div class="form-group col-md-4">
+                                {{ form_label(form.engine) }}
+                                {{ form_widget(form.engine, { 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(form.engine) }}
+                            </div>
+                        </div>
+                        <div class="row container-row ">
+                            <div class="form-group col-md-8">
+                                {{ form_label(form.category) }}
+                                {{ form_widget(form.category, { 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(form.category) }}
+                            </div>
+                            <div class="form-group col-md-4">
+                                {{ form_label(form.author) }}
+                                {{ form_widget(form.author, { 'attr': {'class': 'form-control'} }) }}
+                                {{ form_errors(form.author) }}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row container-row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary separate-right"><span class="icon-search"></span> {{ 'form.button.send'|trans }}</button>
+                        <button type="reset" class="btn btn-grey"><span class="icon-refresh"></span> {{ 'form.button.clearForm'|trans }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row container-row section light-background">
+            <div class="col-md-12">
+                <h2 class="section-title">{{ 'article.search.result'|trans|upper }} <span class="icon-search icon-big base-color pull-right"></span></h2>
+            </div>
+        </div>
+
+        {% include 'FrontBundle:Article:public.partial.search.list.html.twig' with {'articles': articles} %}
+    </div>
+{% endblock body %}

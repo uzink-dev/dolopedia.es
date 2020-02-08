@@ -1,0 +1,14 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="titled-box titled-box-lg">
+    <h3 class="title">{{ 'user.recentActivity' | trans }}</h3>
+    <div id="activitiesWrapper" data-activity-loader-page="1">
+        {{ pager.currentPageResults|renderActivities }}
+    </div>
+    <p id="activitySpinner" class="spinner hidden"></p>
+    {% if pager.nbPages > 1 %}
+    <div class="box light-background" data-activity-loader="#activitiesWrapper" data-activity-loader-url="{{ path('panel.user.profile.activities', {'page': 1}) }}">
+        <span class="icon-linkedin icon-results icon-big"></span><a>Mostrar más actividades anteriores</a>
+    </div>
+    {% endif %}
+</div>

@@ -1,0 +1,50 @@
+.rate{
+    .inline-block();
+}
+
+.rate-stars{
+    .inline-block();
+    width: 98px !important;  
+    padding-top: 10px; 
+}
+
+.rate-score{
+    .inline-block();
+    .em-size(20,@base_size);
+    font-weight: bold;
+    padding-top: 5px;
+    color: @base_color;
+    font-family: @arial_font;
+    margin-right: 5px;
+}
+
+.starOn
+{
+    height: 16px;
+    width: 16px;
+    background: url('../img/star-on.png') top left no-repeat;
+    display: inline-block;
+}
+
+.starOff
+{
+    height: 16px;
+    width: 16px;
+    background: url('../img/star-off.png') top left no-repeat;
+    display: inline-block;
+}
+
+.starHalf
+{
+    height: 16px;
+    width: 16px;
+    background: url('../img/star-half.png') top left no-repeat;
+    display: inline-block;
+}
+
+@media(max-width:390px){
+    .rate{
+        display: block;
+        margin-bottom: 10px;
+    }
+}

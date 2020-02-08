@@ -1,0 +1,133 @@
+# ------------------------------------------------------------------------------------------------
+# * Article Routes *******************************************************************************
+# ------------------------------------------------------------------------------------------------
+panel.article.addRating:
+    path:  /articulo/{id}
+    defaults: { _controller: BackendBundle:Article:addRating }
+    methods:  [POST]
+    requirements:
+        page: \d+
+
+# ------------------------------------------------------------------------------------------------
+# * Comment Routes *******************************************************************************
+# ------------------------------------------------------------------------------------------------
+panel.comment.index:
+    path:  /comentarios
+    defaults: { _controller: BackendBundle:Comment:Index }
+    methods:  [GET]
+
+panel.comment.edit:
+    path:  /comentario/{id}
+    defaults: { _controller: BackendBundle:Comment:Edit }
+    methods:  [GET, POST]
+    requirements:
+        page: \d+
+
+panel.comment.add:
+    path:  /articulo/{id}/comentario
+    defaults: { _controller: BackendBundle:Comment:Add, scope: 'discussion' }
+    methods:  [POST]
+    requirements:
+        page: \d+
+
+panel.comment.remove:
+    path:  /comentario/{id}/borrar
+    defaults: { _controller: BackendBundle:Comment:Remove }
+    methods:  [GET]
+    requirements:
+        page: \d+
+
+# ------------------------------------------------------------------------------------------------
+# * Collaboration Routes *************************************************************************
+# ------------------------------------------------------------------------------------------------
+panel.collaboration.index:
+    path:  /colaboraciones
+    defaults: { _controller: BackendBundle:Collaboration:index }
+    methods:  [GET]
+
+# ------------------------------------------------------------------------------------------------
+# * Favourite Article Routes *********************************************************************
+# ------------------------------------------------------------------------------------------------
+panel.favouriteArticles.index:
+    path:  /favoritos
+    defaults: { _controller: BackendBundle:Article:indexArticlesFavourites }
+    methods:  [GET]
+
+panel.favouriteArticles.toogle:
+    path:  /favoritos/{id}
+    defaults: { _controller: BackendBundle:Article:addArticleFavourite }
+    methods:  [GET, POST]
+    requirements:
+        page: \d+
+
+# ------------------------------------------------------------------------------------------------
+# * Message Routes *******************************************************************************
+# ------------------------------------------------------------------------------------------------
+panel.message.index:
+    path:  /mensajes
+    defaults: { _controller: BackendBundle:Message:Index }
+    methods:  [GET]
+
+panel.message.new:
+    path:  /mensaje/nuevo/{receiver}
+    defaults: { _controller: BackendBundle:Message:New, receiver: null }
+    methods:  [GET, POST]
+
+panel.message.multiple:
+    path:  /mensaje/multiple
+    defaults: { _controller: BackendBundle:Message:NewMultiple }
+    methods:  [GET, POST]
+
+panel.message.show:
+    path:  /mensaje/{id}
+    defaults: { _controller: BackendBundle:Message:Show }
+    methods:  [GET, POST]
+    requirements:
+        page: \d+
+
+# ------------------------------------------------------------------------------------------------
+# * User Routes **********************************************************************************
+# ------------------------------------------------------------------------------------------------
+panel.user.profile.show:
+    path: /perfil
+    defaults: { _controller: BackendBundle:User:ShowProfile }
+    methods:  [GET]
+    
+panel.user.profile.edit:
+    path: /perfil/editar
+    defaults: { _controller: BackendBundle:User:EditProfile }
+    methods:  [GET, POST]
+
+panel.user.profile.activities:
+    path: /perfil/actividad/{page}
+    defaults: { _controller: BackendBundle:User:getActivities }
+    methods:  [GET]
+    requirements:
+        page: \d+
+
+panel.user.account.show:
+    path: /cuenta
+    defaults: { _controller: BackendBundle:User:ShowAccount }
+    methods:  [GET]
+    
+panel.user.account.edit:
+    path: /cuenta/editar
+    defaults: { _controller: BackendBundle:User:EditAccount }
+    methods:  [GET, POST]
+
+panel.user.contact.index:
+    path: /contactos
+    defaults: { _controller: BackendBundle:User:indexContact }
+    methods:  [GET]
+    
+panel.user.contact.show:
+    path: /contacto/{id}
+    defaults: { _controller: BackendBundle:User:showContact }
+    methods:  [GET]
+
+panel.user.contact.follow.toogle:
+    path: /contacto/{id}/modificar
+    defaults: { _controller: BackendBundle:User:followToggleContact }
+    methods:  [GET]
+    requirements:
+        id:   \d+

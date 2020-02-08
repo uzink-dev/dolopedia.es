@@ -1,0 +1,64 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Entity\\' %}
+
+{% block seo %}
+    <title>{{ helpPage.seoH1 is not empty ? helpPage.seoH1 : helpPage.title  }} | Dolopedia</title>
+    <meta name="description" content="{{ helpPage.seoDescription is not empty ? helpPage.seoDescription : helpPage.title }}">
+    <meta name="keywords" content="{{ helpPage.seoKeywords }}">
+{% endblock seo %}
+
+{% block body %}
+    <div class="content">
+
+        <div class="row container-row">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+        </div>
+
+        <div class="columns-container">
+            <div class="row container-row container-right-column tabs-header-container">
+                <div class="col-md-12">
+                    <h1>{{ helpPage.title }}</h1>
+                </div>
+            </div>
+
+            <div id="article-content" class="tab-pane active">
+                <div id="article-body" class="row container-row container-right-column" >
+                    {# Content Index #}
+                    <div class="right-column">
+                        <div class="column-inner">
+
+                            <div class="index-box" id="article-index">
+                                <a class="index-box-title">Páginas</a>
+                                <ol id="article-index-content" class="index-box-content collapse in">
+                                    {% for page in pages %}
+                                        <li>
+                                            <a href="{{ path('public.helpPage.show', {'slug': page.seoSlug}) }}">{{ page.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ol>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {# Content Data #}
+                    <div class="col-md-12 pull-left">
+                        {{ helpPage.content|raw }}
+                    </div>
+
+                    {#{% render(controller('BackendBundle:Article:Content', {'article': article})) %}#}
+                </div>
+
+                <div class="row container-row section">
+                    <div class="col-md-12">
+
+                        <a class="btn btn-light separate-right" onClick="window.print()"><span class="icon-print"></span> Imprimir</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock body %}

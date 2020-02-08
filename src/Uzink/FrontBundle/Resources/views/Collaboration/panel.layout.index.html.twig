@@ -1,0 +1,82 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Entity\\' %}
+
+{% block privateAreaTitle %}{{ 'collaboration.title' | trans }}{% endblock privateAreaTitle %}
+
+{% block privateAreaButton %}
+{% endblock privateAreaButton %}
+
+{% block privateAreaContent %}
+
+    <div class="row container-row section">
+        <div class="col-md-12">
+            <ul class="link-list with-request">
+            {% for key,article in app.user.requestByArticle %}
+                <li>
+                {% if key == constant(namespace ~ 'Request::TYPE_REQUEST_NEW') %}
+                    {% set creationRequest = true %}
+                    <p class="title">{{ 'collaboration.creationRequest'|trans }}</p>
+                    <p class="subtitle">{{ 'collaboration.creationRequestDes'|trans }}</p>
+                {% else %}
+                    {% set creationRequest = false %}
+                    {% set currentArticle = article[0].article %}
+                    <p class="title"><a href="{{ path('public.article.show', {'slug': currentArticle.seoSlug}) }}">{{ currentArticle }}</a></p>
+                    {% if currentArticle.published %}
+                    <p class="subtitle">{{ 'article.publishedAt'|trans({
+                        '%date%': currentArticle.publishedAt|date('d/m/Y'),
+                        '%path%': path('public.user.show', {'id': currentArticle.publishedBy.id}),
+                        '%user%': currentArticle.publishedBy })|raw }}</p>
+                    {% else %}
+                    <p class="subtitle">{{ 'article.notPublished'|trans }}</p>
+                    {% endif %}
+                {% endif %}
+                    {% for request in article %}
+                    <div class="request">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="title">{{ ('collaboration.type.' ~ request.type)|trans }} {{ creationRequest?'- ' ~ request.title }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                {% if request.status == constant(namespace ~ 'Request::STATUS_REQUEST_CREATED') %}
+                                    {% set statusText = 'collaboration.status.pending'|trans %}
+                                    {% set statusColor = 'pending' %}
+                                {% elseif request.status == constant(namespace ~ 'Request::STATUS_REQUEST_ACCEPTED') %}
+                                    {% set statusText = 'collaboration.status.confirmed'|trans %}
+                                    {% set statusColor = 'ready' %}
+                                {% else %}
+                                    {% set statusText = 'collaboration.status.declined'|trans %}
+                                    {% set statusColor = 'pending' %}
+                                {% endif %}
+                                <div class="status {{ statusColor }}">{{ statusText }}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="subtitle">{{ 'collaboration.sentAt'|trans({ '%date%': request.createdAt|date('d/m/Y'), '%hour%': request.createdAt|date('H:i') }) }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="description">{{ request.content }}</p>
+                                {% if request.reasonToDecline is not empty %}
+                                    <div class="reason">
+                                        <p class="subtitle">Razón del rechazo:</p>
+                                        {{ request.content }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </li>
+            {% else %}
+                <p>{{ 'general.emptyResults'|trans }}</p>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock privateAreaContent %}

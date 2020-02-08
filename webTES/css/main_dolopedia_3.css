@@ -1,0 +1,65 @@
+.alertify .ajs-dimmer {
+    background-color: #000;
+    opacity: .5;
+}
+.alertify .ajs-dialog {
+    max-width: 600px;
+    min-height: 122px;
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+}
+.alertify .ajs-header {
+    color: #fff;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    font-family: 'Nunito-Regular';
+    text-transform: uppercase;
+    font-size: 18px;
+    background-color: #ff5b4e;
+}
+
+.alertify .ajs-header span.icon-cancel.icon-big {
+    position: absolute;
+    right: 15px;
+    line-height: 22px;
+    text-shadow: 0.06em 0.06em 0em rgba(0, 0, 0, 0.15);
+}
+
+.alertify .ajs-body {
+    font-family: 'Nunito-Light';
+    text-align: center;
+    color: black;
+}
+.alertify.ajs-resizable .ajs-content,
+.alertify.ajs-maximized:not(.ajs-resizable) .ajs-content {
+    top: 58px;
+    bottom: 68px;
+}
+.alertify .ajs-footer {
+    background-color: #F7F7F7;
+    padding: 15px;
+    border-top: 1px solid #e3e3e3;
+    border-radius: 0 0 6px 6px;
+}
+
+.ajs-button.ajs-ok {
+    background-color: #666;
+    color: #FFF;
+    border-radius: 4px;
+    float: left;
+}
+
+.ajs-button.ajs-cancel {
+    background: none;
+    text-decoration: underline;
+    color: #7C7C7C;
+    padding: 10px 0px !important;
+}
+
+.ajs-button.ajs-cancel:hover,
+.ajs-button.ajs-cancel:active,
+.ajs-button.ajs-cancel:focus {
+    color: #7C7C7C !important;
+    opacity: 0.8;
+}

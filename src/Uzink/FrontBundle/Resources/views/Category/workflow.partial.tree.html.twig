@@ -1,0 +1,282 @@
+{% trans_default_domain 'dolopedia' %}
+
+{# Macros Definition #}
+{% macro draw(categories, level = 1, context) %}
+    {% import _self as tree %}
+    {% if level > 3 %}
+        {% set level = 3 %}
+    {% endif %}
+    {% set levelClass=['', 'treeView-categoryLev1', 'treeView-categoryLev2', 'treeView-categoryLev3'] %}
+    
+    {% for category in categories %}
+    <li class="{{ levelClass[level] }} {{ is_granted('OWNER', categoryFromId(category.id)) ? 'owner' : 'not-owner' }}">
+        <div id="treeView-Cat-{{ category.id }}"
+             class="treeView-branch"
+             data-tree-type="category"
+             data-tree-postion-up="{{ loop.first?'false':'true' }}"
+             data-tree-postion-down="{{ loop.last?'false':'true' }}"
+             data-tree-id="{{ category.id }}"
+             data-tree-slug="{{ category.seoSlug }}">
+            <span class="treeView-line"></span>
+            <span class="collapsable">
+                <span class="treeView-icon icon-tree-expand treeView-icon-collapsed icon-big"></span>
+                <span class="treeView-text">{{- category.title -}}</span>
+            </span>
+            {% if context.popup == false %}
+            <div class="treeView-actions">
+                <a href="{{ path('public.category.show', { 'slug': category.seoSlug }) }}" target="_blank" data-toggle="tooltip" title="{{'category.actions.preview'|trans}}">
+                    <span class="treeView-action icon-preview"></span>
+                </a>
+                {% if is_granted('OWNER', categoryFromId(category.id)) %}
+                <a href="{{ path('workflow.category.edit', { 'id': category.id }) }}" target="_blank" data-toggle="tooltip" title="{{'category.actions.edit'|trans}}">
+                    <span class="treeView-action icon-data-edit"></span>
+                </a>
+                <a href="{{ path('workflow.category.new', { 'id': category.id }) }}" target="_blank" data-toggle="tooltip" title="{{'category.actions.new'|trans}}">
+                    <span class="treeView-action icon-tree-newcat"></span>
+                </a>
+                <a href="{{ path('workflow.category.clone', { 'id': category.id }) }}" data-toggle="tooltip" title="{{'category.actions.clone'|trans}}">
+                    <span class="treeView-action icon-expand"></span>
+                </a>
+                <a href="{{ path('workflow.article.new', { 'id': category.id }) }}" target="_blank" data-toggle="tooltip" title="{{'category.actions.newArticle'|trans}}">
+                    <span class="treeView-action icon-article"></span>
+                </a>
+                <span class="base-color treeView-action icon-cancel" data-toggle="tooltip" title="{{'category.actions.delete'|trans}}" data-tree-branch="treeView-Cat-{{ category.id }}" data-tree-action="delete" data-tree-action-url="{{ path('workflow.category.delete', { 'id': category.id }) }}"></span>
+                {% endif %}
+            </div>
+            <div class="treeView-actions">
+                <img src="{{ category.owner.image|userHandler('user_thumb_pico') }}" class="treeView-img" data-toggle="tooltip" title="{{ 'Lider: ' ~ category.owner.name ~ category.owner.surname1 ~ category.owner.surname2 ~ ' (' ~ category.owner.roles|first|trans ~ ')' }}"/>
+            </div>
+            {{ tree.positionButtons(category, loop) }}
+            <span class="treeView spinner little"></span>
+            <div class="treeView-actions responsive">
+                <span class="treeView-action icon-tree-newcat menuLauncher"></span>
+            </div>
+            {% else %}
+            <div class="treeView-check" style="display: inline-block">
+                <input type="checkbox" data-internal-link-title="{{ category.title }}" data-internal-link-type="category" data-internal-link-id="{{ category.id }}" class="treeView-check-selected">
+            </div>            
+            {% endif %}
+        </div>
+        <ul class="collapsed">
+        {%- spaceless -%}
+            {{ tree.draw(category.__children, level + 1, context) }}
+            {% if context.show_articles is not defined or context.show_articles == true %}
+            {{ tree.drawArticles(category.articles, context) }}
+            {% endif %}
+        {%- endspaceless -%}
+        </ul>            
+    </li>
+    {% endfor %}
+{% endmacro %}
+
+{% macro drawArticles(articles, context) %}
+    {% import _self as tree %}
+    
+    {% for article in articles %}
+    <li class='treeView-article'>
+        <div id="treeView-Art-{{ article.id }}"
+             class="treeView-branch"
+             data-tree-type="article"
+             data-tree-id="{{ article.id }}"
+             data-tree-slug="{{ article.seoSlug }}"
+             data-tree-postion-up="{{ loop.first?'false':'true' }}"
+             data-tree-postion-down="{{ loop.last?'false':'true' }}">
+            <span class="treeView-line"></span>
+            <span class="treeView-text">{{- article.title -}}</span>
+            {% if context.popup == false %}
+                <div class="treeView-actions">
+                    <a href="{{ path('public.article.show', { 'slug': article.seoSlug })}}">
+                        <span class="treeView-action icon-preview" data-toggle="tooltip" title="{{'article.actions.preview'|trans}}"></span>
+                    </a>
+                    {% if is_granted('CONTENT', article) %}
+                    <a href="{{ path('workflow.article.edit', { 'id': article.id })}}">
+                        <span class="treeView-action icon-data-edit" data-toggle="tooltip" title="{{'article.actions.edit'|trans}}"></span>
+                    </a>
+                    {% endif %}
+                    {% if is_granted('OWNER', article) %}
+                    <span class="base-color treeView-action icon-cancel" data-toggle="tooltip" title="{{'article.actions.delete'|trans}}" data-tree-branch="treeView-Art-{{ article.id }}" data-tree-action="delete" data-tree-action-url="{{ path('workflow.article.delete', { 'id': article.id }) }}"></span>
+                    {% endif %}
+                </div>
+                {% if article.owner %}
+                <div class="treeView-actions">
+                    <img src="{{ article.owner.image|userHandler('user_thumb_pico') }}" class="treeView-img" data-toggle="tooltip" title="{{ 'Lider: ' ~ article.owner ~ ' (' ~ article.owner.role|trans ~ ')' }}"/>
+                </div>
+                {% endif %}
+                {% if article.supervisor %}
+                    <div class="treeView-actions">
+                        <img src="{{ article.supervisor.image|userHandler('user_thumb_pico') }}" class="treeView-img" data-toggle="tooltip" title="{{ 'Supervisor: ' ~ article.supervisor ~ ' (' ~ article.supervisor.role|trans ~ ')' }}"/>
+                    </div>
+                {% endif %}
+                {% if article.editor %}
+                    {% if is_granted('OWNER', article) %}
+                        <div class="treeView-actions">
+                            <img src="{{ article.editor.image|userHandler('user_thumb_pico') }}"
+                                 class="treeView-img"
+                                 data-toggle="selector-tooltip"
+                                 data-url="{{ path('workflow.article.update_editor', {'id': article.id}) }}"
+                                 data-name="{{ 'Editor: ' ~ article.editor ~ ' (' ~ article.editor.role|trans ~ ')' }}"/>
+                        </div>
+                    {% else %}
+                        <div class="treeView-actions">
+                            <img src="{{ article.editor.image|userHandler('user_thumb_pico') }}"
+                                 class="treeView-img"
+                                 data-toggle="tooltip"
+                                 title="{{ 'Editor: ' ~ article.editor ~ ' (' ~ article.editor.role|trans ~ ')' }}"/>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                {{ tree.positionButtons(article, loop) }}
+                <span class="treeView spinner little"></span>
+            <div class="treeView-actions responsive">
+                <span class="treeView-action icon-tree-newcat menuLauncher"></span>
+            </div>
+            {% else %}
+            <div class="treeView-check" style="display: inline-block">
+                <input type="checkbox" data-internal-link-title="{{ article.title }}" data-internal-link-type="article" data-internal-link-id="{{ article.id }}" class="treeView-check-selected">
+            </div>
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+{% endmacro %}
+
+{% macro positionButtons(entity, loop) %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {% if entity.__children is defined %}
+            {% set routePath = 'workflow.category.tree.position' %}
+            {% set type = 'category' %}
+            {% set branch = 'treeView-Cat-' ~ entity.id %}
+        {% else %}
+            {% set routePath = 'workflow.article.tree.position' %}
+            {% set type = 'article' %}
+            {% set branch = 'treeView-Art-' ~ entity.id %}
+        {% endif %}
+        {# If only has one entry, is first and last it don't show move buttons #}
+        {% if not(loop.first and loop.last) %}
+        <div class="treeView-actions position-actions">
+            <span class="treeView-action icon-tree-up {{ loop.first?'hidden' }}" data-tree-branch="{{ branch }}" data-toggle="tooltip" title="{{ (type ~ '.actions.up') | trans }}" data-tree-position-modifier="up" data-tree-position-url="{{ path(routePath, { 'id': entity.id, 'action': 'up' }) }}"></span>
+            <span class="treeView-action icon-tree-down {{ loop.last?'hidden' }}" data-tree-branch="{{ branch }}" data-toggle="tooltip" title="{{ (type ~ '.actions.down') | trans }}" data-tree-position-modifier="down" data-tree-position-url="{{ path(routePath, { 'id': entity.id, 'action': 'down' }) }}"></span>
+        </div>
+        {% endif %}
+    {% endif %}
+{% endmacro %}    
+    
+{# Content #}    
+    
+{% import _self as tree %}
+{% if popup == false %}
+<div class="row">
+    {{ include('FrontBundle:Component:flash.partial.html.twig') }}
+    <div class="col-sm-12 col-md-4">
+        <div class="tree-search">
+            <form action="{{ path('workflow.article.search') }}" method="get">
+                <div class="input-group">
+                    <input type="text" name="keywords" class="form-control" aria-label="Buscar" placeholder="Buscar artículo...">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="text">Artículos</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#" data-value="articles">Artículos</a></li>
+                            <li><a href="#" data-value="categories">Categorías</a></li>
+                        </ul>
+                        <button class="btn btn-blue" type="submit"></button>
+                    </div>
+                    <select name="type" id="type" aria-label="Tipo de busqueda">
+                        <option value="articles">Artículos</option>
+                        <option value="categories">Categorías</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="treeView">
+    <div id="treeView-main" class="treeView-branch"  data-tree-type="root">
+        <span class="treeView-title collapsable">
+            <span class="treeView-icon icon-tree-collapse icon-big"></span>
+            <span class="treeView-text">
+                Dolopedia
+            </span>
+        </span>
+        {% if is_granted('ROLE_ADMIN') and popup == false %}
+        <div class="treeView-actions">
+            <a href="{{ path('workflow.category.new')}}" data-toggle="tooltip" title="{{'category.actions.new'|trans}}">
+                <span class="treeView-action icon-tree-newcat"></span>
+            </a>
+        </div>
+        <div class="treeView-actions responsive">
+            <span class="treeView-action icon-tree-newcat menuLauncher"></span>
+        </div>
+        {% endif %}
+    </div>
+    <ul class="treeView-main">
+        {{ tree.draw(categories, 1, _context) }}
+    </ul>
+</div>
+<div class="treeView-menu">
+    <div class="treeView-menu-overlay">
+        <div class="spinner little overlay hidden"></div>
+    </div>
+    <div class="treeView-menu-container">
+        <div class="treeView-menu-options">
+            <a class="treeView-menu-action"
+               data-tree-action="show"
+               data-category-url="{{ path('public.category.show', { 'slug': '__slug__' }) }}"
+               data-article-url="{{ path('public.article.show', { 'slug': '__slug__' }) }}"
+            >
+                <span class="icon-preview"></span>
+            </a>
+            <a class="treeView-menu-action"
+               data-tree-action="edit"
+               data-category-url="{{ path('workflow.category.edit', { 'id': '__id__' }) }}"
+               data-article-url="{{ path('workflow.article.edit', { 'id': '__id__' }) }}"
+            >
+                <span class="icon-data-edit"></span>
+            </a>
+            <a class="treeView-menu-action"
+               data-tree-action="newCategory"
+               data-root-url="{{ path('workflow.category.new') }}"
+               data-category-url="{{ path('workflow.category.new', { 'id': '__id__' }) }}"
+            >
+                <span class="icon-tree-newcat"></span>
+            </a>
+            <a class="treeView-menu-action"
+               data-tree-action="newArticle"
+               data-category-url="{{ path('workflow.article.new', { 'categoryId': '__id__' }) }}"
+            >
+                <span class="icon-article"></span>
+            </a>
+            <a class="treeView-menu-action"
+               data-tree-action="up"
+               data-category-url="{{ path('workflow.category.tree.position', { 'id': '__id__', 'action': 'up' }) }}"
+               data-article-url="{{ path('workflow.article.tree.position', { 'id': '__id__', 'action': 'up' }) }}"
+               data-tree-position-modifier="up"
+               data-tree-position-url=""
+            >
+                <span class="icon-tree-up"></span>
+            </a>
+            <a class="treeView-menu-action"
+               data-tree-action="down"
+               data-category-url="{{ path('workflow.category.tree.position', { 'id': '__id__', 'action': 'down' }) }}"
+               data-article-url="{{ path('workflow.article.tree.position', { 'id': '__id__', 'action': 'down' }) }}"
+               data-tree-position-modifier="down"
+               data-tree-position-url=""
+            >
+                <span class="icon-tree-down"></span>
+            </a>
+            <a class="treeView-menu-action"
+               data-tree-action="delete"
+               data-tree-action-url=""
+               data-category-url="{{ path('workflow.category.delete', { 'id': '__id__' }) }}"
+               data-article-url="{{ path('workflow.article.delete', { 'id': '__id__' }) }}"
+            >
+                <span class="base-color icon-article-delete"></span>
+            </a>
+        </div>   
+        <div class="clearfix"></div>                  
+    </div>
+</div>

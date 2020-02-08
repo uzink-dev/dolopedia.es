@@ -1,0 +1,62 @@
+{% trans_default_domain 'dolopedia' %}
+{% form_theme form 'FrontBundle:Form:fields.html.twig' %}
+
+{% if not popup %}
+    {{ form_start(form, {'attr': {'id': 'acept-request-form'}}) }}
+        {% if form.assignedUser is defined %}
+        <div class="form-well headed">
+            <div class="head">
+                <span class="head-icon icon-big  icon-check"></span>
+                <h3 class="head-title">{{ 'request.buttons.accept' | trans }}</h3>
+            </div>
+            <div class="container section">
+                <div class="row container-row ">
+                    {{ form_row(form.assignedUser) }}
+                </div>
+            </div>
+        </div>
+        <div class="row container-row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row container-row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary separate-right">
+                    <span class="icon-message-send icon-big"></span> {{ 'request.buttons.accept' | trans }}
+                </button>
+                <a href="#request-action-options" class="btn btn-grey show-and-hide" data-hide="#acept-request-form"><span class="icon-cancel icon-big"></span> {{ 'form.button.cancelEdit' | trans }}</a>&nbsp;
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% else %}
+    {{ form_start(form) }}
+
+        <div class="form-well headed">
+            <div class="head without-margin">
+                <span class="head-icon icon-big  icon-check"></span>
+                <h3 class="head-title">{{ 'request.buttons.accept' | trans }}</h3>
+            </div>
+            <div class="container section">
+                <div class="row container-row ">
+                    <div class="col-md-12">
+                        <p>Seleccione los parámetros (Si procede) y pulse en Aceptar</p>
+                    </div>
+                {% if form.assignedUser is defined %}
+                    {{ form_row(form.assignedUser) }}
+                {% endif %}
+                    <div class="col-md-12">
+                        <hr/>
+                        <button type="submit" class="btn btn-primary separate-right">
+                            <span class="icon-message-send icon-big"></span> {{ 'request.buttons.accept' | trans }}
+                        </button>
+                        <a href="#request-action-options" class="btn btn-grey show-and-hide" data-hide="#acept-request-form"><span class="icon-cancel icon-big"></span> {{ 'form.button.cancelEdit' | trans }}</a>&nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endif %}
+

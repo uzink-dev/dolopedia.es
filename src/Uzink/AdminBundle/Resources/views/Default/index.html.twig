@@ -1,0 +1,74 @@
+{% extends 'AdminBundle:Layout:layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{%  block title %}{{ metadata.entityDescription }}{% endblock %}
+
+{% block top_buttons %}
+<a class="btn btn-primary" href="{{ path('admin.' ~ metadata.entityName ~ '.new') }}">
+    {{ icon('plus') }} Crear nuevo
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="col-sm-12">
+    <section id="records_list">
+        <table class="records_list table table-striped table-bordered">
+            <thead>
+                <tr>
+                    {% for key,value in metadata.entityFields %}
+                    <th>{{ value }}</th>
+                    {% endfor %}
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in pager %}
+                <tr>
+                    {% for key,value in metadata.entityFields %}
+                    {% set value = attribute(entity, key) %}
+                    {% if value.timestamp is defined %}
+                        <td>{{ value|date('d/m/Y H:i') }}</td>
+                    {% elseif value.count is defined %}
+                        <td>{{ value.count }}</td>
+                    {% else %}
+                        <td>{{ value is not empty ? value|trans : '---' }}</td>
+                    {% endif %}
+                    {% endfor %}
+                    <td class="col-sm-2 col-md-2">
+                        <a class="btn btn-warning" href="{{ path('admin.' ~ metadata.entityName ~ '.edit', { 'id': entity.id }) }}">
+                            {{ icon('pencil') }} Editar
+                        </a>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-{{ entity.id }}">
+                          {{ icon('remove') }} Borrar
+                        </button>
+                        <div class="modal delete_modal fade" id="deleteModal-{{ entity.id }}" tabindex="-{{ loop.index }}" role="dialog"
+                             aria-labelledby="deleteModalLabel-{{ entity.id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModalLabel-{{ entity.id }}">¿Borrar el elemento?</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" action="{{ path('admin.' ~ metadata.entityName ~ '.delete', { 'id': entity.id }) }}">
+                                            <button type="submit" class="btn btn-danger">Sí</button>
+                                            <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="centered">
+    {{  pagerfanta(pager, 'twitter_bootstrap3') }}
+</div>
+{% endblock %}
+

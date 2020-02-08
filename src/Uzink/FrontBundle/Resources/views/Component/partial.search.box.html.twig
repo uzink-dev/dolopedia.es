@@ -1,0 +1,11 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="header-search-wrapper">
+    <div class="header-search">
+        <form method="get" action="{{ path('public.article.search') }}">
+            {{ form_widget(form.keyword, {'attr': {'placeholder': 'article.search.form.wantSearch'} }) }}
+            {{ form_widget(form.engine, {'attr': {'class': 'style-select'} }) }}
+            <button type="submit"></button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+{% trans_default_domain 'dolopedia' %}
+
+<div class="row container-row">
+    <div class="col-md-12">
+        <h2 class="base-color no-top-separation">{{ scope == 'public'?'article.comments'|trans:'article.discussions'|trans }}</h2>
+        {% if scope == 'public' %}
+            {% set comments = article.comments %}
+            {% set url = path('public.comment.add', {'id': article.id}) %}
+        {% elseif scope == 'discussion' %}
+            {% set comments = article.discussions %}
+            {% set url = path('panel.comment.add', {'id': article.id}) %}
+        {% endif %}
+        {% for comment in comments %}
+            {% include('FrontBundle:Component:partial.user.comment.html.twig') %}
+        {% else %}
+            <p>{{ 'article.noComments' | trans }}</p>
+        {% endfor %}
+    </div>
+</div>
+<div class="section">
+    <form method="post" action="{{ url }}">
+        <div class="form-well headed">
+            <div class="head arrow">
+                <span class="head-icon icon-add icon-big"></span><h3 class="head-title">{{ 'article.addComment' | trans }}</h3>
+            </div>
+            <div class="container section">
+                <div class="row container-row ">
+                    <div class="control-wrapper">
+                        <div class="form-group col-md-9">
+                            {{ form_label(form.content) }}
+                            {{ form_widget(form.content, { 'attr':{'class': 'form-control', 'placeholder': 'Introduce tu comentario', 'rows': 8, 'noresize': 'noresize'} }) }}
+                        </div>
+                        <div class="form-group col-md-3 pull-down">
+                            <button class="btn btn-grey"><span class="icon-check"></span> {{ 'form.button.send' | trans }}</button>
+                            <span class="spinner little"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_rest(form) }}
+    </form>
+</div>

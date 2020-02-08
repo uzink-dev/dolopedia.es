@@ -1,0 +1,97 @@
+{% extends 'FrontBundle:Layout:front.basic.layout.html.twig' %}
+{% trans_default_domain 'dolopedia' %}
+
+{% block body %}
+    <div class="content">
+
+        <div class="row container-row content-header">
+            {% include('FrontBundle:Component:breadcrumbs.partial.html.twig') %}
+            <div class="col-md-12">
+                <h1>Contacto</h1>
+            </div>
+        </div>
+
+        <section class="contact">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        {% for flash_message in app.session.flashbag.get('success') %}
+                            <div class="alert alert-success" role="alert">{{ flash_message }}</div>
+                        {% endfor %}
+                        <div class="formWindowWrapper">
+                            <div class="formWindow">
+                                <div class="formWindow-head">
+                                    <h2 class="title">{{ 'contact_page.title'|trans }} <span class="icon-mail icon-big"></span></h2>
+                                </div>
+                                <div class="formWindow-content">
+                                    {{ form_start(form) }}
+                                        <div class="formWindow-control">
+                                            {{ form_label(form.name) }}*
+                                            {{ form_widget(form.name, {'attr': {'class': 'form-control' } }) }}
+                                        </div>
+                                        <div class="formWindow-control">
+                                            {{ form_label(form.email) }}*
+                                            {{ form_widget(form.email, {'attr': {'class': 'form-control' } }) }}
+                                        </div>
+                                        <div class="formWindow-control">
+                                            {{ form_label(form.phone) }}
+                                            {{ form_widget(form.phone, {'attr': {'class': 'form-control' } }) }}
+                                        </div>
+                                        <div class="formWindow-control">
+                                            {{ form_label(form.message) }}*
+                                            {{ form_widget(form.message, {'attr': {'class': 'form-control', 'rows': 4} }) }}
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox">
+                                                {{ 'contact_page.termsAndConditions'|trans({'%conditionsLink%': path('public.cms.static', {'slug': 'condiciones-del-servicio'}), '%policyLink%': path('public.cms.static', {'slug': 'politica-de-privacidad'})})|raw }}
+                                            </label>
+                                        </div>
+                                        <hr/>
+                                        <div class="formWindow-control last-with-any">
+                                            <button type="submit" class="btn btn-primary">
+                                                <span class="icon-message-send"></span> {{ 'contact_page.submit'|trans }}
+                                            </button>
+                                        </div>
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="graybox">
+                            <h2 class="title contact">
+                                {{ 'contact_page.widgets.contact.title'|trans }}
+                            </h2>
+                            <div class="contact-item">
+                                <div class="icon phone"></div>
+                                <div class="content">
+                                    <h3>{{ 'contact_page.widgets.contact.phone'|trans }}</h3>
+                                    <div class="value">96 119 96 26</div>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <div class="icon email"></div>
+                                <div class="content">
+                                    <h3>{{ 'contact_page.widgets.contact.email'|trans }}</h3>
+                                    <div class="value">info@dolopedia.com</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="graybox">
+                            <h2 class="title social">
+                                {{ 'contact_page.widgets.social.title'|trans }}
+                            </h2>
+                            <div class="social-logos">
+                                <a href="#" alt="Facebook" class="icon-fb-color"><span class="icon-facebook colored"></span></a>
+                                <a href="#" alt="Linkedin" class="icon-lk-color"><span class="icon-linkedin colored"></span></a>
+                                <a href="#" alt="Twitter" class="icon-tw-color"><span class="icon-twitter colored"></span></a>
+                                <a href="#" alt="Youtube" class="icon-yt-color"><span class="icon-youtube colored"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock body %}

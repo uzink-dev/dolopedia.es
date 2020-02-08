@@ -1,0 +1,53 @@
+{% trans_default_domain 'dolopedia' %}
+{% form_theme form 'FrontBundle:Form:fields.html.twig' %}
+
+{% if not popup %}
+    {{ form_start(form, {'attr': {'id': 'decline-request-form'}}) }}
+        <div class="form-well headed">
+            <div class="head">
+                <span class="head-icon icon-big  icon-cancel"></span>
+                <h3 class="head-title">{{ 'request.buttons.decline' | trans }}</h3>
+            </div>
+            <div class="container section">
+                <div class="row container-row ">
+                    {{ form_row(form.userFrom) }}
+                    {{ form_row(form.subject) }}
+                    {{ form_row(form.reasonToDecline) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row container-row">
+            <div class="col-md-12">
+                <hr>
+                <button type="submit" class="btn btn-primary separate-right">
+                    <span class="icon-message-send icon-big"></span> {{ 'form.button.send' | trans }}
+                </button>
+                <a href="#request-action-options" class="btn btn-grey show-and-hide" data-hide="#decline-request-form"><span class="icon-cancel icon-big"></span> {{ 'form.button.cancelEdit' | trans }}</a>&nbsp;
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% else %}
+    {{ form_start(form) }}
+    <div class="form-well headed">
+        <div class="head without-margin">
+            <span class="head-icon icon-big  icon-cancel"></span>
+            <h3 class="head-title">{{ 'request.buttons.decline' | trans }}</h3>
+        </div>
+        <div class="container section">
+            <div class="row container-row ">
+                {{ form_row(form.userFrom) }}
+                {{ form_row(form.subject) }}
+                {{ form_row(form.reasonToDecline) }}
+                <div class="col-md-12">
+                    <hr>
+                    <button type="submit" class="btn btn-primary separate-right">
+                        <span class="icon-message-send icon-big"></span> {{ 'form.button.send' | trans }}
+                    </button>
+                    <a href="#request-action-options" class="btn btn-grey show-and-hide" data-hide="#decline-request-form"><span class="icon-cancel icon-big"></span> {{ 'form.button.cancelEdit' | trans }}</a>&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endif %}

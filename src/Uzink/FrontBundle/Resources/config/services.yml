@@ -1,0 +1,55 @@
+parameters:
+
+services:
+    uzink.registration.default.form.type:
+        class: Uzink\BackendBundle\Form\UserRegistrationType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: uzink_backendbundle_usertype }
+
+    uzink.twig.article_extension:
+        class: Uzink\FrontBundle\Twig\ArticleExtension
+        arguments: [@doctrine.orm.entity_manager, @router]
+        tags:
+            - { name: twig.extension }
+
+    uzink.twig.activity_extension:
+        class: Uzink\FrontBundle\Twig\ActivityExtension
+        arguments: [@uzink.activity.factory, @twig]
+        tags:
+            - { name: twig.extension }
+
+    uzink.twig.image_extension:
+        class: Uzink\FrontBundle\Twig\ImageExtension
+        arguments: [@service_container]
+        tags:
+            - { name: twig.extension }
+
+    uzink.twig.country_extension:
+        class: Uzink\FrontBundle\Twig\CountryExtension
+        tags:
+            - { name: twig.extension }
+
+    uzink.twig.menu_extension:
+        class: Uzink\FrontBundle\Twig\MenuExtension
+        arguments: [@doctrine.orm.entity_manager, @twig]
+        tags:
+            - { name: twig.extension }
+
+    uzink.twig.classid_extension:
+        class: Uzink\FrontBundle\Twig\ClassIdExtension
+        arguments: [@doctrine.orm.entity_manager, @twig]
+        tags:
+            - { name: twig.extension }
+        calls:
+            - [setDependencies, [ '@doctrine.orm.default_entity_manager' ]]
+
+    uploader.listener.post_persist:
+        class: Uzink\FrontBundle\EventListener\UploadListener
+        tags:
+            - { name: kernel.event_listener, event: oneup_uploader.post_persist.multimedia, method: onUpload }
+
+    pagerfanta.view.dolopedia:
+        class: Pagerfanta\View\DolopediaView
+        public: false
+        tags: [{ name: pagerfanta.view, alias: dolopedia }]

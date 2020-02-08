@@ -1,0 +1,30 @@
+{% block subject %}
+    {% autoescape false %}
+    Nueva mensaje
+    {% endautoescape %}
+{% endblock %}
+{% block body_text %}
+    {% autoescape false %}
+    Hola {{ user.name }}
+
+    El usuario {{ message.sender }} te ha enviado un mensaje, puedes acceder a el a través de este link: {{ url }}
+
+    Atentamente,
+    El equipo de Dolopedia
+    {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+    {% embed '::email.base.html.twig' %}
+        {% block title %}
+            Nuevo mensaje
+        {% endblock %}
+
+        {% block subtitle %}
+            Has recibido un nuevo mensaje
+        {% endblock subtitle %}
+
+        {% block content %}
+            El usuario {{ message.sender }} te ha enviado un mensaje ({{ message.subject }}), puedes acceder a el desde <a href="{{ url }}">aquí</a>.
+        {% endblock content %}
+    {% endembed %}
+{% endblock %}

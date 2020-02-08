@@ -1,0 +1,50 @@
+{% extends 'FrontBundle:Layout:front.privateArea.layout.html.twig' %}
+
+{% set namespace = 'Uzink\\BackendBundle\\Search\\' %}
+
+{% trans_default_domain 'dolopedia' %}
+
+{% block privateAreaTitle %}{{ 'category.assigned'|trans }}{% endblock privateAreaTitle %}
+
+{% macro category(category) %}
+    <div class="col-md-12">
+        <div class="table-well headed">
+            <div class="head">
+                <div class="row">
+                    <div class="col-md-8 col-sm-7">
+                        <h3 class="head-title">{{ category.title }}</h3>
+                    </div>
+                    <div class="col-md-4 col-sm-5">
+                        <div class="right-align">
+                            <ul class="action-options">
+                                <li><a href="{{ path('public.category.show', {'slug': category.seoSlug}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'category.actions.preview'|trans }}"><span class="icon-preview"></span></a></li>
+                                <li><a href="{{ path('workflow.category.edit', {'id': category.id}) }}" data-toggle="tooltip" data-placement="top" title="{{ 'category.actions.edit'|trans }}"><span class="icon-data-edit"></span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-well-content">
+                <div class="row">
+                    <div class="col-md-8 col-sm-7">
+                        <p>{{ 'category.createdAt' | trans }}: <span class="table-well-secondary-color">{{ category.createdAt|date('d/m/Y - H:i') }}</a></span></p>
+                        <p>{{ 'category.articles' | trans }}: <span class="table-well-secondary-color">{{ 'category.countArticles'|transchoice(category.articles|length) }}</span></p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endmacro %}
+
+{% import _self as render %}
+
+{% block privateAreaContent %}
+    <div class="row container-row">
+        {{ include('FrontBundle:Component:flash.partial.html.twig') }}
+        {% for category in categories %}
+            {{ render.category(category) }}
+        {% endfor %}
+    </div>
+{% endblock privateAreaContent %}
