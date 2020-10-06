@@ -1,25 +1,25 @@
 admin_configuracion_parametros:
-    pattern:  /list/{page}
+    path:  /list/{page}
     defaults: { _controller: "ConfiguracionBundle:ParametroConfiguracion:index", page: 1 }
 
 admin_configuracion_parametros_new:
-    pattern:  /new
+    path:  /new
     defaults: { _controller: "ConfiguracionBundle:ParametroConfiguracion:new" }
 
 admin_configuracion_parametros_create:
-    pattern:  /create
+    path:  /create
     defaults: { _controller: "ConfiguracionBundle:ParametroConfiguracion:create" }
     requirements: { _method: post }
 
 admin_configuracion_parametros_edit:
-    pattern:  /{id}/edit
+    path:  /{id}/edit
     defaults: { _controller: "ConfiguracionBundle:ParametroConfiguracion:edit" }
 
 admin_configuracion_parametros_update:
-    pattern:  /{id}/update
+    path:  /{id}/update
     defaults: { _controller: "ConfiguracionBundle:ParametroConfiguracion:update" }
     requirements: { _method: post|put }
 
 admin_configuracion_parametros_delete:
-    pattern:  /{id}/delete
+    path:  /{id}/delete
     defaults: { _controller: "ConfiguracionBundle:ParametroConfiguracion:delete" }

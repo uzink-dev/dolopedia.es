@@ -17,3 +17,5 @@
 /web/assetic
 /.idea
 /php_errors.log
+/components
+/database/dolopedia.sql

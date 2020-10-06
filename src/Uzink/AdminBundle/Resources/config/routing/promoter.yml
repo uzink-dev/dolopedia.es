@@ -1,38 +1,38 @@
 admin.promoter.index:
-    pattern:  /list/{page}
+    path:  /list/{page}
     defaults: { _controller: AdminBundle:Promoter:index, page: 1 }
     methods:  [GET]
     requirements:
         page: \d+
 
 admin.promoter.new:
-    pattern:  /new
+    path:  /new
     defaults: { _controller: AdminBundle:Promoter:new }
     methods:  [GET]
     requirements:
         id: \d+
 
 admin.promoter.create:
-    pattern:  /create
+    path:  /create
     defaults: { _controller: AdminBundle:Promoter:create }
     methods:  [POST]
 
 admin.promoter.edit:
-    pattern:  /{id}/edit
+    path:  /{id}/edit
     defaults: { _controller: AdminBundle:Promoter:edit }
     methods:  [GET]
     requirements:
         id: \d+
 
 admin.promoter.update:
-    pattern:  /{id}/update
+    path:  /{id}/update
     defaults: { _controller: AdminBundle:Promoter:update }
     methods:  [POST, PUT]
     requirements:
         id: \d+
 
 admin.promoter.delete:
-    pattern:  /{id}/delete
+    path:  /{id}/delete
     defaults: { _controller: AdminBundle:Promoter:delete }
     methods:  [POST]
     requirements:

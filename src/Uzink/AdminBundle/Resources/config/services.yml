@@ -19,89 +19,87 @@ parameters:
 
 services:
     admin.engine.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.engine.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.engine.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.center.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.center.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.center.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.contact.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.contact.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.contact.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.promoter.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.promoter.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.promoter.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.menu.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.menu.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.menu.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.page.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.page.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.page.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.helppage.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.helppage.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.helppage.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.user.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.user.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.user.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.article.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.article.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.article.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     admin.category.manager:
-      class: %admin.manager.class%
-      arguments: [%admin.category.class%]
+      class: '%admin.manager.class%'
+      arguments: ['%admin.category.class%']
       calls:
           - [setEventDispatcher, ["@event_dispatcher"]]
           - [setEntityManager, ["@doctrine.orm.entity_manager" ]]
 
     generator.menu_builder:
-        class: %generator.menu_builder.class%
+        class: '%generator.menu_builder.class%'
         arguments:
-            factory: "@knp_menu.factory"
-            security: "@security.context"
-            requestStack: "@request_stack"
+            - "@knp_menu.factory"
+            - "@request_stack"
 
     admin.form.datepicker:
-        class: %admin.form.datepicker.class%
+        class: '%admin.form.datepicker.class%'
         tags:
             - { name: form.type, alias: datepicker }
 
     admin.form.datetimepicker:
-        class: %admin.form.datetimepicker.class%
+        class: '%admin.form.datetimepicker.class%'
         tags:
             - { name: form.type, alias: datetimepicker }
-

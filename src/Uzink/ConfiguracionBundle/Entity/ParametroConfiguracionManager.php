@@ -41,13 +41,12 @@ class ParametroConfiguracionManager
      */
     protected $class;
 
-    public function __construct(EventDispatcherInterface $dispatcher, EntityManager $em, $class, $request )
+    public function __construct(EventDispatcherInterface $dispatcher, EntityManager $em, $class )
     {
         $this->dispatcher = $dispatcher;
         $this->em = $em;
         $this->class = $class;
         $this->repo = $em->getRepository($class);
-        $this->request = $request;
     }
 
 

@@ -50,7 +50,7 @@ security:
             form_login:
                 default_target_path: /areaprivada/cuenta
                 provider: fos_userbundle
-                csrf_provider: form.csrf_provider
+                csrf_token_generator: security.csrf.token_manager
                 login_path: /login
                 check_path: /login_check
             oauth:
@@ -79,4 +79,3 @@ security:
         - { path: ^/workflow/*, roles: ROLE_USER }
         - { path: ^/efconnect, role: ROLE_USER }
         - { path: ^/elfinder, role: ROLE_USER }
-        

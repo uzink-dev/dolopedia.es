@@ -5,6 +5,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\WorkflowBundle\Event\StepEvent;
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -17,7 +18,7 @@ use Uzink\BackendBundle\Handler\WorkflowHandler;
 use Uzink\BackendBundle\Manager\ArticleManager;
 use Uzink\BackendBundle\Manager\RequestManager;
 
-class ArticleEditionProcessSubscriber extends ContainerAware implements EventSubscriberInterface
+class ArticleEditionProcessSubscriber extends Container implements EventSubscriberInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager

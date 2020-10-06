@@ -5,6 +5,7 @@ namespace Uzink\BackendBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -16,7 +17,7 @@ use Uzink\BackendBundle\Entity\Request;
 use Uzink\BackendBundle\Event\ActivityArticleEvent;
 use Uzink\BackendBundle\Event\ActivityEvent;
 
-class ChangeWatcherSubscriber extends ContainerAware implements EventSubscriber
+class ChangeWatcherSubscriber extends Container implements EventSubscriber
 {
     /**
      * @var \Uzink\BackendBundle\Manager\ArticleManager
@@ -35,9 +36,8 @@ class ChangeWatcherSubscriber extends ContainerAware implements EventSubscriber
 
     public function setContainer(ContainerInterface $container = null)
     {
-        parent::setContainer($container);
-        $this->dispatcher = $this->container->get('event_dispatcher');
-        $this->tokenStorage = $this->container->get('security.token_storage');
+        $this->dispatcher = $container->get('event_dispatcher');
+        $this->tokenStorage = $container->get('security.token_storage');
     }
 
     public function getSubscribedEvents()

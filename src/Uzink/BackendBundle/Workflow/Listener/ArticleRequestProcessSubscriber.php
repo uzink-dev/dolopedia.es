@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\WorkflowBundle\Event\StepEvent;
 use Lexik\Bundle\WorkflowBundle\Event\ValidateStepEvent;
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -16,7 +17,7 @@ use Uzink\BackendBundle\Event\ActivityRequestEvent;
 use Uzink\BackendBundle\Handler\WorkflowHandler;
 use Uzink\BackendBundle\Manager\RequestManager;
 
-class ArticleRequestProcessSubscriber extends ContainerAware implements EventSubscriberInterface
+class ArticleRequestProcessSubscriber extends Container implements EventSubscriberInterface
 {
     /**
      * @var \Uzink\BackendBundle\Handler\WorkflowHandler

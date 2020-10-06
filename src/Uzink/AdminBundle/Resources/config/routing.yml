@@ -12,15 +12,15 @@ admin.category:
     prefix:   /categoria
 
 admin_login:
-    pattern:  /login
+    path:  /login
     defaults: { _controller: FOSUserBundle:Security:login }
 
 admin_login_check:
-    pattern:  /login_check
+    path:  /login_check
     defaults: { _controller: FOSUserBundle:Security:check }
 
 admin_logout:
-    pattern:  /logout
+    path:  /logout
     defaults: { _controller: FOSUserBundle:Security:logout }
 
 admin.center:

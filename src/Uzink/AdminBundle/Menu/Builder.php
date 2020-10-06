@@ -4,7 +4,6 @@ namespace Uzink\AdminBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  * Class Builder
@@ -23,22 +22,15 @@ class Builder
     private $requestStack;
 
     /**
-     * @var \Symfony\Component\Security\Core\SecurityContext
-     */
-    private $security;
-
-    /**
      * Constructor
      *
      * @param FactoryInterface $factory
-     * @param SecurityContext $security
      * @param RequestStack $requestStack
      */
-    public function __construct(FactoryInterface $factory, SecurityContext $security, RequestStack $requestStack)
+    public function __construct(FactoryInterface $factory, RequestStack $requestStack)
     {
         $this->factory = $factory;
         $this->requestStack = $requestStack;
-        $this->security = $security;
     }
 
     /**

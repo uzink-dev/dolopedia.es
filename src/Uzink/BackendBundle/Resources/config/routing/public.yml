@@ -1,5 +1,5 @@
 #prueba:
-#    pattern:  /test
+#    path:  /test
 #    defaults: { _controller: BackendBundle:Home:test }
 #    methods:  [GET]
 
@@ -7,19 +7,19 @@
 # * Article Routes *******************************************************************************
 # ------------------------------------------------------------------------------------------------
 public.article.preview:
-    pattern:  /articulo/vista-previa/{id}
+    path:  /articulo/vista-previa/{id}
     defaults: { _controller: BackendBundle:Article:PreviewArticle }
     methods:  [POST]
     requirements:
         page: \d+
 
 public.article.search:
-    pattern:  /articulo/buscar
+    path:  /articulo/buscar
     defaults: { _controller: BackendBundle:Article:SearchArticle }
     methods:  [GET]
 
 public.article.show:
-    pattern:  /articulo/{slug}
+    path:  /articulo/{slug}
     defaults: { _controller: BackendBundle:Article:ShowArticle }
     methods:  [GET]
 
@@ -27,12 +27,12 @@ public.article.show:
 # * Category Routes ******************************************************************************
 # ------------------------------------------------------------------------------------------------
 public.category.list:
-    pattern:  /articulos
+    path:  /articulos
     defaults: { _controller: BackendBundle:Category:ListCategories }
     methods:  [GET]
 
 public.category.show:
-    pattern:  /categoria/{slug}
+    path:  /categoria/{slug}
     defaults: { _controller: BackendBundle:Category:ShowCategory }
     methods:  [GET]
 
@@ -40,7 +40,7 @@ public.category.show:
 # * Comment Routes *******************************************************************************
 # ------------------------------------------------------------------------------------------------
 public.comment.add:
-    pattern:  /articulo/{id}/comentario
+    path:  /articulo/{id}/comentario
     defaults: { _controller: BackendBundle:Comment:Add, scope: 'public' }
     methods:  [POST]
     requirements:
@@ -50,7 +50,7 @@ public.comment.add:
 # * Homepage Routes ******************************************************************************
 # ------------------------------------------------------------------------------------------------
 public.home:
-    pattern:  /
+    path:  /
     defaults: { _controller: BackendBundle:Home:Index }
     methods:  [GET]
 
@@ -58,7 +58,7 @@ public.home:
 # * Contact Routes *******************************************************************************
 # ------------------------------------------------------------------------------------------------
 public.contact:
-    pattern:  /contacto
+    path:  /contacto
     defaults: { _controller: BackendBundle:Cms:Contact }
     methods:  [GET, POST]
 
@@ -66,35 +66,35 @@ public.contact:
 # * Institution Routes ***************************************************************************
 # ------------------------------------------------------------------------------------------------
 public.net.index:
-    pattern: /red
+    path: /red
     defaults: { _controller: BackendBundle:Net:Index }
     methods:  [GET]
     requirements:
         page: \d+
 
 public.net.center.index:
-    pattern: /red/centros
+    path: /red/centros
     defaults: { _controller: BackendBundle:Net:IndexCenter }
     methods:  [GET]
     requirements:
         page: \d+
 
 public.net.center.show:
-    pattern: /red/centros/{slug}
+    path: /red/centros/{slug}
     defaults: { _controller: BackendBundle:Net:ShowCenter }
     methods:  [GET]
     requirements:
         page: \d+
 
 public.net.promoter.index:
-    pattern: /red/promotores
+    path: /red/promotores
     defaults: { _controller: BackendBundle:Net:IndexPromoter }
     methods:  [GET]
     requirements:
         page: \d+
 
 public.net.promoter.show:
-    pattern: /red/promotores/{slug}
+    path: /red/promotores/{slug}
     defaults: { _controller: BackendBundle:Net:ShowPromoter }
     methods:  [GET]
     requirements:
@@ -104,64 +104,64 @@ public.net.promoter.show:
 # * User Routes **********************************************************************************
 # ------------------------------------------------------------------------------------------------
 public.user.login:
-    pattern:  /login
+    path:  /login
     defaults: { _controller: FOSUserBundle:Security:login }
     methods:  [GET]
     
 public.user.show:
-    pattern:  /usuario/{id}
+    path:  /usuario/{id}
     defaults: { _controller: BackendBundle:User:Show }
     methods:  [GET]
     requirements:
         page: \d+
 
 public.user.registration.options:
-    pattern: /registro
+    path: /registro
     defaults: { _controller: BackendBundle:User:RegistrationOptions }
     methods:  [GET]
 
 public.user.registration.default:
-    pattern: /registro/default
+    path: /registro/default
     defaults: { _controller: FOSUserBundle:Registration:register }
     methods:  [GET, POST]
 
 public.user.registration.facebook:
-    pattern: /registro/facebook
+    path: /registro/facebook
     defaults: { _controller: BackendBundle:User:RegistrationOptions }
     methods:  [GET, POST]
 
 public.user.registration.twitter:
-    pattern: /registro/twitter
+    path: /registro/twitter
     defaults: { _controller: BackendBundle:User:RegistrationOptions }
     methods:  [GET, POST]
 
 public.user.registration.checkEmail:
-    pattern: /comprueba-tu-email
+    path: /comprueba-tu-email
     defaults: { _controller: FOSUserBundle:Registration:checkEmail }
     methods:  [GET, POST]
 
 public.user.registration.confirm:
-    pattern: /confirmar/{token}
+    path: /confirmar/{token}
     defaults: { _controller: FOSUserBundle:Registration:confirm }
     methods:  [GET, POST]
 
 public.user.registration.confirmed:
-    pattern: /confirmado
+    path: /confirmado
     defaults: { _controller: FOSUserBundle:Registration:confirmed }
     methods:  [GET, POST]
 
 public.user.resetting.sendEmail:
-    pattern: /recuperar-password/envia-email
+    path: /recuperar-password/envia-email
     defaults: { _controller: FOSUserBundle:Resetting:sendEmail }
     methods:  [GET, POST]
 
 public.user.resetting.checkEmail:
-    pattern: /recuperar-password/comprueba-email
+    path: /recuperar-password/comprueba-email
     defaults: { _controller: FOSUserBundle:Resetting:checkEmail }
     methods:  [GET, POST]
 
 public.user.resetting.password:
-    pattern: /recuperar-password/{token}
+    path: /recuperar-password/{token}
     defaults: { _controller: FOSUserBundle:Registration:confirmed }
     methods:  [GET, POST]
 
@@ -169,11 +169,11 @@ public.user.resetting.password:
 # * Cms Routes ***********************************************************************************
 # ------------------------------------------------------------------------------------------------
 public.helpPage.show:
-    pattern:  /ayuda/{slug}
+    path:  /ayuda/{slug}
     defaults: { _controller: BackendBundle:Cms:ShowHelpPage, slug: null }
     methods:  [GET]
 
 public.cms.static:
-    pattern:  /{slug}
+    path:  /{slug}
     defaults: { _controller: BackendBundle:Cms:Static }
     methods:  [GET]

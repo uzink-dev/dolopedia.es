@@ -1,38 +1,38 @@
 admin.page.index:
-    pattern:  /list/{page}
+    path:  /list/{page}
     defaults: { _controller: AdminBundle:Page:index, page: 1 }
     methods:  [GET]
     requirements:
         page: \d+
 
 admin.page.new:
-    pattern:  /new
+    path:  /new
     defaults: { _controller: AdminBundle:Page:new }
     methods:  [GET]
     requirements:
         id: \d+
 
 admin.page.create:
-    pattern:  /create
+    path:  /create
     defaults: { _controller: AdminBundle:Page:create }
     methods:  [POST]
 
 admin.page.edit:
-    pattern:  /{id}/edit
+    path:  /{id}/edit
     defaults: { _controller: AdminBundle:Page:edit }
     methods:  [GET]
     requirements:
         id: \d+
 
 admin.page.update:
-    pattern:  /{id}/update
+    path:  /{id}/update
     defaults: { _controller: AdminBundle:Page:update }
     methods:  [POST, PUT]
     requirements:
         id: \d+
 
 admin.page.delete:
-    pattern:  /{id}/delete
+    path:  /{id}/delete
     defaults: { _controller: AdminBundle:Page:delete }
     methods:  [POST]
     requirements:

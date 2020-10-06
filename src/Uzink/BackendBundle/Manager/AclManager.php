@@ -7,7 +7,7 @@ use Symfony\Component\Security\Acl\Domain\Entry;
 use Symfony\Component\Security\Acl\Domain\Acl;
 use Symfony\Component\Security\Acl\Dbal\MutableAclProvider;
 use Symfony\Component\Security\Acl\Domain\RoleSecurityIdentity;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Acl\Model\AclProviderInterface;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
@@ -34,9 +34,9 @@ class AclManager {
      * Constructor
      *
      * @param AclProviderInterface $provider
-     * @param SecurityContextInterface $context
+     * @param Security $context
      */
-    public function __construct(AclProviderInterface $provider, SecurityContextInterface $context) {
+    public function __construct(AclProviderInterface $provider, Security $context) {
         $this->provider = $provider;
         $this->context = $context;
     }

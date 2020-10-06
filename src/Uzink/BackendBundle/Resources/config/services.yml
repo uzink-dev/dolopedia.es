@@ -26,29 +26,29 @@ services:
     uzink.article.handler:
         class: "%uzink.article.handler.class%"
         arguments:
-            container: "@service_container"
-            em: "@doctrine.orm.entity_manager"
-            entityClass: "%uzink.article.class%"
-            formBuilder: "@form.factory"
+            - "@service_container"
+            - "@doctrine.orm.entity_manager"
+            - "%uzink.article.class%"
+            - "@form.factory"
 
     uzink.category.handler:
         class: "%uzink.category.handler.class%"
         arguments:
-            container: "@service_container"
-            em: "@doctrine.orm.entity_manager"
-            entityClass: "%uzink.category.class%"
+            - "@service_container"
+            - "@doctrine.orm.entity_manager"
+            - "%uzink.category.class%"
 
     uzink.user.handler:
         class: "%uzink.user.handler.class%"
         arguments:
-            container: "@service_container"
-            em: "@doctrine.orm.entity_manager"
-            entityClass: "%uzink.user.class%"      
+            - "@service_container"
+            - "@doctrine.orm.entity_manager"
+            - "%uzink.user.class%"
 
     uzink.workflow.handler:
         class: "%uzink.workflow.handler.class%"
         arguments:
-            container: "@service_container"
+            - "@service_container"
 
     uzink.password_resetting:
         class: Uzink\BackendBundle\EventListener\PasswordResettingListener
@@ -69,72 +69,72 @@ services:
     uzink.acl.manager:
         class: Uzink\BackendBundle\Manager\AclManager
         arguments:
-            provider: "@security.acl.provider"
-            context:  "@security.context"
+            - "@security.acl.provider"
+            -  "@security.token_storage"
 
     uzink.article.manager:
         class: Uzink\BackendBundle\Manager\ArticleManager
         arguments:
-            class: "%uzink.article.class%"
-            handler: "@uzink.article.handler"
+            - "%uzink.article.class%"
+            - "@uzink.article.handler"
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     uzink.category.manager:
         class: Uzink\BackendBundle\Manager\CategoryManager
         arguments:
-            dispatcher: "@event_dispatcher"
-            em: "@doctrine.orm.entity_manager"
-            class: "%uzink.category.class%"
+            - "@event_dispatcher"
+            - "@doctrine.orm.entity_manager"
+            - "%uzink.category.class%"
         calls:
-            - [ setContainer,[ @service_container ] ]
-            - [ setAclManager,[ @uzink.acl.manager ] ]
+            - [ setContainer,[ '@service_container' ] ]
+            - [ setAclManager,[ '@uzink.acl.manager' ] ]
 
     uzink.draft.manager:
         class: Uzink\BackendBundle\Manager\DraftManager
         arguments:
-            class: Uzink\BackendBundle\Entity\Draft
+            - Uzink\BackendBundle\Entity\Draft
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     uzink.request.manager:
         class: Uzink\BackendBundle\Manager\RequestManager
         arguments:
-            dispatcher: "@event_dispatcher"
-            em: "@doctrine.orm.entity_manager"
-            class: "%uzink.request.class%"
+            - "@event_dispatcher"
+            - "@doctrine.orm.entity_manager"
+            - "%uzink.request.class%"
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     uzink.user.manager:
         class: Uzink\BackendBundle\Manager\UserManager
         arguments:
-            dispatcher: "@event_dispatcher"
-            em: "@doctrine.orm.entity_manager"
-            class: "%uzink.user.class%"
+            - "@event_dispatcher"
+            - "@doctrine.orm.entity_manager"
+            - "%uzink.user.class%"
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     uzink.message.manager:
         class: Uzink\BackendBundle\Manager\MessageManager
         arguments:
-            class: "%uzink.message.class%"
-            formClass: "%uzink.message.form.class%"
+            - "%uzink.message.class%"
+            - "%uzink.message.form.class%"
         calls:
-            - [ setContainer,[ @service_container ] ]
-            - [ setEntityManager,[ @doctrine.orm.entity_manager ] ]
-            - [ setEventDispatcher,[ @event_dispatcher ] ]
-            - [ setAclManager,[ @uzink.acl.manager ] ]
+            - [ setContainer,[ '@service_container' ] ]
+            - [ setEntityManager,[ '@doctrine.orm.entity_manager' ] ]
+            - [ setEventDispatcher,[ '@event_dispatcher' ] ]
+            - [ setAclManager,[ '@uzink.acl.manager' ] ]
 
     uzink.comment.manager:
         class: Uzink\BackendBundle\Manager\CommentManager
         arguments:
-            class: "%uzink.comment.class%"
-            formClass: "%uzink.comment.form.class%"
+            - "%uzink.comment.class%"
+            - "%uzink.comment.form.class%"
         calls:
-            - [ setContainer,[ @service_container ] ]
-            - [ setEntityManager,[ @doctrine.orm.entity_manager ] ]
-            - [ setEventDispatcher,[ @event_dispatcher ] ]
+            - [ setContainer,[ '@service_container' ] ]
+            - [ setEntityManager,[ '@doctrine.orm.entity_manager' ] ]
+            - [ setEventDispatcher,[ '@event_dispatcher' ] ]
 
     # -----------------------------------------------------------------------------------------------------------------
     # Search
@@ -142,14 +142,14 @@ services:
     uzink.message.search:
         class: Uzink\BackendBundle\Search\MessageSearch
         arguments:
-            formClass: "%uzink.message.searchForm.class%"
+            - "%uzink.message.searchForm.class%"
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     uzink.activity.factory:
         class: Uzink\BackendBundle\Activity\ActivityFactory
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     # -----------------------------------------------------------------------------------------------------------------
     # Form Types
@@ -201,14 +201,14 @@ services:
     uzink.form.type.category:
         class: Uzink\BackendBundle\Form\Type\CategoryType
         arguments:
-            entityManager: "@doctrine.orm.entity_manager"
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type, alias: category }
 
     uzink.form.type.categorySelector:
         class: Uzink\BackendBundle\Form\Type\CategorySelectorType
         arguments:
-            entityManager: "@doctrine.orm.entity_manager"
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type, alias: category_selector }
 
@@ -220,14 +220,14 @@ services:
     uzink.form.type.categoryChronicPain:
         class: Uzink\BackendBundle\Form\Type\CategoryChronicPainType
         arguments:
-            entityManager: "@translator"
+            - "@translator"
         tags:
             - { name: form.type, alias: categoryChronicPain }
 
     uzink.form.type.parentCategory:
         class: Uzink\BackendBundle\Form\Type\ParentCategoryType
         arguments:
-            entityManager: "@doctrine.orm.entity_manager"
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type, alias: parentCategory }
             
@@ -238,8 +238,8 @@ services:
 
     uzink.form.type.editor:
         class: Uzink\BackendBundle\Form\Type\EditorType
-        tags:
-            - { name: form.type_extension, alias: ckeditor }
+        #tags:
+        #    - { name: form.type_extension, alias: ckeditor }
 
     uzink.form.type.datepicker:
         class: Uzink\BackendBundle\Form\Type\DatepickerType
@@ -248,13 +248,13 @@ services:
 
     uzink.form.type.button_extension:
         class: Uzink\BackendBundle\Form\Type\ButtonTypeExtension
-        tags:
-            - { name: form.type_extension, alias: button }
+        #tags:
+        #    - { name: form.type_extension, alias: button }
 
     uzink.form.type.hidden_entity:
         class: Lrotherfield\Component\Form\Type\HiddenEntityType
         arguments:
-            - @doctrine.orm.entity_manager
+            - '@doctrine.orm.entity_manager'
         tags:
             - { name: form.type, alias: hidden_entity }
 
@@ -268,7 +268,7 @@ services:
 
     uzink.extended_entity.widget:
         class: Uzink\BackendBundle\Form\Type\ExtendedEntityType
-        arguments: [@property_accessor]
+        arguments: ['@property_accessor']
         tags:
             - { name: form.type, alias: extended_entity }
 
@@ -286,7 +286,7 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     # -----------------------------------------------------------------------------------------------------------------
     # Workflow
@@ -297,7 +297,7 @@ services:
         tags:
             - { name: kernel.event_subscriber }
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     uzink.workflow.listener.article_creation:
         class: Uzink\BackendBundle\Workflow\Listener\ArticleCreationProcessSubscriber
@@ -310,14 +310,14 @@ services:
         tags:
             - { name: kernel.event_subscriber }
         calls:
-            - [ setContainer,[ @service_container ] ]
+            - [ setContainer,[ '@service_container' ] ]
 
     # -----------------------------------------------------------------------------------------------------------------
     # User Provider
     # -----------------------------------------------------------------------------------------------------------------
     uzink.fosuser.oauth.provider:
         class: "%oauth.fosuser.provider.class%"
-        arguments: [@fos_user.user_manager,{facebook: facebook_id, twitter: twitter_id}]
+        arguments: ['@fos_user.user_manager',{facebook: facebook_id, twitter: twitter_id}]
 
     # -----------------------------------------------------------------------------------------------------------------
     # ElFinder
@@ -332,16 +332,16 @@ services:
     uzink.mailer:
         class: Uzink\BackendBundle\Mailer\Mailer
         arguments:
-            mailer: "@mailer"
-            spooledMailer: "@swiftmailer.mailer.spooledmailer"
-            router: "@router"
-            templating: "@twig"
-            transport: "@swiftmailer.transport"
-            fromEmail: %fos_user.registration.confirmation.from_email%
+            - "@mailer"
+            - "@swiftmailer.mailer.spooledmailer"
+            - "@router"
+            - "@twig"
+            - "@swiftmailer.transport"
+            - '%fos_user.registration.confirmation.from_email%'
 
     uzink.new_user_listener:
         class: Uzink\BackendBundle\EventListener\NewUserListener
-        arguments: [@uzink.mailer, @doctrine.orm.default_entity_manager]
+        arguments: ['@uzink.mailer', '@doctrine.orm.default_entity_manager']
         tags:
             - { name: kernel.event_subscriber }
 

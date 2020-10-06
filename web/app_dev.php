@@ -21,6 +21,7 @@ umask(0000);
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 Debug::enable();
 
+require_once __DIR__.'/../app/autoload.php';
 require_once __DIR__.'/../app/AppKernel.php';
 
 //$apcLoader = new ApcClassLoader('sf2', $loader);

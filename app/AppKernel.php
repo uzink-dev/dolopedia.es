@@ -1,7 +1,7 @@
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
@@ -42,10 +42,10 @@ class AppKernel extends Kernel
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Liip\ImagineBundle\LiipImagineBundle(),
-            new Lexik\Bundle\WorkflowBundle\LexikWorkflowBundle(),
             new Uzink\GeneratorBundle\GeneratorBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new FOS\ElasticaBundle\FOSElasticaBundle(),
+            new Http\HttplugBundle\HttplugBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

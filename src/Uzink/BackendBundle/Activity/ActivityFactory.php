@@ -3,6 +3,7 @@ namespace Uzink\BackendBundle\Activity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Config\FileLocator;
@@ -13,7 +14,7 @@ use Uzink\BackendBundle\Entity\Activity;
 use Uzink\BackendBundle\Entity\ActivityClass;
 use Uzink\BackendBundle\Entity\User;
 
-class ActivityFactory extends ContainerAware {
+class ActivityFactory extends Container {
     //<editor-fold desc="Properties">
     const TRANSLATION_DOMAIN = 'activity';
 
@@ -64,11 +65,10 @@ class ActivityFactory extends ContainerAware {
 
     public function setContainer(ContainerInterface $container = null)
     {
-        parent::setContainer($container);
-        $this->em = $this->container->get('doctrine')->getManager();
-        $this->translator = $this->container->get('translator');
-        $this->fileLocator = $this->container->get('file_locator');
-        $this->router = $this->container->get('router');
+        $this->em = $container->get('doctrine')->getManager();
+        $this->translator = $container->get('translator');
+        $this->fileLocator = $container->get('file_locator');
+        $this->router = $container->get('router');
     }
     //</editor-fold>
 

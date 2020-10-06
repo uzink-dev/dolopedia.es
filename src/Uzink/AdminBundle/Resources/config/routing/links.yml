@@ -1,5 +1,5 @@
 admin.links.index:
-    pattern:  /
+    path:  /
     defaults: { _controller: AdminBundle:Link:index }
     methods:  [GET, POST]
     requirements:
