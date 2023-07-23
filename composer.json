@@ -53,7 +53,7 @@
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "nelmio/api-doc-bundle": "2.13.2",
         "helios-ag/fm-elfinder-bundle": "~2.5",
-        "oneup/uploader-bundle": "1.7.7",
+        "oneup/uploader-bundle": "1.9.3",
         "vich/uploader-bundle": "1.4.0",
         "knplabs/knp-gaufrette-bundle": "0.4.0",
         "liip/imagine-bundle": "1.8.0",
